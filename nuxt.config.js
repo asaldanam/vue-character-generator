@@ -21,7 +21,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: 'node_modules/firebase/app', mode: 'client' },
+    { src: 'node_modules/firebase/firestore', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -32,17 +35,42 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
     'nuxt-typed-vuex',
+    '@nuxtjs/firebase',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/firebase',
   ],
+
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyCqpqSb8SDzLCJnAMBJYUpsQgGYv6j-PJ8',
+      authDomain: 'rp-character-creator-945e4.firebaseapp.com',
+      projectId: 'rp-character-creator-945e4',
+      storageBucket: 'rp-character-creator-945e4.appspot.com',
+      messagingSenderId: '227011382366',
+      appId: '1:227011382366:web:559f48b636b5a67f6c38cf',
+      measurementId: 'G-2BTNKT87WV',
+    },
+    services: {
+      auth: true,
+      firestore: true,
+      functions: true,
+      storage: true,
+      database: true,
+      messaging: true,
+      performance: true,
+      analytics: true,
+      remoteConfig: true,
+    },
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-}
+};

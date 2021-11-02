@@ -1,21 +1,31 @@
 <template>
   <div>
-    {{test}}
+    <ul>
+      <div v-if="loading"></div>
+      <div v-for="item in list" :key="item.id">
+        {{ item.id }}
+        {{ item.name }}
+      </div>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@nuxtjs/composition-api'
+import { computed, defineComponent, onMounted } from '@nuxtjs/composition-api';
 import useAccessor from '~/composables/useAccessor';
 
 export default defineComponent({
   setup() {
-    const store = useAccessor();
-    const test = computed(() => store.characters.fullName);
+    const { characters } = useAccessor();
+
+    onMounted(() => {
+      characters.fetch({ name: 'Fulano', limit: 5 });
+    });
 
     return {
-      test
-    }
+      list: computed(() => characters.state.data),
+      loading: computed(() => characters.state.loading),
+    };
   },
-})
+});
 </script>
