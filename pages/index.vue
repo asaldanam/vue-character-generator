@@ -17,14 +17,15 @@ import useAccessor from '~/composables/useAccessor';
 export default defineComponent({
   setup() {
     const { characters } = useAccessor();
+    const { list } = characters;
 
     onMounted(() => {
-      characters.fetch({ name: 'Fulano', limit: 5 });
+      list.fetch({ limit: 5, name: 'asdfasdf' });
     });
 
     return {
-      list: computed(() => characters.state.data),
-      loading: computed(() => characters.state.loading),
+      list: computed(() => list.state.data),
+      loading: computed(() => list.state.loading),
     };
   },
 });

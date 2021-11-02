@@ -1,7 +1,8 @@
-import { getAccessorType } from 'typed-vuex'
+import { getAccessorType } from 'typed-vuex';
 
 // Import all your submodules
-import * as characters from '~/store/characters'
+import * as charactersList from '~/store/characters/list';
+import * as charactersDetail from '~/store/characters/detail';
 
 // Keep your existing vanilla Vuex code for state, getters, mutations, actions, plugins, etc.
 // ...
@@ -10,6 +11,12 @@ import * as characters from '~/store/characters'
 export const accessorType = getAccessorType({
   modules: {
     // The key (submodule) needs to match the Nuxt namespace (e.g. ~/store/submodule.ts)
-    characters,
+    characters: {
+      namespaced: true,
+      modules: {
+        list: charactersList,
+        detail: charactersDetail,
+      },
+    },
   },
-})
+});

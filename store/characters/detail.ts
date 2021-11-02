@@ -1,23 +1,13 @@
-import {
-  collection,
-  limit,
-  orderBy,
-  startAt,
-  where,
-} from '@firebase/firestore';
+import { doc, getDoc } from '@firebase/firestore';
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
-import { Character } from '~/models/character/types';
-import { queryAllDocs } from '~/services/firestore/utils';
+import { Character, Stat } from '~/models/character/types';
 
 export const state = () => ({
-  data: [] as Character[],
+  data: null as Character | null,
   loading: false as Boolean,
   error: null as string | null,
   query: {
-    orderBy: '',
-    startAt: 0,
-    limit: 5,
-    name: '',
+    id: null as string | null,
   },
 });
 
@@ -39,7 +29,7 @@ export const mutations = mutationTree(state, {
   },
   SET_ERROR(state, error: State['error']) {
     state.loading = false;
-    state.data = [];
+    state.data = null;
     state.error = error;
   },
 });
@@ -47,14 +37,23 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async fetch({ commit, state }, query: Partial<State['query']>) {
+    async fetch({ commit, state }, query: State['query']) {
       try {
-        commit('REQUEST_DATA', { ...state.query, ...query });
-        const ref = collection(this.$fire.firestore, 'characters');
-        const response = await queryAllDocs<Character>(ref, state.query);
+        commit('REQUEST_DATA', query);
+        const { id } = state.query;
+        console.log(state);
+        if (!id) throw 'No id';
+        const docRef = doc(this.$fire.firestore, 'characters', id);
+        console.log({ id });
+        const docSnap = await getDoc(docRef);
+        const response = docSnap.data() as Character;
+        console.log({ response });
         commit('SET_DATA', response);
       } catch (error) {
-        commit('SET_ERROR', JSON.stringify(error));
+        commit(
+          'SET_ERROR',
+          typeof error === 'string' ? error : JSON.stringify(error),
+        );
       }
     },
   },
