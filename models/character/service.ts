@@ -1,10 +1,17 @@
 import { Character, Stat, Stats, StatValue } from './types';
-
+import { CHARACTER_EMPTY } from './constants';
 export default class CharacterService {
   private character: Character;
 
   constructor(character: Character) {
-    this.character = character;
+    this.character = {
+      ...CHARACTER_EMPTY,
+      ...character,
+      stats: {
+        ...CHARACTER_EMPTY.stats,
+        ...character.stats,
+      },
+    };
   }
 
   // Public methods
@@ -19,8 +26,7 @@ export default class CharacterService {
     this.validateStats(stats);
 
     if (mode === 'set') this.character.stats = stats;
-    if (mode === 'update')
-      this.character.stats = { ...this.character.stats, ...stats };
+    if (mode === 'update') this.character.stats = { ...this.character.stats, ...stats };
   }
 
   /** Actualiza una estadística al valor indicado */

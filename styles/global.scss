@@ -1,0 +1,19 @@
+// Settings
+@use './settings/fonts';
+@use './settings/theme';
+
+// Vuetify overrides
+@use './overrides/vuetify/v-slider';
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+strong {
+  color: var(--theme-color-primary);
+}
+
+.v-application {
+  font-family: 'Cronos Pro', sans-serif;
+}

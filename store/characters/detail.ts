@@ -1,6 +1,7 @@
 import { doc, getDoc } from '@firebase/firestore';
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
-import { Character, Stat } from '~/models/character/types';
+import CharacterService from '~/models/character/service';
+import { Character, Stat, StatValue } from '~/models/character/types';
 
 export const state = () => ({
   data: null as Character | null,
@@ -32,6 +33,12 @@ export const mutations = mutationTree(state, {
     state.data = null;
     state.error = error;
   },
+  SET_STAT(state, payload: { stat: Stat; value: StatValue }) {
+    if (!state.data) return;
+    const character = new CharacterService(state.data);
+    character.setStatValue(payload.stat, payload.value);
+    state.data = character.get();
+  },
 });
 
 export const actions = actionTree(
@@ -41,20 +48,18 @@ export const actions = actionTree(
       try {
         commit('REQUEST_DATA', query);
         const { id } = state.query;
-        console.log(state);
         if (!id) throw 'No id';
         const docRef = doc(this.$fire.firestore, 'characters', id);
-        console.log({ id });
         const docSnap = await getDoc(docRef);
         const response = docSnap.data() as Character;
-        console.log({ response });
         commit('SET_DATA', response);
       } catch (error) {
-        commit(
-          'SET_ERROR',
-          typeof error === 'string' ? error : JSON.stringify(error),
-        );
+        commit('SET_ERROR', typeof error === 'string' ? error : JSON.stringify(error));
       }
+    },
+    setStatValue({ commit }, payload: { stat: Stat; value: StatValue }) {
+      console.log(payload);
+      commit('SET_STAT', payload);
     },
   },
 );

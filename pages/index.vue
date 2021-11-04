@@ -1,6 +1,7 @@
 <template>
   <div>
     <ul>
+      <NuxtLink to="/character/3rf8meE3EYFJQBMoZwAY">Character example</NuxtLink>
       <div v-if="loading"></div>
       <div v-for="item in list" :key="item.id">
         {{ item.id }}

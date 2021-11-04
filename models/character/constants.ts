@@ -1,33 +1,43 @@
-const STATS = {
-  attr_vitality: 0,
-  attr_potency: 0,
-  attr_tenacity: 0,
-  attr_piety: 0,
-  attr_precision: 0,
-  attr_initiative: 0,
-  skill_melee2HAtk: 0,
-  skill_melee1HAtk: 0,
-  skill_rangedAtk: 0,
-  skill_channeledAtk: 0,
-  skill_aoeAtk: 0,
-  // skill_opportunityAtk: 0,
-  skill_degenerationAtk: 0,
-  skill_directHeal: 0,
-  skill_aoeHeal: 0,
-  skill_regeneration: 0,
-  skill_barrier: 0,
-  skill_purge: 0,
-  skill_activeDefense: 0,
-  skill_counterAtk: 0,
-  skill_parasyte: 0,
-  skill_provoke: 0,
-  skill_interpose: 0,
-  skill_control: 0,
-  skill_hide: 0,
+import { Character } from './types';
+
+export const CHARACTER_STATS = {
+  attr_vitality: 1,
+  attr_potency: 1,
+  attr_tenacity: 1,
+  attr_piety: 1,
+  attr_precision: 1,
+  attr_initiative: 1,
+  skill_melee2HAtk: 1,
+  skill_melee1HAtk: 1,
+  skill_rangedAtk: 1,
+  skill_channeledAtk: 1,
+  skill_aoeAtk: 1,
+  skill_degenerationAtk: 1,
+  skill_directHeal: 1,
+  skill_aoeHeal: 1,
+  skill_regeneration: 1,
+  skill_barrier: 1,
+  skill_purge: 1,
+  skill_activeDefense: 1,
+  skill_counterAtk: 1,
+  skill_parasyte: 1,
+  skill_provoke: 1,
+  skill_interpose: 1,
+  skill_control: 1,
+  skill_hide: 1,
 };
 
-const CHARACTER = {
-  STATS,
+export const CHARACTER_CALCULATED_FNS = {
+  attr_potency: (value: number) => value * 6,
 };
 
-export default CHARACTER;
+export const CHARACTER_EMPTY: Omit<Character, 'id'> = {
+  info: {
+    name: '',
+    title: '',
+  },
+  state: {
+    currentHealth: 0,
+  },
+  stats: CHARACTER_STATS,
+};

@@ -36,6 +36,18 @@ export default {
     '@nuxtjs/composition-api/module',
     'nuxt-typed-vuex',
     '@nuxtjs/firebase',
+    [
+      '@nuxtjs/vuetify',
+      {
+        theme: {
+          themes: {
+            light: {
+              primary: '#D6230C',
+            },
+          },
+        },
+      },
+    ],
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
