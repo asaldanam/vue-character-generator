@@ -10,16 +10,10 @@ import useCounter from '~/composables/useCounter';
 
 export default defineComponent({
   setup() {
-    const { state, actions } = useCounter.injectors();
-
-    const handleClick = () => {
-      console.log('click');
-      (actions as any).increment();
-    };
+    const [state] = useCounter.injectors();
 
     return {
       state,
-      handleClick,
     };
   },
 });
