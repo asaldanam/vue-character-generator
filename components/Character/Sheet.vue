@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from '@nuxtjs/composition-api';
-import useCharacterSheet from '~/composables/useCharacterSheet';
+import useCharacterSheet from '~/composables/stores/useCharacterSheet';
 import { CHARACTER_STATS } from '~/models/character/stats';
 
 export default defineComponent({

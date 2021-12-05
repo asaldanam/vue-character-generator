@@ -1,36 +1,13 @@
 <template>
   <div>
-    <ul>
-      <!-- <NuxtLink to="/character/3rf8meE3EYFJQBMoZwAY">Character example</NuxtLink> -->
-
-      <!-- <div v-if="loading"></div>
-      <div v-for="item in list" :key="item.id">
-        {{ item.id }}
-        {{ item.name }}
-      </div> -->
-
-      <Parent />
-    </ul>
+    <a href="/character">/character</a>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from '@nuxtjs/composition-api';
-import useAccessor from '~/composables/useAccessor';
+import { defineComponent } from '@nuxtjs/composition-api';
 
 export default defineComponent({
-  setup() {
-    const { characters } = useAccessor();
-    const { list } = characters;
-
-    onMounted(() => {
-      list.fetch({ limit: 5, name: 'asdfasdf' });
-    });
-
-    return {
-      list: computed(() => list.state.data),
-      loading: computed(() => list.state.loading),
-    };
-  },
+  setup() {},
 });
 </script>

@@ -1,5 +1,5 @@
 import { reactive } from '@vue/composition-api';
-import { createStore } from '~/libs/createStore';
+import { createStore } from '~/shared/libs/createStore';
 import Character from '~/models/character';
 import { CharacterData, Stat, StatValue } from '~/models/character/types';
 

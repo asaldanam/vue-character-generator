@@ -37,7 +37,7 @@ import useAccessor from '~/composables/useAccessor';
 import getStatTxt from '~/models/character/utils/getStatTxt';
 import getStatCalculated from '~/models/character/utils/getStatCalculated';
 import { Stat } from '~/models/character/types';
-import useCharacterSheet from '~/composables/useCharacterSheet';
+import useCharacterSheet from '~/composables/stores/useCharacterSheet';
 
 export default defineComponent({
   props: {
