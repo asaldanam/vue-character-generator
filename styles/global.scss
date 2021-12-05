@@ -5,6 +5,9 @@
 // Vuetify overrides
 @use './overrides/vuetify/v-slider';
 
+// Ui
+@use './ui/button';
+
 body {
   margin: 0;
   padding: 0;

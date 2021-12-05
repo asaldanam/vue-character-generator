@@ -8,7 +8,7 @@
     <div class="stat">
       <div class="stat-value">{{ statValue }}</div>
       <div class="stat-name">{{ text.name }}</div>
-      <div class="stat-calculated">100%</div>
+      <div class="stat-calculated">{{ calculatedValue }}</div>
     </div>
 
     <div
@@ -18,16 +18,16 @@
     ></div>
 
     <div v-if="editMode" class="slider-container">
-      <v-slider v-model="statValue" min="0" max="15" ticks="always"></v-slider>
+      <v-slider v-model="statValue" min="1" max="15" ticks="always"></v-slider>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs, watch } from '@nuxtjs/composition-api';
-import { CHARACTER_LITERALS } from '~/models/character/literals';
 import useAccessor from '~/composables/useAccessor';
-import { getStatTxt } from '~/models/character/utils';
+import getStatTxt from '~/models/character/utils/getStatTxt';
+import getStatCalculated from '~/models/character/utils/getStatCalculated';
 import { Stat } from '~/models/character/types';
 
 export default defineComponent({
@@ -43,8 +43,10 @@ export default defineComponent({
   setup(props) {
     const { statId, editMode } = toRefs(props);
     const store = useAccessor();
-    const character = computed(() => store.characters.detail.state.data);
-    const literals = CHARACTER_LITERALS.es;
+    const {
+      characters: { detail },
+    } = store;
+    const character = computed(() => detail.state.data);
 
     const showDesc = ref(false);
     const statValue = ref(0);
@@ -55,7 +57,8 @@ export default defineComponent({
 
     watch([statId, statValue], () => {
       // Meter devounce a esto
-      store.characters.detail.setStatValue({ stat: statId.value as Stat, value: statValue.value });
+      detail.setStatValue({ stat: statId.value as Stat, value: statValue.value });
+      detail.saveToUrl();
     });
 
     return {
@@ -63,6 +66,9 @@ export default defineComponent({
       statValue,
       text: computed(() =>
         getStatTxt({ statId: statId.value, character: character.value, lang: 'es' }),
+      ),
+      calculatedValue: computed(() =>
+        getStatCalculated({ statId: statId.value, character: character.value }),
       ),
       toggleDesc: () => {
         if (editMode.value) return;

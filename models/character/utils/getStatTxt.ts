@@ -1,16 +1,20 @@
-import { CHARACTER_CALCULATED_FNS, CHARACTER_STATS } from './constants';
-import { CHARACTER_LITERALS } from './literals';
-import { Character, Stat, StatValue } from './types';
+import { CHARACTER_STATS, CHARACTER_STATS_CONFIG } from '../stats';
+import { CharacterData, Stat, StatValue, StatConfig } from '../types';
 import { evaluate } from 'mathjs';
 
 /** Obtiene la descripción y nombre de una estadística */
-export function getStatTxt(params: { statId?: string; character?: Character | null; lang?: 'es' }) {
+export default function (params: {
+  statId?: string;
+  character?: CharacterData | null;
+  lang?: 'es';
+}) {
   const { statId, character, lang } = params;
   if (!statId || !lang) return {};
 
-  const literals = CHARACTER_LITERALS[lang || 'es'];
-  const name = literals.statNames[statId] || statId;
-  const rawDesc = literals.statDescs[statId] || statId;
+  const statConfig = CHARACTER_STATS_CONFIG[statId] as StatConfig;
+  const literals = statConfig.txt.es;
+  const name = literals.name;
+  const rawDesc = literals.desc;
 
   if (!character) return {};
   const desc = replaceDescCalculatedValues(rawDesc, character);
@@ -18,12 +22,10 @@ export function getStatTxt(params: { statId?: string; character?: Character | nu
   return { name, desc };
 }
 
-/**
- * UTILS
- */
+// Helpers
 
 /** Reemplaza las operaciones de la descripción por su valores  */
-const replaceDescCalculatedValues = (rawDesc: string, character: Character | null) => {
+const replaceDescCalculatedValues = (rawDesc: string, character: CharacterData | null) => {
   const statKeys = Object.keys(CHARACTER_STATS);
   const references = findTemplateRefs(rawDesc);
 
@@ -45,11 +47,12 @@ const replaceDescCalculatedValues = (rawDesc: string, character: Character | nul
 };
 
 /** Obtiene el valor calculado a partir de las "funciones de cálculo por stat" */
-const getCalculatedValue = (stat: string | Stat, statValue: StatValue) => {
-  const fn = CHARACTER_CALCULATED_FNS[stat];
-  if (!fn) return null;
+const getCalculatedValue = (statId: string | Stat, statValue: StatValue): string => {
+  const statConfig = CHARACTER_STATS_CONFIG[statId] as StatConfig;
+  const fn = statConfig.calculated.fn;
+  if (!fn) return '';
   const result = fn(statValue);
-  return result;
+  return result?.toString() || '';
 };
 
 /** Reemplaza todas las referencias encontradas de un literal */

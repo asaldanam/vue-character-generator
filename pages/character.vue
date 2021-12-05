@@ -2,7 +2,6 @@
   <div>
     <!-- <div>{{ params.slug }}</div>
     <div>{{ character && character.name }}</div> -->
-    <!-- <CharacterStat :statId="'skill_melee1HAtk'" editMode /> -->
     <div v-for="stat in statList" :key="stat">
       <CharacterStat :statId="stat" editMode />
     </div>
@@ -10,9 +9,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, useContext } from '@nuxtjs/composition-api';
+import { computed, defineComponent, inject, onMounted, useContext } from '@nuxtjs/composition-api';
 import useAccessor from '~/composables/useAccessor';
-import { CHARACTER_STATS } from '~/models/character/constants';
+import { CHARACTER_STATS } from '~/models/character/stats';
 
 export default defineComponent({
   setup() {
@@ -20,9 +19,7 @@ export default defineComponent({
     const { characters } = useAccessor();
     const { detail } = characters;
 
-    onMounted(() => {
-      detail.fetch({ id: params.value.slug });
-    });
+    onMounted(detail.create);
 
     return {
       params,

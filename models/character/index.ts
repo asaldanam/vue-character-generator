@@ -1,23 +1,30 @@
-import { Character, Stat, Stats, StatValue } from './types';
-import { CHARACTER_EMPTY } from './constants';
-export default class CharacterService {
-  private character: Character;
+import { CharacterData, Stat, Stats, StatValue } from './types';
+import uuid from '~/shared/utils/uuid';
+import { CHARACTER_STATS } from './stats';
 
-  constructor(character: Character) {
-    this.character = {
-      ...CHARACTER_EMPTY,
-      ...character,
-      stats: {
-        ...CHARACTER_EMPTY.stats,
-        ...character.stats,
-      },
-    };
+export default class Character {
+  private character: CharacterData;
+
+  constructor(character?: CharacterData) {
+    this.character = character
+      ? {
+          ...CHARACTER_EMPTY,
+          ...character,
+          stats: {
+            ...CHARACTER_EMPTY.stats,
+            ...character.stats,
+          },
+        }
+      : {
+          id: uuid(),
+          ...CHARACTER_EMPTY,
+        };
   }
 
   // Public methods
 
   /** Devuelve el estado actual del personaje */
-  get() {
+  getData() {
     return this.character;
   }
 
@@ -77,3 +84,14 @@ export default class CharacterService {
     });
   }
 }
+
+const CHARACTER_EMPTY: Omit<CharacterData, 'id'> = {
+  info: {
+    name: '',
+    title: '',
+  },
+  state: {
+    currentHealth: 0,
+  },
+  stats: CHARACTER_STATS,
+};

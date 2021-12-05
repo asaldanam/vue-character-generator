@@ -1,0 +1,6 @@
+.ui-button {
+  &[variant='primary'] {
+    background: var(--theme-color-primary);
+    color: var(--theme-color-text-inverse);
+  }
+}

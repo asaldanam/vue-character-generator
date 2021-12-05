@@ -1,10 +1,10 @@
 import { doc, getDoc } from '@firebase/firestore';
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
-import CharacterService from '~/models/character/service';
-import { Character, Stat, StatValue } from '~/models/character/types';
+import Character from '~/models/character';
+import { CharacterData, Stat, StatValue } from '~/models/character/types';
 
 export const state = () => ({
-  data: null as Character | null,
+  data: null as CharacterData | null,
   loading: false as Boolean,
   error: null as string | null,
   query: {
@@ -19,6 +19,9 @@ export const getters = getterTree(state, {
 });
 
 export const mutations = mutationTree(state, {
+  NEW_CHARACTER(state) {
+    state.data = new Character().getData();
+  },
   REQUEST_DATA(state, query: State['query']) {
     state.loading = true;
     state.query = query;
@@ -33,33 +36,53 @@ export const mutations = mutationTree(state, {
     state.data = null;
     state.error = error;
   },
-  SET_STAT(state, payload: { stat: Stat; value: StatValue }) {
-    if (!state.data) return;
-    const character = new CharacterService(state.data);
-    character.setStatValue(payload.stat, payload.value);
-    state.data = character.get();
+  SET_CHARACTER(state, payload: CharacterData) {
+    state.data = payload;
   },
 });
 
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    async fetch({ commit, state }, query: State['query']) {
+    async create({ commit, state }) {
       try {
-        commit('REQUEST_DATA', query);
-        const { id } = state.query;
-        if (!id) throw 'No id';
-        const docRef = doc(this.$fire.firestore, 'characters', id);
-        const docSnap = await getDoc(docRef);
-        const response = docSnap.data() as Character;
-        commit('SET_DATA', response);
+        commit('NEW_CHARACTER');
       } catch (error) {
         commit('SET_ERROR', typeof error === 'string' ? error : JSON.stringify(error));
       }
     },
-    setStatValue({ commit }, payload: { stat: Stat; value: StatValue }) {
-      console.log(payload);
-      commit('SET_STAT', payload);
+
+    async setStatValue({ commit, state: { data } }, payload: { stat: Stat; value: StatValue }) {
+      if (!data) return;
+      const character = new Character(data);
+      character.setStatValue(payload.stat, payload.value);
+      commit('SET_CHARACTER', character.getData());
+    },
+
+    async saveToUrl({ commit, state: { data } }) {
+      if (!data) return;
+      const dataAsString = JSON.stringify(data);
+      const character = btoa(dataAsString);
+      this.$router?.push({
+        query: {
+          name: data.info.name,
+          character,
+        },
+      });
+    },
+
+    async fetch({ commit, state }, query: State['query']) {
+      try {
+        // commit('REQUEST_DATA', query);
+        // const { id } = state.query;
+        // if (!id) throw 'No id';
+        // const docRef = doc(this.$fire.firestore, 'characters', id);
+        // const docSnap = await getDoc(docRef);
+        // const response = docSnap.data() as Character;
+        // commit('SET_DATA', response);
+      } catch (error) {
+        commit('SET_ERROR', typeof error === 'string' ? error : JSON.stringify(error));
+      }
     },
   },
 );

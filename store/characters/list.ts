@@ -1,10 +1,10 @@
 import { collection } from '@firebase/firestore';
 import { actionTree, getterTree, mutationTree } from 'typed-vuex';
-import { Character } from '~/models/character/types';
+import { CharacterData } from '~/models/character/types';
 import { queryAllDocs } from '~/services/firestore/utils';
 
 export const state = () => ({
-  data: [] as Character[],
+  data: [] as CharacterData[],
   loading: false as Boolean,
   error: null as string | null,
   query: {
@@ -45,7 +45,7 @@ export const actions = actionTree(
       try {
         commit('REQUEST_DATA', { ...state.query, ...query });
         const ref = collection(this.$fire.firestore, 'characters');
-        const response = await queryAllDocs<Character>(ref, state.query);
+        const response = await queryAllDocs<CharacterData>(ref, state.query);
         commit('SET_DATA', response);
       } catch (error) {
         commit('SET_ERROR', JSON.stringify(error));
