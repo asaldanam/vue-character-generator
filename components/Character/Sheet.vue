@@ -13,9 +13,9 @@ import { CHARACTER_STATS } from '~/models/character/stats';
 
 export default defineComponent({
   setup() {
-    const [character, characterActions] = useCharacterSheet.injectors();
+    const [character, { create }] = useCharacterSheet.injectors();
 
-    onMounted(characterActions.create);
+    onMounted(create);
 
     return {
       statList: Object.keys(CHARACTER_STATS),
