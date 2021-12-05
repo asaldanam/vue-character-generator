@@ -1,5 +1,5 @@
 <template>
-  <CharacterSheet />
+  <Character />
 </template>
 
 <script lang="ts">
