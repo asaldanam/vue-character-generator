@@ -6,11 +6,6 @@ import { CharacterData, Stat, StatValue } from '~/models/character/types';
 function useCharacterSheet() {
   const state = reactive({
     data: null as CharacterData | null,
-    loading: false as Boolean,
-    error: null as string | null,
-    query: {
-      id: null as string | null,
-    },
   });
 
   function create() {
@@ -18,7 +13,7 @@ function useCharacterSheet() {
     state.data = character.getData();
   }
 
-  function setStatValue(payload: { stat: Stat; value: StatValue }) {
+  function updateStat(payload: { stat: Stat; value: StatValue }) {
     if (!state.data) return;
     const character = new Character(state.data);
     character.setStatValue(payload.stat, payload.value);
@@ -32,7 +27,7 @@ function useCharacterSheet() {
     return character;
   }
 
-  return { state, actions: { create, setStatValue, getDataAsBase64 } };
+  return { state, actions: { create, updateStat, getDataAsBase64 } };
 }
 
 export default createStore(useCharacterSheet);

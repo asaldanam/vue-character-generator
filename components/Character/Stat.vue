@@ -52,7 +52,7 @@ export default defineComponent({
   setup(props) {
     const { statId, editMode } = toRefs(props);
     const router = useRouter();
-    const [character, { setStatValue, getDataAsBase64 }] = useCharacterSheet.injectors();
+    const [character, { updateStat, getDataAsBase64 }] = useCharacterSheet.injectors();
 
     const showDesc = ref(false);
     const statValue = ref(0);
@@ -63,7 +63,7 @@ export default defineComponent({
 
     watch([statId, statValue], () => {
       // Meter devounce a esto
-      setStatValue({ stat: statId.value as Stat, value: statValue.value });
+      updateStat({ stat: statId.value as Stat, value: statValue.value });
       const characterAsBase64 = getDataAsBase64();
       router.push({
         query: {
