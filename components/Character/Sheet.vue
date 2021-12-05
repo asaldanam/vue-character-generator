@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div v-for="stat in statList" :key="stat">
-      <CharacterStat :statId="stat" editMode />
+    <div v-for="attr in attrs" :key="attr">
+      <CharacterStat :statId="attr" editMode />
+    </div>
+    ----------------------------
+    <div v-for="skill in skills" :key="skill">
+      <CharacterStat :statId="skill" editMode />
     </div>
   </div>
 </template>
@@ -16,9 +20,13 @@ export default defineComponent({
     const [character, { create }] = useCharacterSheet.injectors();
 
     onMounted(create);
+    const stats = Object.keys(CHARACTER_STATS);
+    const attrs = stats.filter((stat) => stat.startsWith('attr_'));
+    const skills = stats.filter((stat) => stat.startsWith('skill_'));
 
     return {
-      statList: Object.keys(CHARACTER_STATS),
+      attrs,
+      skills,
       character,
     };
   },
