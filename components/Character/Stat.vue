@@ -24,11 +24,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs, watch } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  toRefs,
+  useContext,
+  useRouter,
+  watch,
+} from '@nuxtjs/composition-api';
 import useAccessor from '~/composables/useAccessor';
 import getStatTxt from '~/models/character/utils/getStatTxt';
 import getStatCalculated from '~/models/character/utils/getStatCalculated';
 import { Stat } from '~/models/character/types';
+import useCharacterSheet from '~/composables/useCharacterSheet';
 
 export default defineComponent({
   props: {
@@ -42,33 +51,36 @@ export default defineComponent({
   },
   setup(props) {
     const { statId, editMode } = toRefs(props);
-    const store = useAccessor();
-    const {
-      characters: { detail },
-    } = store;
-    const character = computed(() => detail.state.data);
+    const router = useRouter();
+    const [character, { setStatValue, getDataAsBase64 }] = useCharacterSheet.injectors();
 
     const showDesc = ref(false);
     const statValue = ref(0);
 
     watch([statId, character], () => {
-      statValue.value = character.value?.stats[statId.value];
+      statValue.value = character.data?.stats[statId.value];
     });
 
     watch([statId, statValue], () => {
       // Meter devounce a esto
-      detail.setStatValue({ stat: statId.value as Stat, value: statValue.value });
-      detail.saveToUrl();
+      setStatValue({ stat: statId.value as Stat, value: statValue.value });
+      const characterAsBase64 = getDataAsBase64();
+      router.push({
+        query: {
+          name: character.data?.info.name,
+          character: characterAsBase64,
+        },
+      });
     });
 
     return {
       showDesc,
       statValue,
       text: computed(() =>
-        getStatTxt({ statId: statId.value, character: character.value, lang: 'es' }),
+        getStatTxt({ statId: statId.value, character: character.data, lang: 'es' }),
       ),
       calculatedValue: computed(() =>
-        getStatCalculated({ statId: statId.value, character: character.value }),
+        getStatCalculated({ statId: statId.value, character: character.data }),
       ),
       toggleDesc: () => {
         if (editMode.value) return;
