@@ -28,6 +28,11 @@ export default class Character {
     return this.character;
   }
 
+  /** Setea el estado de un */
+  setData(data: CharacterData) {
+    this.constructor(data);
+  }
+
   /** Actualiza múltiples estadísticas */
   setStats(stats: Stats, mode: 'set' | 'update' = 'set') {
     this.validateStats(stats);

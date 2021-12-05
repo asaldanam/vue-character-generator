@@ -11,18 +11,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@nuxtjs/composition-api';
-import useCharacterSheet from '~/composables/stores/useCharacterSheet';
+import { defineComponent, onMounted, useContext, useRoute } from '@nuxtjs/composition-api';
+import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { CHARACTER_STATS } from '~/models/character/stats';
 
 export default defineComponent({
   setup() {
-    const [character, { create }] = useCharacterSheet.injectors();
+    const [character, { load }] = useCharacterSheet.injectors();
+    const { query } = useContext();
 
-    onMounted(create);
     const stats = Object.keys(CHARACTER_STATS);
     const attrs = stats.filter((stat) => stat.startsWith('attr_'));
     const skills = stats.filter((stat) => stat.startsWith('skill_'));
+
+    onMounted(() => {
+      console.log({ query: query.value });
+      load((query.value as any)?.character);
+    });
 
     return {
       attrs,

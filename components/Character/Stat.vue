@@ -24,20 +24,11 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  toRefs,
-  useContext,
-  useRouter,
-  watch,
-} from '@nuxtjs/composition-api';
-import useAccessor from '~/composables/useAccessor';
-import getStatTxt from '~/models/character/utils/getStatTxt';
-import getStatCalculated from '~/models/character/utils/getStatCalculated';
+import { computed, defineComponent, ref, toRefs, useRouter, watch } from '@nuxtjs/composition-api';
+import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { Stat } from '~/models/character/types';
-import useCharacterSheet from '~/composables/stores/useCharacterSheet';
+import getStatCalculated from '~/models/character/utils/getStatCalculated';
+import getStatTxt from '~/models/character/utils/getStatTxt';
 
 export default defineComponent({
   props: {
@@ -55,15 +46,21 @@ export default defineComponent({
     const [character, { updateStat, getDataAsBase64 }] = useCharacterSheet.injectors();
 
     const showDesc = ref(false);
-    const statValue = ref(0);
+    const statValue = ref(1);
 
-    watch([statId, character], () => {
+    watch(character, () => {
+      const newVal = character.data?.stats[statId.value];
+      if (newVal === statValue.value) return;
+      console.log({ stat: statValue.value, newVal });
       statValue.value = character.data?.stats[statId.value];
     });
 
     watch([statId, statValue], () => {
-      // Meter devounce a esto
-      updateStat({ stat: statId.value as Stat, value: statValue.value });
+      const payload = { stat: statId.value as Stat, value: statValue.value };
+      console.log(payload);
+      updateStat(payload);
+
+      /** TODO: Aquí en realidad debería habilitar el botón de guardar, y el guardado debería hacerse a través del botón */
       const characterAsBase64 = getDataAsBase64();
       router.push({
         query: {
