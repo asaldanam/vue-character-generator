@@ -7,10 +7,6 @@ type AnyActions = { [key: string]: Action<any[], any> };
 export type Store<S> = () => { state: UnwrapRef<S>; actions: AnyActions };
 
 export function createStore<S extends Store<any>>(store: S) {
-  if (!store) {
-    printError.noStore();
-  }
-
   type State = ReturnType<S>['state'];
   type Actions = ReturnType<S>['actions'];
 
@@ -24,7 +20,7 @@ export function createStore<S extends Store<any>>(store: S) {
 
   const providers = () => {
     if (!name) {
-      printError.noName();
+      print.noName();
       return;
     }
 
@@ -39,10 +35,7 @@ export function createStore<S extends Store<any>>(store: S) {
   return { providers, injectors };
 }
 
-const printError = {
-  noStore() {
-    console.error(`${libMsgPrefix} was called without store`);
-  },
+const print = {
   noName() {
     console.error(
       ` ${libMsgPrefix} Store callback must be a named function \n\n DO: createStore(myStoreFn) \n NOT: createStore(() => {state, actions})`,
