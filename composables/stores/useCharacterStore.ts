@@ -6,7 +6,7 @@ import { CharacterData, Stat, StatValue } from '~/models/character/types';
 function useCharacterStore() {
   const state = reactive({
     data: null as CharacterData | null,
-    hasChanges: false,
+    editMode: true,
   });
 
   /** Carga un nuevo personaje a partir de la data en base64 */
@@ -23,7 +23,6 @@ function useCharacterStore() {
     } finally {
       const data = character.getData();
       state.data = data;
-      _setChanged(false);
     }
   }
 
@@ -33,11 +32,10 @@ function useCharacterStore() {
     const character = new Character(state.data);
     character.setStatValue(payload.stat, payload.value);
     state.data = character.getData();
-    state.hasChanges = true;
-    _setChanged(true);
   }
 
-  function saveToUrl(router: any) {
+  /** Guarda el personaje */
+  function save(router: any) {
     const characterAsBase64 = _getDataAsBase64();
     router.push({
       query: {
@@ -45,7 +43,7 @@ function useCharacterStore() {
         character: characterAsBase64,
       },
     });
-    _setChanged(false);
+    setEditMode(false);
   }
 
   /** Obtiene la data del personaje como base 64 string */
@@ -56,11 +54,11 @@ function useCharacterStore() {
     return character;
   }
 
-  function _setChanged(val: boolean) {
-    state.hasChanges = val;
+  function setEditMode(editMode: boolean) {
+    state.editMode = editMode;
   }
 
-  return { state, actions: { load, saveToUrl, updateStat } };
+  return { state, actions: { load, save, updateStat, setEditMode } };
 }
 
 export default createStore(useCharacterStore);

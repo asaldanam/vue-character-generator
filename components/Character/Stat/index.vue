@@ -1,6 +1,6 @@
 <!-- Please remove this file from your project -->
 <template>
-  <div class="root" @click="toggleDesc">
+  <div class="root" :class="{ '--faded': !editMode && statValue === 1 }" @click="toggleDesc">
     <div class="background">
       <img src="~/assets/img/character-stat-bg.png" />
     </div>
@@ -36,16 +36,12 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    editMode: {
-      type: Boolean,
-    },
   },
   setup(props) {
-    const { statId, editMode } = toRefs(props);
+    const { statId } = toRefs(props);
     const [character, { updateStat }] = useCharacterSheet.injectors();
 
     const showDesc = ref(false);
-    const statValue = computed(() => character.data?.stats[statId.value]);
 
     const handleSlide = (value: number) => {
       const payload = { stat: statId.value as Stat, value };
@@ -53,8 +49,10 @@ export default defineComponent({
     };
 
     return {
+      character,
       showDesc,
-      statValue,
+      statValue: computed(() => character.data?.stats[statId.value]),
+      editMode: computed(() => character.editMode),
       handleSlide,
       text: computed(() =>
         getStatTxt({ statId: statId.value, character: character.data, lang: 'es' }),
@@ -63,7 +61,7 @@ export default defineComponent({
         getStatCalculated({ statId: statId.value, character: character.data }),
       ),
       toggleDesc: () => {
-        if (editMode.value) return;
+        if (character.editMode) return;
         showDesc.value = !showDesc.value;
       },
     };
@@ -79,6 +77,9 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
+  &.--faded {
+    opacity: 0.35;
+  }
   /* margin-bottom: 0.75rem; */
 }
 

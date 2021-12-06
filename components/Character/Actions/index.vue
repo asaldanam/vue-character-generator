@@ -1,7 +1,7 @@
 <template>
-  <UiFooter v-if="character.hasChanges" class="container">
-    <UiButton @click="cancel">Cancelar</UiButton>
-    <UiButton @click="save" variant="primary">Guardar</UiButton>
+  <UiFooter v-if="character.editMode" class="container">
+    <UiButton @click="handleCancel">Cancelar</UiButton>
+    <UiButton @click="handleSave" variant="primary">Guardar</UiButton>
   </UiFooter>
 </template>
 <script lang="ts">
@@ -12,22 +12,18 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const { query } = useContext();
-    const [character, { load, saveToUrl }] = useCharacterSheet.injectors();
+    const [character, { load, save, setEditMode }] = useCharacterSheet.injectors();
 
-    const cancel = () => {
+    const handleCancel = () => {
       const characterString = query.value?.character as string;
-      if (characterString) {
-        load(characterString);
-      }
+      if (!characterString) return;
+      load(characterString);
+      setEditMode(false);
     };
 
-    const save = () => {
-      if (router) {
-        saveToUrl(router);
-      }
-    };
+    const handleSave = () => save(router);
 
-    return { character, cancel, save };
+    return { character, handleCancel, handleSave };
   },
 });
 </script>
