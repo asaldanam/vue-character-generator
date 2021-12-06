@@ -1,14 +1,15 @@
 <template>
   <div class="root">
-    <div v-for="stat in stats" :key="stat">
-      <CharacterStatsItem :statId="stat" />
+    <div v-for="stat in stats" :key="stat.id">
+      <CharacterStatsItem :statId="stat.id" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, toRefs, computed } from '@nuxtjs/composition-api';
-import { CHARACTER_STATS } from '~/models/character/stats';
+import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import _orderBy from 'lodash.orderby';
 
 export default defineComponent({
   props: {
@@ -19,8 +20,17 @@ export default defineComponent({
   },
   setup(props) {
     const { statsType } = toRefs(props);
-    const statKeys = Object.keys(CHARACTER_STATS);
-    const stats = computed(() => statKeys?.filter((s) => s.startsWith(statsType.value)));
+    const [character] = useCharacterSheet.injectors();
+
+    const stats = computed(() => {
+      const charStats = Object.entries(character.data?.stats || {});
+      const statsByType = charStats.filter(([stat]) => stat.startsWith(statsType.value));
+
+      const statsAsObj = statsByType.map(([id, value]) => ({ id, value }));
+      const statsSorted = _orderBy(statsAsObj, ['value'], ['desc']) as typeof statsAsObj;
+      return character.editMode ? statsAsObj : statsSorted;
+    });
+
     return { stats };
   },
 });
