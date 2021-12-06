@@ -1,6 +1,10 @@
 <!-- Please remove this file from your project -->
 <template>
-  <div class="root" :class="{ '--faded': !editMode && statValue === 1 }" @click="toggleDesc">
+  <div
+    class="CharacterStatsItem"
+    :class="{ '--faded': !editMode && statValue === 1 }"
+    @click="toggleDesc"
+  >
     <div class="background">
       <img src="~/assets/img/character-stat-bg.png" />
     </div>
@@ -70,7 +74,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.root {
+.CharacterStatsItem {
   position: relative;
   padding: 0.8rem 1rem 0.8rem 0;
   min-height: 56px;

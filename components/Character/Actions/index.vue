@@ -1,5 +1,5 @@
 <template>
-  <UiFooter v-if="character.editMode" class="container">
+  <UiFooter v-if="character.editMode">
     <UiButton @click="handleCancel">Cancelar</UiButton>
     <UiButton @click="handleSave" variant="primary">Guardar</UiButton>
   </UiFooter>
@@ -27,11 +27,3 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss" scoped>
-.container {
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 16px;
-}
-</style>
