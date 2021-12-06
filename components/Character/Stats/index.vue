@@ -45,8 +45,8 @@ export default defineComponent({
     });
 
     const count = computed(() => {
-      const count = stats.value.reduce((counter, { value }) => {
-        return counter + value;
+      const count = stats.value.reduce((counter, stat) => {
+        return counter + (stat.value || 0);
       }, 0);
       return count;
     });
