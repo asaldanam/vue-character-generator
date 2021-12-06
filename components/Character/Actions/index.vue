@@ -16,7 +16,6 @@ export default defineComponent({
 
     const handleCancel = () => {
       const characterString = query.value?.character as string;
-      if (!characterString) return;
       load(characterString);
       setEditMode(false);
     };

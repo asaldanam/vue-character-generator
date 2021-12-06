@@ -65,6 +65,12 @@ const replaceMany = (origin: string, replacements: [string, any][]) => {
 
 /** Encuentra todas las referencias entre {{corchetes}} de una string  */
 const findTemplateRefs = (text: string) => {
-  const betweenDoubleBrackes = new RegExp(/(?<=\{{).+?(?=\}})/g);
-  return [...text.matchAll(betweenDoubleBrackes)].map((match) => match[0]);
+  const betweenDoubleBrackes = /\{{(.*?)\}}/g;
+  const matches = [...text.matchAll(betweenDoubleBrackes)].map((match) =>
+    replaceMany(match[0], [
+      ['{{', ''],
+      ['}}', ''],
+    ]),
+  );
+  return matches;
 };
