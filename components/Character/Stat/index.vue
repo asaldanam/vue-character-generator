@@ -18,7 +18,7 @@
     ></div>
 
     <div v-if="editMode" class="slider-container">
-      <v-slider v-model="statValue" min="1" max="15" ticks="always"></v-slider>
+      <v-slider :value="statValue" min="1" max="15" ticks="always" @change="handleSlide"></v-slider>
     </div>
   </div>
 </template>
@@ -42,37 +42,20 @@ export default defineComponent({
   },
   setup(props) {
     const { statId, editMode } = toRefs(props);
-    const router = useRouter();
-    const [character, { updateStat, getDataAsBase64 }] = useCharacterSheet.injectors();
+    const [character, { updateStat }] = useCharacterSheet.injectors();
 
     const showDesc = ref(false);
-    const statValue = ref(1);
+    const statValue = computed(() => character.data?.stats[statId.value]);
 
-    watch(character, () => {
-      const newVal = character.data?.stats[statId.value];
-      if (newVal === statValue.value) return;
-      console.log({ stat: statValue.value, newVal });
-      statValue.value = character.data?.stats[statId.value];
-    });
-
-    watch([statId, statValue], () => {
-      const payload = { stat: statId.value as Stat, value: statValue.value };
-      console.log(payload);
+    const handleSlide = (value: number) => {
+      const payload = { stat: statId.value as Stat, value };
       updateStat(payload);
-
-      /** TODO: Aquí en realidad debería habilitar el botón de guardar, y el guardado debería hacerse a través del botón */
-      const characterAsBase64 = getDataAsBase64();
-      router.push({
-        query: {
-          name: character.data?.info.name,
-          character: characterAsBase64,
-        },
-      });
-    });
+    };
 
     return {
       showDesc,
       statValue,
+      handleSlide,
       text: computed(() =>
         getStatTxt({ statId: statId.value, character: character.data, lang: 'es' }),
       ),

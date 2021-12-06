@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <main>
     <div v-for="attr in attrs" :key="attr">
       <CharacterStat :statId="attr" editMode />
     </div>
-    ----------------------------
     <div v-for="skill in skills" :key="skill">
       <CharacterStat :statId="skill" editMode />
     </div>
-  </div>
+    <CharacterActions />
+  </main>
 </template>
 
 <script lang="ts">
@@ -25,7 +25,6 @@ export default defineComponent({
     const skills = stats.filter((stat) => stat.startsWith('skill_'));
 
     onMounted(() => {
-      console.log({ query: query.value });
       load((query.value as any)?.character);
     });
 
