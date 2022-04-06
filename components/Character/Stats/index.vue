@@ -1,12 +1,10 @@
 <template>
   <div class="CharacterStats">
-    <header class="header">
-      <div class="header-title">{{ title }}</div>
+    <header class="header u-text-lighted u-bg-dark-glass">
+      <div class="header-title u-text-alt">{{ title }}</div>
       <div class="header-count">{{ count }} Puntos invertidos</div>
     </header>
-    <div v-for="stat in statsList" :key="stat.id">
-      <CharacterStatsItem :statId="stat.id" />
-    </div>
+    <CharacterStatsItem v-for="stat in statsList" :key="stat.id" :statId="stat.id" />
   </div>
 </template>
 
@@ -57,25 +55,23 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .CharacterStats {
-  margin-bottom: 32px;
+  margin-bottom: 8px;
 }
 .header {
-  padding: 10px 16px;
-  background: var(--theme-color-bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 8px var(--theme-layout-x-padding);
 }
 
 .header-title {
-  font-weight: bold;
-  font-size: 20px;
   line-height: 24px;
-  text-align: center;
   text-transform: uppercase;
 }
 
 .header-count {
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 14px;
   text-align: center;
-  color: var(--theme-color-primary);
 }
 </style>

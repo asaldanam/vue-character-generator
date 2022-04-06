@@ -8,15 +8,28 @@
 // Ui
 @use './ui/button';
 
+// Utils
+@use './utils/texts';
+@use './utils/backgrounds';
+
 body {
   margin: 0;
   padding: 0;
+  font-size: 16px;
 }
 
 strong {
   color: var(--theme-color-primary);
 }
 
-.v-application {
-  font-family: 'Cronos Pro', sans-serif !important;
+#app.v-application {
+  color: var(--theme-color-text);
+  font-family: var(--theme-font-family-main);
+  background-color: var(--theme-color-bg-light);
+
+  background: url('~/assets/img/app-bg.jpg');
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }

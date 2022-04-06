@@ -40,13 +40,7 @@ export default {
     [
       '@nuxtjs/vuetify',
       {
-        theme: {
-          themes: {
-            light: {
-              primary: '#D6230C',
-            },
-          },
-        },
+        theme: { disable: true },
       },
     ],
   ],

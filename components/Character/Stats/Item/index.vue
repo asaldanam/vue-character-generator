@@ -2,37 +2,34 @@
 <template>
   <div
     class="CharacterStatsItem"
-    :class="{ '--faded': !editMode && statValue === 1 }"
+    :class="{ '--faded': !editMode && statValue === 1, '--editMode': editMode }"
     @click="toggleDesc"
   >
-    <div class="background">
-      <img src="~/assets/img/character-stat-bg.png" />
-    </div>
+    <SideButton v-if="editMode" :variant="'decrement'" @click="decrement" />
+    <div class="Container">
+      <div class="Stat u-text-lighted">
+        <div class="Stat-value u-text-alt">{{ statValue }}</div>
+        <div class="Stat-name">{{ text.name }}</div>
+        <div class="Stat-calculated u-text-alt u-text-lighted-alt">{{ calculatedValue }}</div>
+      </div>
 
-    <div class="stat">
-      <div class="stat-value">{{ statValue }}</div>
-      <div class="stat-name">{{ text.name }}</div>
-      <div class="stat-calculated">{{ calculatedValue }}</div>
+      <div
+        class="Description"
+        :class="[{ '--active': showDesc || editMode }]"
+        v-html="text.desc"
+      ></div>
     </div>
-
-    <div
-      class="description"
-      :class="[{ '--active': showDesc || editMode }]"
-      v-html="text.desc"
-    ></div>
-
-    <div v-if="editMode" class="slider-container">
-      <v-slider :value="statValue" min="1" max="15" ticks="always" @change="handleSlide"></v-slider>
-    </div>
+    <SideButton v-if="editMode" :variant="'increment'" @click="increment" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs, useRouter, watch } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref, toRefs } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { Stat } from '~/models/character/types';
 import getStatCalculated from '~/models/character/utils/getStatCalculated';
 import getStatTxt from '~/models/character/utils/getStatTxt';
+import SideButton from '~/components/Ui/SideButton.vue';
 
 export default defineComponent({
   props: {
@@ -44,96 +41,120 @@ export default defineComponent({
   setup(props) {
     const { statId } = toRefs(props);
     const [character, { updateStat }] = useCharacterSheet.injectors();
-
     const showDesc = ref(false);
+    const statValue = computed(() => character.data?.stats[statId.value]);
 
-    const handleSlide = (value: number) => {
-      const payload = { stat: statId.value as Stat, value };
-      updateStat(payload);
+    const increment = () => {
+      updateStat({ stat: statId.value as Stat, value: statValue.value + 1 });
+    };
+
+    const decrement = () => {
+      updateStat({ stat: statId.value as Stat, value: statValue.value - 1 });
+    };
+
+    const toggleDesc = () => {
+      if (character.editMode) return;
+      showDesc.value = !showDesc.value;
     };
 
     return {
       character,
       showDesc,
-      statValue: computed(() => character.data?.stats[statId.value]),
       editMode: computed(() => character.editMode),
-      handleSlide,
+      statValue,
+      increment,
+      decrement,
+      toggleDesc,
       text: computed(() =>
         getStatTxt({ statId: statId.value, character: character.data, lang: 'es' }),
       ),
       calculatedValue: computed(() =>
         getStatCalculated({ statId: statId.value, character: character.data }),
       ),
-      toggleDesc: () => {
-        if (character.editMode) return;
-        showDesc.value = !showDesc.value;
-      },
     };
   },
+  components: { SideButton },
 });
 </script>
 
 <style lang="scss" scoped>
 .CharacterStatsItem {
+  display: flex;
+  width: 100%;
+  padding: 12px 12px;
   position: relative;
-  padding: 0.8rem 1rem 0.8rem 0;
-  min-height: 56px;
+
+  &:after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: calc(100% - 24px);
+    position: absolute;
+    background: transparentize(white, $amount: 0.85);
+    bottom: 0;
+    right: 0;
+  }
+
+  &:last-child {
+    &:after {
+      display: none;
+    }
+  }
+
+  &.--editMode {
+    padding: 16px 0px;
+    &:after {
+      width: calc(100% - 32px);
+    }
+  }
+}
+
+.Container {
+  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0px 12px;
+
   &.--faded {
     opacity: 0.35;
   }
-  /* margin-bottom: 0.75rem; */
 }
 
-.background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: scaleY(-1);
-    height: 56px;
-    width: 600px;
-  }
-}
-
-.stat {
+.Stat {
   position: relative;
   display: flex;
   height: 100%;
   align-items: center;
-  font-size: 1.25rem;
   color: var(--theme-color-text);
+  font-size: 16px;
+  width: 100%;
+
+  & > *:not(:last-child) {
+    margin-right: 8px;
+  }
 
   &-value {
-    width: 3rem;
-    text-align: center;
-    color: var(--theme-color-primary);
+    font-size: 20px;
   }
 
   &-name {
-    padding-left: 0.5rem;
+    position: relative;
+    top: 1px;
   }
 
   &-calculated {
     margin-left: auto;
+    font-size: 14px;
   }
 }
 
-.description {
+.Description {
   position: relative;
-  padding-left: 3.5rem;
-  font-size: 0.875rem;
-  padding-bottom: 0.25rem;
-  line-height: 130%;
-  color: #828282;
+  font-size: 13px;
+  padding-top: 4px;
+  line-height: 140%;
   opacity: 0;
   height: 0px;
 
@@ -144,13 +165,11 @@ export default defineComponent({
   }
 }
 
-.slider-container {
-  position: absolute;
-  left: 0;
-  bottom: -2.25rem;
-  width: 100%;
-  overflow-x: hidden;
-  padding: 1rem 1rem 0;
-  /* padding: 0 32px; */
+.Button {
+  width: 24px;
+
+  &.--increment {
+    border-radius: 6px 0 0 6px;
+  }
 }
 </style>

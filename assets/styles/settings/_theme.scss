@@ -1,10 +1,15 @@
 :root {
-  --theme-color-primary: #d6230c;
+  --theme-font-family-main: 'Roboto', sans-serif;
+  --theme-font-family-alt: 'Montserrat', 'Roboto', sans-serif;
 
-  --theme-color-text: #3e3e3e;
-  --theme-color-text-light: #828282;
-  --theme-color-text-inverse: white;
+  --theme-color-primary: #468EFF;
+  --theme-color-alt: #68FFC0;
 
-  --theme-color-bg-light: #f1f1f1;
-  --theme-color-bg-dark: #434343;
+  --theme-color-text: white;
+  --theme-color-text-inverse: black;
+
+  --theme-color-bg-light: #32A2CB;
+  --theme-color-bg-dark: #08131D;
+
+  --theme-layout-x-padding: 24px;
 }
