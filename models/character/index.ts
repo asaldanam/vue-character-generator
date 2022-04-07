@@ -77,8 +77,8 @@ export default class Character {
     const rules = [
       {
         name: 'threshold',
-        descripcion: 'Debe estar comprendida entre 0 y 30',
-        shouldBeValid: value >= 0 && value <= 30,
+        descripcion: 'Debe estar comprendida entre 1 y 30',
+        shouldBeValid: value >= 1 && value <= 30,
       },
     ];
 

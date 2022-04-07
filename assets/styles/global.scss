@@ -3,7 +3,7 @@
 @use './settings/theme';
 
 // Vuetify overrides
-@use './overrides/vuetify/v-slider';
+@use './overrides/vuetify/v-application';
 
 // Ui
 @use './ui/button';
@@ -16,20 +16,15 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
-}
+  touch-action: manipulation;
 
-strong {
-  color: var(--theme-color-primary);
-}
-
-#app.v-application {
-  color: var(--theme-color-text);
-  font-family: var(--theme-font-family-main);
-  background-color: var(--theme-color-bg-light);
-
-  background: url('~/assets/img/app-bg.jpg');
+  background: url('~/assets/img/app-bg.jpg') var(--theme-color-bg-darker);
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+strong {
+  @extend .u-text-lighted-alt;
 }

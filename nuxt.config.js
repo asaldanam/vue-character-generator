@@ -37,12 +37,7 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
-    [
-      '@nuxtjs/vuetify',
-      {
-        theme: { disable: true },
-      },
-    ],
+    '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

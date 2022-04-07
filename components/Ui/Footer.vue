@@ -1,6 +1,6 @@
 <template>
   <div class="UiFooter">
-    <footer v-bind="$props">
+    <footer>
       <slot />
     </footer>
   </div>
@@ -11,7 +11,7 @@
   width: 100%;
 }
 footer {
-  background: var(--theme-color-bg-light);
+  background: var(--theme-color-bg-darker);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -21,7 +21,7 @@ footer {
 
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   grid-gap: 16px;
 }
 </style>

@@ -2,10 +2,9 @@
 <template>
   <div
     class="CharacterStatsItem"
-    :class="{ '--faded': !editMode && statValue === 1, '--editMode': editMode }"
+    :class="{ '--faded': !editMode && statValue === 1 }"
     @click="toggleDesc"
   >
-    <SideButton v-if="editMode" :variant="'decrement'" @click="decrement" />
     <div class="Container">
       <div class="Stat u-text-lighted">
         <div class="Stat-value u-text-alt">{{ statValue }}</div>
@@ -19,7 +18,11 @@
         v-html="text.desc"
       ></div>
     </div>
-    <SideButton v-if="editMode" :variant="'increment'" @click="increment" />
+
+    <footer class="Footer" v-if="editMode">
+      <v-btn color="secondary" @click="() => updateValue('decrement')"> - </v-btn>
+      <v-btn color="secondary" @click="() => updateValue('increment')"> + </v-btn>
+    </footer>
   </div>
 </template>
 
@@ -29,7 +32,6 @@ import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { Stat } from '~/models/character/types';
 import getStatCalculated from '~/models/character/utils/getStatCalculated';
 import getStatTxt from '~/models/character/utils/getStatTxt';
-import SideButton from '~/components/Ui/SideButton.vue';
 
 export default defineComponent({
   props: {
@@ -44,12 +46,16 @@ export default defineComponent({
     const showDesc = ref(false);
     const statValue = computed(() => character.data?.stats[statId.value]);
 
-    const increment = () => {
-      updateStat({ stat: statId.value as Stat, value: statValue.value + 1 });
-    };
+    const updateValue = (update: 'increment' | 'decrement') => {
+      const value =
+        (update === 'increment' && statValue.value + 1) ||
+        (update === 'decrement' && statValue.value - 1);
 
-    const decrement = () => {
-      updateStat({ stat: statId.value as Stat, value: statValue.value - 1 });
+      try {
+        updateStat({ stat: statId.value as Stat, value });
+      } catch (e) {
+        window.alert(e);
+      }
     };
 
     const toggleDesc = () => {
@@ -62,8 +68,7 @@ export default defineComponent({
       showDesc,
       editMode: computed(() => character.editMode),
       statValue,
-      increment,
-      decrement,
+      updateValue,
       toggleDesc,
       text: computed(() =>
         getStatTxt({ statId: statId.value, character: character.data, lang: 'es' }),
@@ -73,15 +78,13 @@ export default defineComponent({
       ),
     };
   },
-  components: { SideButton },
 });
 </script>
 
 <style lang="scss" scoped>
 .CharacterStatsItem {
-  display: flex;
   width: 100%;
-  padding: 12px 12px;
+  padding: 12px var(--theme-layout-x-padding);
   position: relative;
 
   &:after {
@@ -115,7 +118,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0px 12px;
 
   &.--faded {
     opacity: 0.35;
@@ -146,7 +148,6 @@ export default defineComponent({
 
   &-calculated {
     margin-left: auto;
-    font-size: 14px;
   }
 }
 
@@ -163,6 +164,13 @@ export default defineComponent({
     height: auto;
     transition: opacity 0.2s linear 0.1s;
   }
+}
+
+.Footer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 16px;
+  margin-top: 16px;
 }
 
 .Button {

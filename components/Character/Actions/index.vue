@@ -1,7 +1,10 @@
 <template>
-  <UiFooter v-if="character.editMode">
-    <UiButton @click="handleCancel">Cancelar</UiButton>
-    <UiButton @click="handleSave" variant="primary">Guardar</UiButton>
+  <UiFooter>
+    <v-btn v-if="character.editMode" @click="handleCancel">Cancelar</v-btn>
+    <v-btn v-if="character.editMode" @click="handleSave" color="primary">Guardar</v-btn>
+    <v-btn v-if="!character.editMode" @click="() => setEditMode(true)" color="primary"
+      >Editar</v-btn
+    >
   </UiFooter>
 </template>
 <script lang="ts">
@@ -22,7 +25,7 @@ export default defineComponent({
 
     const handleSave = () => save(router);
 
-    return { character, handleCancel, handleSave };
+    return { character, handleCancel, handleSave, setEditMode };
   },
 });
 </script>
