@@ -60,13 +60,13 @@ export default defineComponent({
 .text {
   flex: 1 1 auto;
   & > *:not(:last-child) {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 }
 
 input {
   background: none;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--theme-color-text);
   border-bottom: 1px dashed var(--theme-color-bg-light);
   width: 100%;
