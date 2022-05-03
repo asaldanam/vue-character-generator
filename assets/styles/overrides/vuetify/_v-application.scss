@@ -3,25 +3,30 @@
   font-family: var(--theme-font-family-main);
   background-color: transparent;
 
-  .primary {
-    background: var(--theme-color-accent) !important; 
-    border-color: var(--theme-color-accent) !important; 
-  }
-
-  .secondary {
-    background: var(--theme-color-bg-light) !important; 
-    border-color: var(--theme-color-bg-light) !important;
-  }
-
+  
   .v-btn.theme--light {
+    
     &:hover {
       &::before {
         opacity: 0;
       }
     }
-
+    
     &.v-btn--is-elevated {
+      &.primary {
+        background: var(--theme-color-accent) !important; 
+        border-color: var(--theme-color-accent) !important; 
+      }
+    
+      &.secondary {
+        background: var(--theme-color-bg-light) !important; 
+        border-color: var(--theme-color-bg-light) !important;
+      }
       box-shadow: none;
+    }
+
+    &.v-btn--disabled.v-btn--has-bg {
+      background: var(--theme-color-bg-light) !important;
     }
   }
 

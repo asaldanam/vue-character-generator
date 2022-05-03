@@ -8,17 +8,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, useContext } from '@nuxtjs/composition-api';
+import { defineComponent, onMounted, useContext, useRoute } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
-import Character from '~/pages/character.vue';
+import Character from '~/pages/character/_name.vue';
 
 export default defineComponent({
   setup() {
+    const router = useRoute();
     const [, { load }] = useCharacterSheet.injectors();
-    const { query } = useContext();
+    const { params } = useContext();
+
     onMounted(() => {
-      load((query.value as any)?.character);
+      load(params.value.name);
     });
+
     return {};
   },
   components: { Character },
