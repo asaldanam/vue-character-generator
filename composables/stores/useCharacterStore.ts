@@ -16,11 +16,12 @@ function useCharacterStore() {
 
     try {
       if (!name) throw new Error('Character not provided');
-      const data = localStorage.getItem(name);
+      const characters = loadCharactersStorage();
+      const data = characters[name];
       if (!data) throw new Error('Character not found');
-      const dataParsed = JSON.parse(data);
-      if (!dataParsed.info.name) throw new Error(`Invalid character stored data for ${name}`);
-      character.setData(dataParsed);
+
+      if (!data.info.name) throw new Error(`Invalid character stored data for ${name}`);
+      character.setData(data);
     } catch (e) {
       console.error(e);
       setEditMode(true);
@@ -52,7 +53,14 @@ function useCharacterStore() {
   function save(router: any) {
     if (!state?.data?.info) return;
     const name = slugify(state.data.info.name.toLocaleLowerCase());
-    localStorage.setItem(name, JSON.stringify(state.data));
+    const characters = loadCharactersStorage();
+
+    const updatedStorage = {
+      ...characters,
+      [name]: state.data,
+    };
+
+    localStorage.setItem('characters', JSON.stringify(updatedStorage));
 
     router.push({ params: { name } });
     setEditMode(false);
@@ -74,3 +82,12 @@ function useCharacterStore() {
 }
 
 export default createStore(useCharacterStore);
+
+function loadCharactersStorage() {
+  const charactersStr = localStorage.getItem('characters');
+  if (!charactersStr) return {};
+
+  const characters = JSON.parse(charactersStr);
+
+  return characters || {};
+}
