@@ -26,6 +26,16 @@ function useCharacterStore() {
     }
   }
 
+  /* Actualiza la información del personaje */
+  function updateInfo(payload: Partial<CharacterData['info']>) {
+    if (state.data) {
+      state.data.info = {
+        ...state.data.info,
+        ...payload,
+      };
+    }
+  }
+
   /** Actualiza el valor de una estadística del personaje */
   function updateStat(payload: { stat: Stat; value: StatValue }) {
     if (!state.data) return;
@@ -58,7 +68,7 @@ function useCharacterStore() {
     state.editMode = editMode;
   }
 
-  return { state, actions: { load, save, updateStat, setEditMode } };
+  return { state, actions: { load, save, updateStat, setEditMode, updateInfo } };
 }
 
 export default createStore(useCharacterStore);

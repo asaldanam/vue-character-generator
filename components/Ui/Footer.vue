@@ -17,7 +17,8 @@ footer {
   left: 0;
   width: 100%;
   padding: 16px 24px;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  /* box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.35); */
 
   display: grid;
   grid-template-rows: 1fr;

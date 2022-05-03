@@ -56,13 +56,20 @@ export default defineComponent({
 <style lang="scss" scoped>
 .CharacterStats {
   margin-bottom: 8px;
+  display: contents;
 }
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px var(--theme-layout-x-padding);
 
-  padding: 8px var(--theme-layout-x-padding);
+  position: sticky;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -o-sticky;
+  position: -ms-sticky;
 }
 
 .header-title {

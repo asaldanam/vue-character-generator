@@ -17,12 +17,13 @@ body {
   padding: 0;
   font-size: 16px;
   touch-action: manipulation;
-
-  background: url('~/assets/img/app-bg.jpg') var(--theme-color-bg-darker);
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  background: radial-gradient(circle, rgb(46, 143, 195) 20%, rgba(37, 73, 122, 1) 100%);
+  background: radial-gradient(circle, rgb(49, 90, 149) 100%, rgb(49, 90, 149) 100%);
+  background-color: var(--theme-color-bg-darker);
 }
 
 strong {
