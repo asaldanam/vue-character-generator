@@ -110,6 +110,10 @@ export default defineComponent({
       width: calc(100% - 32px);
     }
   }
+
+  &.--faded {
+    opacity: 0.35;
+  }
 }
 
 .Container {
