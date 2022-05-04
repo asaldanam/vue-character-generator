@@ -31,6 +31,6 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 a {
-  color: white;
+  color: white !important;
 }
 </style>
