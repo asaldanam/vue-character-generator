@@ -5,12 +5,14 @@
       <div class="text">
         <input
           :value="name"
+          :readonly="!editMode"
           placeholder="Nombre"
           type="text"
           @change="({ target: { value } }) => updateInfo({ name: value })"
         />
         <input
           :value="title"
+          :readonly="!editMode"
           placeholder="Título o profesión"
           type="text"
           @change="({ target: { value } }) => updateInfo({ title: value })"
@@ -29,8 +31,9 @@ export default defineComponent({
     const [character, { updateInfo }] = useCharacterSheet.injectors();
     const name = computed(() => character.data?.info.name);
     const title = computed(() => character.data?.info.title);
+    const editMode = computed(() => character?.editMode);
 
-    return { name, title, updateInfo };
+    return { name, title, editMode, updateInfo };
   },
 });
 </script>
