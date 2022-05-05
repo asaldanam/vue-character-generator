@@ -94,6 +94,7 @@ const CHARACTER_EMPTY: Omit<CharacterData, 'id'> = {
   info: {
     name: '',
     title: '',
+    avatar: '',
   },
   state: {
     currentHealth: 0,

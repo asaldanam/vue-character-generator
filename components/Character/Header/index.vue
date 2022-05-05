@@ -1,7 +1,11 @@
 <template>
   <UiHeader>
     <div class="CharacterHeader">
-      <div class="avatar" />
+      <div
+        :class="{ avatar: true, '--dashed': editMode }"
+        :style="`background-image: url(${avatar})`"
+        @click="updateAvatar"
+      />
       <div class="text">
         <input
           :value="name"
@@ -33,9 +37,18 @@ export default defineComponent({
     const [character, { updateInfo }] = useCharacterSheet.injectors();
     const name = computed(() => character.data?.info.name);
     const title = computed(() => character.data?.info.title);
+    const avatar = computed(() => character.data?.info.avatar);
     const editMode = computed(() => character?.editMode);
 
-    return { name, title, editMode, updateInfo };
+    const updateAvatar = () => {
+      if (!editMode.value) return;
+      const avatar = window.prompt('Introduce url a la imagen');
+      if (!avatar) return;
+
+      updateInfo({ avatar });
+    };
+
+    return { name, title, avatar, editMode, updateInfo, updateAvatar };
   },
 });
 </script>
@@ -53,19 +66,30 @@ export default defineComponent({
 }
 
 .avatar {
+  --_size: 64px;
   flex: 0 0 auto;
-  height: 56px;
-  width: 56px;
+  height: var(--_size);
+  width: var(--_size);
   border-radius: 99px;
   /* background: white; */
   /* opacity: 0.5; */
-  border: 1px dashed var(--theme-color-bg-light);
+  border: 1px dashed transparent;
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  background-color: rgba(255, 255, 255, 0.07);
+
+  &.--dashed {
+    border-color: var(--theme-color-bg-light);
+  }
 }
 
 .text {
   flex: 1 1 auto;
   & > *:not(:last-child) {
-    margin-bottom: 3px;
+    margin-bottom: 2px;
   }
 }
 
@@ -84,7 +108,7 @@ input {
   color: var(--theme-color-text);
   width: 100%;
   display: block;
-  padding: 1px 3px 1px;
+  padding: 0px 3px 0px;
   /* border-bottom: 1px dashed transparent; */
 
   &:focus {

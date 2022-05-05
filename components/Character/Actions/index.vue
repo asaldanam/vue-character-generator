@@ -1,6 +1,6 @@
 <template>
   <UiFooter>
-    <v-btn v-if="editMode" @click="handleCancel">Cancelar</v-btn>
+    <v-btn v-if="editMode" @click="handleCancel" :disabled="!name">Cancelar</v-btn>
     <v-btn v-if="editMode" @click="handleSave" color="primary" :disabled="!name">Guardar</v-btn>
     <v-btn v-if="!editMode" @click="() => setEditMode(true)" color="primary">Editar</v-btn>
   </UiFooter>

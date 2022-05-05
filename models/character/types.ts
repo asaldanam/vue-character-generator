@@ -5,6 +5,7 @@ export interface CharacterData {
   info: {
     name: string;
     title: string;
+    avatar?: string;
   };
   state: {
     currentHealth: number;
