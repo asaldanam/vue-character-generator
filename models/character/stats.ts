@@ -293,7 +293,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque parasitador',
-        desc: 'Realiza <strong>{{attr_potency * 0.5}} puntos</strong> de daño. Además se curará así mismo hasta un máximo de <strong>{{{attr_vitality * 0.5}} puntos </strong> de vida, no pudiendo curarse más puntos del daño realizado.',
+        desc: 'Realiza <strong>{{attr_potency * 0.5}} puntos</strong> de daño. Además se curará así mismo hasta un máximo de <strong>{{attr_vitality * 0.5}} puntos </strong> de vida, no pudiendo curarse más puntos del daño realizado.',
       },
     },
     calculated: {

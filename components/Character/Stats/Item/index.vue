@@ -172,6 +172,10 @@ export default defineComponent({
   }
 }
 
+::v-deep .Description strong {
+  white-space: nowrap;
+}
+
 .Footer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
