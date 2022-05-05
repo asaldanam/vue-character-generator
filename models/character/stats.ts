@@ -30,6 +30,9 @@ export const CHARACTER_STATS = {
 const CALC_FNS: {
   [key: string]: StatConfig['calculated']['fn'];
 } = {
+  /** Cantidad de vida */
+  lifeSpan: (value: number) => value * 18,
+
   /** Obtiene la puntuación de un stat a partir de su valor */
   attrBase: (value: number) => value * 6,
 
@@ -49,6 +52,7 @@ const CALC_FNS: {
 const CALC_TEMPLATES = {
   points: '{{value}} p',
   dc: 'DC {{value}}',
+  hp: '{{value}} HP',
 };
 
 export const CHARACTER_STATS_CONFIG: StatsConfig = {
@@ -56,19 +60,19 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Vitalidad',
-        desc: 'attr_vitality',
+        desc: 'Determina la cantidad de puntos de salud del personaje y sus capacidades de autosanación y regeneración propias.',
       },
     },
     calculated: {
-      fn: CALC_FNS.attrBase,
-      template: CALC_TEMPLATES.points,
+      fn: CALC_FNS.lifeSpan,
+      template: CALC_TEMPLATES.hp,
     },
   },
   attr_potency: {
     txt: {
       es: {
         name: 'Potencia',
-        desc: 'Determina la cantidad de puntos de vida infligidos de los ataques y otros efectos dañinos',
+        desc: 'Determina la cantidad de puntos de vida infligidos de los ataques y otros efectos dañinos.',
       },
     },
     calculated: {
@@ -80,7 +84,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Tenacidad',
-        desc: 'attr_tenacity',
+        desc: 'Reduce el daño recibido aplicado por bloqueos y paradas y aumenta la sanación recibida por los efectos propios.',
       },
     },
     calculated: {
@@ -92,7 +96,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Piedad',
-        desc: 'attr_piety',
+        desc: 'Determina la potencia de los efectos de sanación.',
       },
     },
     calculated: {
@@ -104,7 +108,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Precisión',
-        desc: 'attr_precision',
+        desc: 'Determina la probabilidad y potencia de los efectos críticos de sanación y daño. Toda tirada con éxito que igual o superior a <strong>{{ 20 - (attr_precision / 36) }}</strong> será considerada crítico',
       },
     },
     calculated: {
@@ -116,7 +120,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Iniciativa',
-        desc: 'attr_initiative',
+        desc: 'Determina las probabilidades de atacar en primer lugar',
       },
     },
     calculated: {
@@ -128,7 +132,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque melee dos manos',
-        desc: 'skill_melee2HAtk',
+        desc: 'Realiza <strong>{{attr_potency * 1}} puntos</strong> de daño. Si resulta crítico, aplicará <strong>{{attr_potency * 1.5}} puntos </strong> de daño crítico adicional',
       },
     },
     calculated: {
@@ -152,7 +156,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque a distancia',
-        desc: 'skill_rangedAtk',
+        desc: 'Realiza <strong>{{attr_potency * 1}} puntos</strong> de daño. Si el objetivo aún no ha alcanzado al tirador o huye de él, el tirador dispondrá de ventaja para impactar. En cambio si el objetivo se encuentra cerca un aliado, fallar aplicará el daño colateral al aliado',
       },
     },
     calculated: {
@@ -164,7 +168,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque canalizado',
-        desc: 'skill_channeledAtk',
+        desc: 'Realiza <strong>{{attr_potency * 3}} puntos</strong> de daño. El taumaturgo deberá permanecer un turno preparando la habilidad. Si recibe daño se verá interrumpido y deberá volver a empezar de nuevo.',
       },
     },
     calculated: {
@@ -176,7 +180,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque de área',
-        desc: 'skill_aoeAtk',
+        desc: 'Realiza <strong>{{attr_potency * 0.5}} puntos</strong> de daño. Impactará a todos los enemigos en un area cercana hasta un máximo de 4. Podrá provocar efectos colaterales en aliados cercanos.',
       },
     },
     calculated: {
@@ -188,7 +192,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque degenerativo',
-        desc: 'skill_degenerationAtk',
+        desc: 'Si el atacante tiene éxito, éste y los dos próximos turnos <strong>{{attr_potency * 0.5}} puntos</strong> de daño, <strong>{{attr_potency * 0.33}} puntos</strong> de daño por turno para AoE hasta un máximo de 3 enemigos. Podrá provocar efectos colaterales en aliados cercanos',
       },
     },
     calculated: {
@@ -200,7 +204,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Sanación directa',
-        desc: 'skill_directHeal',
+        desc: 'Curará al objetivo <strong>{{attr_piety * 1}} puntos</strong> de vida. Alternativamente y si es para curarse así mismo, podrá usarse el atributo de vitalidad si es más alto, sanando <strong>{{attr_vitality * 0.33}} puntos</strong> de su propia vida.',
       },
     },
     calculated: {
@@ -212,7 +216,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Sanación de área',
-        desc: 'skill_aoeHeal',
+        desc: 'Curará <strong>{{attr_piety * 0.33}} puntos</strong> de vida hasta un máximo de 3 objetivos cercanos entre sí.',
       },
     },
     calculated: {
@@ -224,7 +228,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Sanación regenerativa',
-        desc: 'skill_regeneration',
+        desc: 'Curará al objetivo <strong>{{attr_piety * 0.33}} puntos</strong> de vida durante éste y los próximos dos turnos. Alternativamente y si es para curarse así mismo, podrá usarse el atributo de vitalidad si es más alto, sanando <strong>{{attr_vitality * 0.15}} puntos</strong> por turno',
       },
     },
     calculated: {
@@ -235,8 +239,8 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
   skill_barrier: {
     txt: {
       es: {
-        name: 'Sanación barrera',
-        desc: 'skill_barrier',
+        name: 'Barrera',
+        desc: 'Creará un escudo protector en el objetivo de hasta <strong>{{attr_piety * 1.33}} puntos</strong>. Alternativamente y si es para protegerse así mismo, podrá usarse el atributo de tenacidad si es más alto, ganando una barrera de <strong>{{attr_tenacity * 1}} puntos</strong>. El escudo durará tres turnos y no podrá renovarse hasta pasado ese tiempo',
       },
     },
     calculated: {
@@ -248,7 +252,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Purgar aliado',
-        desc: 'skill_purge',
+        desc: 'Si se realiza con éxito, eliminará todas las degeneraciones y cambios de estado del aliado objetivo o de sí mismo.',
       },
     },
     calculated: {
@@ -260,7 +264,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Defensa activa',
-        desc: 'skill_activeDefense',
+        desc: 'Durante el próximo turno el personaje se protege y evita hasta <strong>{{attr_tenacity * 1.5}} puntos</strong> de daño. No podrá usarse durante dos turnos consecutivos.',
       },
     },
     calculated: {
@@ -272,7 +276,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Actitud de contraataque',
-        desc: 'skill_counterAtk',
+        desc: 'El personaje se mantendrá en pose defensiva hasta su próximo turno. Si recibe un ataque cuerpo a cuerpo y tiene éxito en la tirada, efectuará un ataque que realizará <strong>{{attr_potency * 0.5}} puntos</strong> de daño al objetivo y absorberá <strong>{{attr_tenacity * 0.5}} puntos</strong> de daño recibido.',
       },
     },
     calculated: {
@@ -284,7 +288,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque parasitador',
-        desc: 'skill_parasyte',
+        desc: 'Realiza <strong>{{attr_potency * 0.5}} puntos</strong> de daño. Además se curará así mismo hasta un máximo de <strong>{{{attr_vitality * 0.5}} puntos </strong> de vida, no pudiendo curarse más puntos del daño realizado.',
       },
     },
     calculated: {
@@ -296,7 +300,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Provocar enemmigo',
-        desc: 'skill_provoke',
+        desc: 'Si tiene éxito, mantendrá la atención del enemigo sobre sí mismo durante los próximos <strong>{{ attr_tenacity / 30 }} turnos</strong>.',
       },
     },
     calculated: {
@@ -308,7 +312,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Interceptar ataque',
-        desc: 'skill_interpose',
+        desc: 'Se podrá intentar en cualquier momento, sólo una vez por turno y si no se ha realizado una acción antes. Si tiene éxito el personaje podrá interponerse ante la agresión hacia un aliado, recibiendo el ataque y amortiguando hasta <strong>{{attr_potency * 0.5}} puntos</strong> de daño.',
       },
     },
     calculated: {
@@ -320,7 +324,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Efecto de control',
-        desc: 'skill_control',
+        desc: 'Si tiene éxito, mantendrá inhabilitado hasta un máximo de <strong>{{ attr_tenacity / 60 }} turnos</strong> al objetivo, impidiéndole realizar ninguna acción.',
       },
     },
     calculated: {
@@ -332,7 +336,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Sigilo',
-        desc: 'skill_hide',
+        desc: 'El personaje se ocultará de la vista de los presentes durante <strong>{{ attr_initiative / 60 }} turnos</strong>. Su próximo ataque le otorgará un dado de ventaja por cada turno que haya estado oculto y descubrirá su posición. El personaje quedará revelado durante un turno, no volviéndose a poder ocultar pasado éste.',
       },
     },
     calculated: {

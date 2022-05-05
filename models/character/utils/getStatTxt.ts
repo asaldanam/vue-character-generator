@@ -36,7 +36,7 @@ const replaceDescCalculatedValues = (rawDesc: string, character: CharacterData |
       const statValue = character?.stats[statKey];
       const statValueCalculated = getCalculatedValue(statKey, statValue);
       const operation = ref.replace(statKey, statValueCalculated);
-      return [`{{${ref}}}`, evaluate(operation)];
+      return [`{{${ref}}}`, Math.ceil(evaluate(operation))];
     } catch (error) {
       return [ref, ref];
     }
