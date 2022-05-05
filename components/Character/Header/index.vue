@@ -8,6 +8,7 @@
           :readonly="!editMode"
           placeholder="Nombre"
           type="text"
+          class="input-name"
           @change="({ target: { value } }) => updateInfo({ name: value })"
         />
         <input
@@ -15,6 +16,7 @@
           :readonly="!editMode"
           placeholder="Título o profesión"
           type="text"
+          class="input-title"
           @change="({ target: { value } }) => updateInfo({ title: value })"
         />
       </div>
@@ -63,21 +65,35 @@ export default defineComponent({
 .text {
   flex: 1 1 auto;
   & > *:not(:last-child) {
-    margin-bottom: 12px;
+    margin-bottom: 3px;
   }
+}
+
+.input-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.input-title {
+  font-size: 14px;
 }
 
 input {
   background: none;
   font-size: 16px;
   color: var(--theme-color-text);
-  border-bottom: 1px dashed var(--theme-color-bg-light);
   width: 100%;
   display: block;
-  padding: 0px 0px 1px;
+  padding: 1px 3px 1px;
+  /* border-bottom: 1px dashed transparent; */
 
   &:focus {
     outline: none;
+  }
+
+  &:not(:read-only) {
+    border-color: var(--theme-color-bg-light);
+    background: rgba(255, 255, 255, 0.07);
   }
 }
 </style>

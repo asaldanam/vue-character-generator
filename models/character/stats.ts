@@ -30,11 +30,8 @@ export const CHARACTER_STATS = {
 const CALC_FNS: {
   [key: string]: StatConfig['calculated']['fn'];
 } = {
-  /** Cantidad de vida */
-  lifeSpan: (value: number) => value * 18,
-
   /** Obtiene la puntuación de un stat a partir de su valor */
-  attrBase: (value: number) => value * 6,
+  // attrBase: (value: number) => value * 6,
 
   /** Obtiene la dificultad a superar en base el valor de una habilidad */
   skillDC: (value: number) => {
@@ -46,6 +43,14 @@ const CALC_FNS: {
 
     const result = Math.round(percent * 20);
     return result;
+  },
+
+  /** Obtiene la dificultad a superar en base el valor de una habilidad */
+  attrBase: (value: number) => {
+    const MULTIPLIER = 30;
+    const x = value / MULTIPLIER;
+    const result = 1 - Math.pow(1 - x, 3);
+    return Math.floor(result * 30);
   },
 };
 
@@ -64,7 +69,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       },
     },
     calculated: {
-      fn: CALC_FNS.lifeSpan,
+      fn: (val) => CALC_FNS.attrBase(val) * 3,
       template: CALC_TEMPLATES.hp,
     },
   },

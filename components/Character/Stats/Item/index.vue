@@ -2,7 +2,8 @@
 <template>
   <div
     class="CharacterStatsItem"
-    :class="{ '--faded': !editMode && statValue === 1 }"
+    :class="{ '--faded': statValue === 1 }"
+    v-if="editMode || statValue !== 1"
     @click="toggleDesc"
   >
     <div class="Container">
@@ -112,7 +113,8 @@ export default defineComponent({
   }
 
   &.--faded {
-    opacity: 0.35;
+    /* opacity: 0.85;
+    filter: grayscale(1); */
   }
 }
 

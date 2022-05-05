@@ -13,6 +13,7 @@
 footer {
   background: var(--theme-color-bg-darker);
   position: fixed;
+  z-index: 99;
   bottom: 0;
   left: 0;
   width: 100%;
