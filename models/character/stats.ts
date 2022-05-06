@@ -305,7 +305,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Provocar enemmigo',
-        desc: 'Si tiene éxito, mantendrá la atención del enemigo sobre sí mismo durante los próximos <strong>{{ attr_tenacity / 30 }} turnos</strong>.',
+        desc: 'Si tiene éxito, mantendrá la atención del enemigo sobre sí mismo durante los próximos <strong>{{ attr_tenacity / 8 }} turnos</strong>.',
       },
     },
     calculated: {
@@ -329,7 +329,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Efecto de control',
-        desc: 'Si tiene éxito, mantendrá inhabilitado hasta un máximo de <strong>{{ attr_tenacity / 30 }} turnos</strong> al objetivo, impidiéndole realizar ninguna acción.',
+        desc: 'Si tiene éxito, mantendrá inhabilitado hasta un máximo de <strong>{{ attr_tenacity / 8 }} turnos</strong> al objetivo, impidiéndole realizar ninguna acción.',
       },
     },
     calculated: {
