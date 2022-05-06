@@ -46,7 +46,7 @@ export default defineComponent({
       const count = stats.value.reduce((counter, stat) => {
         return counter + (stat.value || 0);
       }, 0);
-      return count;
+      return count - stats.value.length;
     });
 
     return { statsList, title: computed(() => txt[statsType.value]), count };
