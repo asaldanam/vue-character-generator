@@ -113,7 +113,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Precisión',
-        desc: 'Determina la probabilidad y potencia de los efectos críticos de sanación y daño. Toda tirada con éxito que igual o superior a <strong>{{ 20 - (attr_precision / 36) }}</strong> será considerada crítico',
+        desc: 'Determina la probabilidad y potencia de los efectos críticos de sanación y daño. Toda tirada con éxito que igual o superior a <strong>{{ 20 - (attr_precision / 6) }}</strong> será considerada crítico',
       },
     },
     calculated: {
@@ -173,7 +173,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Ataque canalizado',
-        desc: 'Realiza <strong>{{attr_potency * 3}} puntos</strong> de daño. El taumaturgo deberá permanecer un turno preparando la habilidad. Si recibe daño se verá interrumpido y deberá volver a empezar de nuevo.',
+        desc: 'Realiza <strong>{{attr_potency * 2.5}} puntos</strong> de daño. El taumaturgo deberá permanecer un turno preparando la habilidad. Si recibe daño se verá interrumpido y deberá volver a empezar de nuevo.',
       },
     },
     calculated: {
@@ -269,7 +269,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Defensa activa',
-        desc: 'Durante el próximo turno el personaje se protege y evita hasta <strong>{{attr_tenacity * 1.5}} puntos</strong> de daño. No podrá usarse durante dos turnos consecutivos.',
+        desc: 'Durante el próximo turno el personaje se protege y evita hasta <strong>{{attr_tenacity * 1}} puntos</strong> de daño. No podrá usarse durante dos turnos consecutivos.',
       },
     },
     calculated: {
@@ -329,7 +329,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Efecto de control',
-        desc: 'Si tiene éxito, mantendrá inhabilitado hasta un máximo de <strong>{{ attr_tenacity / 60 }} turnos</strong> al objetivo, impidiéndole realizar ninguna acción.',
+        desc: 'Si tiene éxito, mantendrá inhabilitado hasta un máximo de <strong>{{ attr_tenacity / 30 }} turnos</strong> al objetivo, impidiéndole realizar ninguna acción.',
       },
     },
     calculated: {
@@ -341,7 +341,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Sigilo',
-        desc: 'El personaje se ocultará de la vista de los presentes durante <strong>{{ attr_initiative / 60 }} turnos</strong>. Su próximo ataque le otorgará un dado de ventaja por cada turno que haya estado oculto y descubrirá su posición. El personaje quedará revelado durante un turno, no volviéndose a poder ocultar pasado éste.',
+        desc: 'El personaje se ocultará de la vista de los presentes durante <strong>{{ attr_initiative / 8 }} turnos</strong>. Su próximo ataque le otorgará un dado de ventaja por cada turno que haya estado oculto y descubrirá su posición. El personaje quedará revelado durante un turno, no volviéndose a poder ocultar pasado éste.',
       },
     },
     calculated: {
