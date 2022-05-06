@@ -245,7 +245,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Barrera',
-        desc: 'Creará un escudo protector en el objetivo de hasta <strong>{{attr_piety * 1.33}} puntos</strong>. Alternativamente y si es para protegerse así mismo, podrá usarse el atributo de tenacidad si es más alto, ganando una barrera de <strong>{{attr_tenacity * 1}} puntos</strong>. El escudo durará tres turnos y no podrá renovarse hasta pasado ese tiempo',
+        desc: 'Creará un escudo protector en el objetivo de hasta <strong>{{attr_piety * 1}} puntos</strong>. Alternativamente y si es para protegerse así mismo, podrá usarse el atributo de tenacidad si es más alto, ganando una barrera de <strong>{{attr_tenacity * 0.5}} puntos</strong>. El escudo durará tres turnos y no podrá renovarse hasta pasado ese tiempo',
       },
     },
     calculated: {
