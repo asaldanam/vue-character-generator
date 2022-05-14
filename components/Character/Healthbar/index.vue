@@ -95,6 +95,7 @@ export default defineComponent({
 
   border-radius: 999px;
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
   box-shadow: inset 0px 0px 0px 1px var(--theme-color-bg-medium-light);
 }
 
@@ -105,7 +106,7 @@ export default defineComponent({
   left: 0;
   top: 0;
   background: linear-gradient(45deg, #267b06, #7acb1f);
-  transition: all 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .bar-text {
