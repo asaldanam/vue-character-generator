@@ -1,15 +1,24 @@
 import { ref } from '@nuxtjs/composition-api';
 
-const INITIAL_TIME = 800;
+const INITIAL_TIME = 500;
 
 export function useKeepPressing() {
+  const started = ref(false);
   const keep = ref(true);
   const time = ref(INITIAL_TIME);
 
   const whilePress = async (e: Event, callback: () => void) => {
     e.preventDefault();
-    keep.value = true;
+    if (!started.value) {
+      callback();
+      console.log('START PRESSING');
+      started.value = true;
+      await sleep(1000);
+      if (!started.value) return;
+    }
+
     console.log('PRESSING');
+    keep.value = true;
     await sleep();
     callback();
 
@@ -18,8 +27,9 @@ export function useKeepPressing() {
   };
 
   const release = () => {
-    console.log('RELESE');
+    console.log('CANCEL');
     keep.value = false;
+    started.value = false;
     time.value = INITIAL_TIME;
   };
 
