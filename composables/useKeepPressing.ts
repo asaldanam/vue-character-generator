@@ -10,11 +10,15 @@ export function useKeepPressing() {
   const whilePress = async (e: Event, callback: () => void) => {
     e.preventDefault();
     if (!started.value) {
+      // First fired (simulates click event)
       callback();
       console.log('START PRESSING');
       started.value = true;
+      keep.value = true;
       await sleep(1000);
-      if (!started.value) return;
+
+      // if cancelled, exits
+      if (!keep.value) return;
     }
 
     console.log('PRESSING');
@@ -22,11 +26,14 @@ export function useKeepPressing() {
     await sleep();
     callback();
 
+    // if cancelled, exits
     if (!keep.value) return;
+
+    // Fires event again
     whilePress(e, callback);
   };
 
-  const release = () => {
+  const cancelTouch = () => {
     console.log('CANCEL');
     keep.value = false;
     started.value = false;
@@ -43,6 +50,6 @@ export function useKeepPressing() {
 
   return {
     whilePress,
-    release,
+    cancelTouch,
   };
 }

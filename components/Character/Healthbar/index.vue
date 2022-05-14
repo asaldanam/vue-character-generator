@@ -8,7 +8,7 @@ import { CALC_FNS } from '~/models/character/stats';
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const { release, whilePress } = useKeepPressing();
+    const { cancelTouch, whilePress } = useKeepPressing();
     const [character, { updateCurrentHealth, save }] = useCharacterSheet.injectors();
 
     const current = computed(() => character.data?.state.currentHealth || 0);
@@ -30,7 +30,7 @@ export default defineComponent({
       current,
       max,
       whilePress,
-      release,
+      cancelTouch,
       increment,
       decrement,
     };
@@ -43,9 +43,9 @@ export default defineComponent({
     <v-btn
       color="primary"
       @touchstart="(e) => whilePress(e, decrement)"
-      @touchend="release"
-      @mouseup="release"
-      @mouseleave="release"
+      @touchend="cancelTouch"
+      @mouseup="cancelTouch"
+      @mouseleave="cancelTouch"
     >
       -
     </v-btn>
@@ -55,9 +55,9 @@ export default defineComponent({
     <v-btn
       color="primary"
       @touchstart="(e) => whilePress(e, increment)"
-      @touchend="release"
-      @mouseup="release"
-      @mouseleave="release"
+      @touchend="cancelTouch"
+      @mouseup="cancelTouch"
+      @mouseleave="cancelTouch"
     >
       +
     </v-btn>

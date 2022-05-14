@@ -57,7 +57,7 @@ export default {
       lang: 'es',
       useWebmanifestExtension: false,
       background_color: '#2d2321',
-      theme_color: '#f8b700',
+      theme_color: '#19212d',
     },
   },
 };
