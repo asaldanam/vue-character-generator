@@ -38,6 +38,7 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/vuetify',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,4 +49,15 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  pwa: {
+    manifest: {
+      name: 'RP Character generator',
+      mobileAppIOS: true,
+      lang: 'es',
+      useWebmanifestExtension: false,
+      background_color: '#2d2321',
+      theme_color: '#f8b700',
+    },
+  },
 };
