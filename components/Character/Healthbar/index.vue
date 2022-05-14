@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
+import { computed, defineComponent, watch, useRouter } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { useKeepPressing } from '~/composables/useKeepPressing';
 
@@ -13,22 +13,34 @@ export default defineComponent({
 
     const current = computed(() => character.data?.state.currentHealth || 0);
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
+    const progress = computed(() => Math.floor((current.value / max.value) * 100));
+
+    const background = computed(
+      () =>
+        `linear-gradient(45deg, hsl(${progress.value}deg 85% 25%), hsl(${progress.value}deg 85% 50%))`,
+    );
 
     const increment = () => {
-      if (current.value >= max.value) return;
-      updateCurrentHealth(current.value + 1);
+      const cure = parseInt(window.prompt('Indica la cantidad de vida sanada') || '0');
+      if (isNaN(cure)) return;
+      const health = cure + current.value >= max.value ? max.value : current.value + cure;
+      updateCurrentHealth(health);
       save(router);
     };
 
     const decrement = () => {
-      if (current.value <= 1) return;
-      updateCurrentHealth(current.value - 1);
+      const damage = parseInt(window.prompt('Indica el daño recibido') || '0');
+      if (isNaN(damage)) return;
+      const health = damage >= current.value ? 0 : current.value - damage;
+      updateCurrentHealth(health);
       save(router);
     };
 
     return {
       current,
       max,
+      background,
+      progress,
       whilePress,
       cancelTouch,
       increment,
@@ -40,27 +52,19 @@ export default defineComponent({
 
 <template>
   <div class="CharacterHealthbar">
-    <v-btn
-      color="primary"
-      @touchstart="(e) => whilePress(e, decrement)"
-      @touchend="cancelTouch"
-      @mouseup="cancelTouch"
-      @mouseleave="cancelTouch"
-    >
-      -
-    </v-btn>
+    <v-btn color="primary" @click="decrement" :disabled="current <= 0"> - </v-btn>
 
-    <div class="bar-container">{{ current }}/{{ max }}</div>
+    <div class="bar-container">
+      <div class="bar">
+        <div
+          class="bar-progress"
+          :style="{ background, transform: `translateX(-${100 - progress}%)` }"
+        ></div>
+        <div class="bar-text">{{ current }}/{{ max }}</div>
+      </div>
+    </div>
 
-    <v-btn
-      color="primary"
-      @touchstart="(e) => whilePress(e, increment)"
-      @touchend="cancelTouch"
-      @mouseup="cancelTouch"
-      @mouseleave="cancelTouch"
-    >
-      +
-    </v-btn>
+    <v-btn color="primary" @click="increment" :disabled="current >= max"> + </v-btn>
   </div>
 </template>
 
@@ -71,6 +75,7 @@ export default defineComponent({
 .bar-container {
   flex: 1 1 100%;
   user-select: none;
+  padding: 0 12px;
 
   display: flex;
   align-items: center;
@@ -78,5 +83,39 @@ export default defineComponent({
 }
 
 .bar {
+  position: relative;
+  background: var(var(--theme-color-bg-medium));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0px 0px 0px 1px var(--theme-color-bg-medium-light);
+}
+
+.bar-progress {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(45deg, #267b06, #7acb1f);
+  transition: all 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.bar-text {
+  position: relative;
+  /* mix-blend-mode: overlay; */
+  font-weight: bolder;
+}
+
+button {
+  border-radius: 50%;
+  width: 36px;
 }
 </style>
