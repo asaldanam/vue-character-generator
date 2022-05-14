@@ -42,27 +42,11 @@ export default defineComponent({
 
 <template>
   <div class="CharacterHealthbar">
-    <v-btn
-      color="primary"
-      @touchstart="decrement"
-      @touchend="relese"
-      @mousedown="decrement"
-      @mouseup="relese"
-    >
-      -
-    </v-btn>
+    <v-btn color="primary" @touchstart="decrement" @touchend="relese"> - </v-btn>
 
     <div class="bar-container">{{ current }}/{{ max }}</div>
 
-    <v-btn
-      color="primary"
-      @touchstart="increment"
-      @touchend="relese"
-      @mousedown="increment"
-      @mouseup="relese"
-    >
-      +
-    </v-btn>
+    <v-btn color="primary" @touchstart="increment" @touchend="relese"> + </v-btn>
   </div>
 </template>
 
