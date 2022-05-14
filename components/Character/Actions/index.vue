@@ -1,8 +1,8 @@
 <template>
-  <UiFooter>
-    <v-btn v-if="editMode" @click="handleCancel" :disabled="!name">Cancelar</v-btn>
-    <v-btn v-if="editMode" @click="handleSave" color="primary" :disabled="!name">Guardar</v-btn>
-  </UiFooter>
+  <div class="buttons">
+    <v-btn @click="handleCancel" :disabled="!name">Cancelar</v-btn>
+    <v-btn @click="handleSave" color="primary" :disabled="!name">Guardar</v-btn>
+  </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
@@ -13,7 +13,6 @@ export default defineComponent({
     const router = useRouter();
     const { params } = useContext();
     const [character, { load, save, setEditMode }] = useCharacterSheet.injectors();
-    const editMode = computed(() => character?.editMode);
     const name = computed(() => character?.data?.info.name);
 
     const handleCancel = () => {
@@ -23,7 +22,16 @@ export default defineComponent({
 
     const handleSave = () => save(router);
 
-    return { editMode, name, handleCancel, handleSave, setEditMode };
+    return { name, handleCancel, handleSave, setEditMode };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.buttons {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-gap: 16px;
+}
+</style>

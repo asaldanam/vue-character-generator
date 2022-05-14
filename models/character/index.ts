@@ -1,6 +1,6 @@
-import { CharacterData, Stat, Stats, StatValue } from './types';
 import uuid from '~/shared/utils/uuid';
 import { CHARACTER_STATS } from './stats';
+import { CharacterData, Stat, Stats, StatValue } from './types';
 
 export default class Character {
   private character: CharacterData;
@@ -13,6 +13,10 @@ export default class Character {
           stats: {
             ...CHARACTER_EMPTY.stats,
             ...character.stats,
+          },
+          state: {
+            ...CHARACTER_EMPTY.state,
+            ...character.state,
           },
         }
       : {
@@ -58,6 +62,12 @@ export default class Character {
   downStatValue(stat: Stat) {
     const newValue = ((this.character.stats || {})[stat] || 0) - 1;
     this.setStatValue(stat, newValue);
+  }
+
+  /** Decrementa en 1 una estadística */
+  updateState(nextState: CharacterData['state']) {
+    const prevState = this.character.state;
+    this.character.state = { ...prevState, ...nextState };
   }
 
   // Private Methods

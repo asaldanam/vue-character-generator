@@ -3,26 +3,36 @@
     <CharacterHeader />
     <CharacterStats :statsType="'attr'" />
     <CharacterStats :statsType="'skill'" />
-    <CharacterActions />
+    <UiFooter>
+      <CharacterActions v-if="editMode" />
+      <CharacterHealthbar v-if="!editMode" />
+    </UiFooter>
   </main>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, useContext, useRoute } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  useContext,
+  useRoute,
+} from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import Character from '~/pages/character/_name.vue';
 
 export default defineComponent({
   setup() {
     const router = useRoute();
-    const [, { load }] = useCharacterSheet.injectors();
+    const [character, { load }] = useCharacterSheet.injectors();
+    const editMode = computed(() => character?.editMode);
     const { params } = useContext();
 
     onMounted(() => {
       load(params.value.name);
     });
 
-    return {};
+    return { editMode };
   },
   components: { Character },
 });

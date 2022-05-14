@@ -49,6 +49,14 @@ function useCharacterStore() {
     state.data = character.getData();
   }
 
+  /** Actualiza la vida actual */
+  function updateCurrentHealth(currentHealth: CharacterData['state']['currentHealth']) {
+    if (!state.data) return;
+    const character = new Character(state.data);
+    character.updateState({ currentHealth });
+    state.data = character.getData();
+  }
+
   /** Guarda el personaje */
   function save(router: any) {
     if (!state?.data?.info) return;
@@ -78,7 +86,10 @@ function useCharacterStore() {
     state.editMode = editMode;
   }
 
-  return { state, actions: { load, save, updateStat, setEditMode, updateInfo } };
+  return {
+    state,
+    actions: { load, save, updateStat, setEditMode, updateInfo, updateCurrentHealth },
+  };
 }
 
 export default createStore(useCharacterStore);

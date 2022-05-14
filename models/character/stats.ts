@@ -27,7 +27,7 @@ export const CHARACTER_STATS = {
   skill_hide: 1,
 };
 
-const CALC_FNS: {
+export const CALC_FNS: {
   [key: string]: StatConfig['calculated']['fn'];
 } = {
   /** Obtiene la puntuación de un stat a partir de su valor */
@@ -52,6 +52,14 @@ const CALC_FNS: {
     const result = 1 - Math.pow(1 - x, 3);
     return Math.floor(result * 30);
   },
+
+  /** Obtiene la salud base */
+  healthBase: (value: number) => {
+    const MULTIPLIER = 30;
+    const x = value / MULTIPLIER;
+    const result = 1 - Math.pow(1 - x, 3);
+    return Math.floor(result * 30) * 3;
+  },
 };
 
 const CALC_TEMPLATES = {
@@ -69,7 +77,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       },
     },
     calculated: {
-      fn: (val) => CALC_FNS.attrBase(val) * 3,
+      fn: CALC_FNS.healthBase,
       template: CALC_TEMPLATES.hp,
     },
   },
