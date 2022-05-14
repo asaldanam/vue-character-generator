@@ -24,6 +24,9 @@
           @change="({ target: { value } }) => updateInfo({ title: value })"
         />
       </div>
+      <CharacterHeaderMenu class="Menu" v-if="!editMode">
+        <div slot="0" @click="() => setEditMode(true)">Editar</div>
+      </CharacterHeaderMenu>
     </div>
   </UiHeader>
 </template>
@@ -34,7 +37,7 @@ import useCharacterSheet from '~/composables/stores/useCharacterStore';
 
 export default defineComponent({
   setup() {
-    const [character, { updateInfo }] = useCharacterSheet.injectors();
+    const [character, { updateInfo, setEditMode }] = useCharacterSheet.injectors();
     const name = computed(() => character.data?.info.name);
     const title = computed(() => character.data?.info.title);
     const avatar = computed(() => character.data?.info.avatar);
@@ -48,7 +51,7 @@ export default defineComponent({
       updateInfo({ avatar });
     };
 
-    return { name, title, avatar, editMode, updateInfo, updateAvatar };
+    return { name, title, avatar, editMode, updateInfo, updateAvatar, setEditMode };
   },
 });
 </script>
@@ -58,11 +61,13 @@ export default defineComponent({
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 8px 0;
+}
 
-  & > *:not(:last-child) {
-    margin-right: 16px;
-  }
+.Menu {
+  align-self: flex-start;
+  position: relative;
+  /* top: -8px; */
+  right: -8px;
 }
 
 .avatar {
@@ -70,9 +75,9 @@ export default defineComponent({
   flex: 0 0 auto;
   height: var(--_size);
   width: var(--_size);
+  margin-right: 16px;
+
   border-radius: 99px;
-  /* background: white; */
-  /* opacity: 0.5; */
   border: 1px dashed transparent;
 
   background-position: center;

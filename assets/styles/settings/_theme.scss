@@ -12,8 +12,11 @@
   --theme-color-bg-light: #c6e0eb;
   --theme-color-bg-dark: #1b3c5c;
   --theme-color-bg-darker: #101b2a;
+  --theme-color-bg-darker-alpha: #101b2a80;
 
   --theme-color-bg-light: rgb(255 255 255 / 15%) !important;
+
+  --theme-backdrop-filter-default: blur(18px);
 
   --theme-layout-x-padding: 24px;
 }

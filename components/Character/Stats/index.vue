@@ -1,6 +1,6 @@
 <template>
   <div class="CharacterStats">
-    <header class="header u-text-lighted u-bg-dark-glass">
+    <header class="header u-text-lighted">
       <div class="header-title u-text-alt">{{ title }}</div>
       <div class="header-count">{{ count }} Puntos</div>
     </header>
@@ -63,6 +63,7 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   padding: 12px var(--theme-layout-x-padding);
+  background: var(--theme-color-bg-dark);
 
   position: sticky;
   position: -webkit-sticky;
@@ -71,7 +72,7 @@ export default defineComponent({
   position: -ms-sticky;
 
   top: 0;
-  z-index: 90;
+  z-index: 6;
 }
 
 .header-title {
