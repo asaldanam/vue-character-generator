@@ -14,17 +14,19 @@ export default defineComponent({
     const current = computed(() => character.data?.state.currentHealth || 0);
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
 
-    const increment = () => {
-      if (current.value >= max.value) return;
-      updateCurrentHealth(current.value + 1);
-      save(router);
-    };
+    const increment = () =>
+      whilePress(() => {
+        if (current.value >= max.value) return;
+        updateCurrentHealth(current.value + 1);
+        save(router);
+      });
 
-    const decrement = () => {
-      if (current.value <= 1) return;
-      updateCurrentHealth(current.value - 1);
-      save(router);
-    };
+    const decrement = () =>
+      whilePress(() => {
+        if (current.value <= 1) return;
+        updateCurrentHealth(current.value - 1);
+        save(router);
+      });
 
     return {
       current,
@@ -40,11 +42,27 @@ export default defineComponent({
 
 <template>
   <div class="CharacterHealthbar">
-    <v-btn color="primary" @mousedown="() => whilePress(decrement)" @mouseup="relese"> - </v-btn>
+    <v-btn
+      color="primary"
+      @touchstart="decrement"
+      @touchend="relese"
+      @mousedown="decrement"
+      @mouseup="relese"
+    >
+      -
+    </v-btn>
 
     <div class="bar-container">{{ current }}/{{ max }}</div>
 
-    <v-btn color="primary" @mousedown="() => whilePress(increment)" @mouseup="relese"> + </v-btn>
+    <v-btn
+      color="primary"
+      @touchstart="increment"
+      @touchend="relese"
+      @mousedown="increment"
+      @mouseup="relese"
+    >
+      +
+    </v-btn>
   </div>
 </template>
 
@@ -54,6 +72,7 @@ export default defineComponent({
 }
 .bar-container {
   flex: 1 1 100%;
+  user-select: none;
 
   display: flex;
   align-items: center;
