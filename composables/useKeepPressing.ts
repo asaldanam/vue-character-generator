@@ -6,29 +6,33 @@ export function useKeepPressing() {
   const keep = ref(true);
   const time = ref(INITIAL_TIME);
 
-  const whilePress = async (callback: () => void) => {
-    console.log('PRESSING');
+  const whilePress = async (e: Event, callback: () => void) => {
+    e.preventDefault();
     keep.value = true;
-    callback();
+    console.log('PRESSING');
     await sleep();
+    callback();
 
     if (!keep.value) return;
-    whilePress(callback);
+    whilePress(e, callback);
   };
 
-  const relese = () => {
+  const release = () => {
     console.log('RELESE');
     keep.value = false;
     time.value = INITIAL_TIME;
   };
 
-  const sleep = async () => {
-    if (time.value > 150) time.value = time.value * 0.75;
-    await new Promise((r) => setTimeout(r, time.value));
+  const sleep = async (fixedTime?: number) => {
+    if (time.value > 150 && !fixedTime) {
+      time.value = time.value * 0.75;
+    }
+
+    await new Promise((r) => setTimeout(r, fixedTime || time.value));
   };
 
   return {
     whilePress,
-    relese,
+    release,
   };
 }

@@ -8,31 +8,29 @@ import { CALC_FNS } from '~/models/character/stats';
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const { relese, whilePress } = useKeepPressing();
+    const { release, whilePress } = useKeepPressing();
     const [character, { updateCurrentHealth, save }] = useCharacterSheet.injectors();
 
     const current = computed(() => character.data?.state.currentHealth || 0);
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
 
-    const increment = () =>
-      whilePress(() => {
-        if (current.value >= max.value) return;
-        updateCurrentHealth(current.value + 1);
-        save(router);
-      });
+    const increment = () => {
+      if (current.value >= max.value) return;
+      updateCurrentHealth(current.value + 1);
+      save(router);
+    };
 
-    const decrement = () =>
-      whilePress(() => {
-        if (current.value <= 1) return;
-        updateCurrentHealth(current.value - 1);
-        save(router);
-      });
+    const decrement = () => {
+      if (current.value <= 1) return;
+      updateCurrentHealth(current.value - 1);
+      save(router);
+    };
 
     return {
       current,
       max,
       whilePress,
-      relese,
+      release,
       increment,
       decrement,
     };
@@ -42,11 +40,27 @@ export default defineComponent({
 
 <template>
   <div class="CharacterHealthbar">
-    <v-btn color="primary" @touchstart="decrement" @touchend="relese"> - </v-btn>
+    <v-btn
+      color="primary"
+      @touchstart="(e) => whilePress(e, decrement)"
+      @touchend="release"
+      @mouseup="release"
+      @mouseleave="release"
+    >
+      -
+    </v-btn>
 
     <div class="bar-container">{{ current }}/{{ max }}</div>
 
-    <v-btn color="primary" @touchstart="increment" @touchend="relese"> + </v-btn>
+    <v-btn
+      color="primary"
+      @touchstart="(e) => whilePress(e, increment)"
+      @touchend="release"
+      @mouseup="release"
+      @mouseleave="release"
+    >
+      +
+    </v-btn>
   </div>
 </template>
 
