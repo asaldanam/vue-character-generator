@@ -15,12 +15,13 @@
     &.v-btn--is-elevated {
       &.primary {
         background: var(--theme-color-accent) !important; 
-        border-color: var(--theme-color-accent) !important; 
+        border-color: var(--theme-color-accent) !important;
+        color: var(--theme-color-bg-dark) !important;
       }
     
       &.secondary {
-        background: var(--theme-color-bg-light) !important; 
-        border-color: var(--theme-color-bg-light) !important;
+        background: var(--theme-color-bg-medium-light) !important; 
+        border-color: var(--theme-color-bg-medium-light) !important;
       }
       box-shadow: none;
     }

@@ -8,9 +8,9 @@
   >
     <div class="Container">
       <div class="Stat u-text-lighted">
-        <div class="Stat-value u-text-alt">{{ statValue }}</div>
+        <div class="Stat-value">{{ statValue }}</div>
         <div class="Stat-name">{{ text.name }}</div>
-        <div class="Stat-calculated u-text-alt u-text-lighted-alt">{{ calculatedValue }}</div>
+        <div class="Stat-calculated">{{ calculatedValue }}</div>
       </div>
 
       <div
@@ -85,7 +85,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .CharacterStatsItem {
   width: 100%;
-  padding: 12px var(--theme-layout-x-padding);
+  padding: 14px var(--theme-layout-x-padding) 16px;
   position: relative;
 
   &:after {
@@ -94,7 +94,7 @@ export default defineComponent({
     height: 1px;
     width: calc(100% - 24px);
     position: absolute;
-    background: transparentize(white, $amount: 0.85);
+    background: transparentize(white, $amount: 0.95);
     bottom: 0;
     right: 0;
   }
@@ -144,7 +144,18 @@ export default defineComponent({
   }
 
   &-value {
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-weight: bolder;
+    color: var(--theme-color-primary);
+    font-size: 14px;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    background: var(--theme-color-bg-medium-light);
   }
 
   &-name {
@@ -154,13 +165,14 @@ export default defineComponent({
 
   &-calculated {
     margin-left: auto;
+    color: var(--theme-color-accent);
+    font-weight: 900;
   }
 }
 
 .Description {
   position: relative;
   font-size: 13px;
-  padding-top: 4px;
   line-height: 140%;
   opacity: 0;
   height: 0px;
@@ -168,12 +180,14 @@ export default defineComponent({
   &.--active {
     opacity: 1;
     height: auto;
+    padding-top: 8px;
     transition: opacity 0.2s linear 0.1s;
   }
 }
 
 ::v-deep .Description strong {
   white-space: nowrap;
+  color: var(--theme-color-accent);
 }
 
 .Footer {
@@ -181,6 +195,13 @@ export default defineComponent({
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 16px;
   margin-top: 16px;
+
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    width: 56px;
+  }
 }
 
 .Button {
