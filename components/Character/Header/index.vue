@@ -1,11 +1,11 @@
 <template>
   <UiHeader>
     <div class="CharacterHeader">
-      <div
-        :class="{ avatar: true, '--dashed': editMode }"
-        :style="`background-image: url(${avatar})`"
-        @click="updateAvatar"
-      />
+      <div :class="{ avatar: true, '--edit-mode': editMode }" @click="updateAvatar">
+        <div class="avatar-img-container">
+          <img :src="avatar" alt="" />
+        </div>
+      </div>
       <div class="text">
         <input
           :value="name"
@@ -71,23 +71,42 @@ export default defineComponent({
 }
 
 .avatar {
-  --_size: 64px;
+  --_size: 72px;
   flex: 0 0 auto;
   height: var(--_size);
   width: var(--_size);
   margin-right: 16px;
-
-  border-radius: 99px;
+  border-radius: 999px;
   border: 1px dashed transparent;
 
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  background-color: rgba(255, 255, 255, 0.07);
+  background: linear-gradient(
+    -45deg,
+    rgba(248, 183, 0, 1) 10%,
+    rgba(150, 111, 0, 1) 50%,
+    rgba(248, 183, 0, 1) 90%
+  );
 
-  &.--dashed {
+  &.--edit-mode {
     border-color: var(--theme-color-bg-light);
+
+    background: var(--theme-color-bg-dark);
+  }
+}
+
+.avatar-img-container {
+  border-radius: 999px;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 }
 

@@ -13,6 +13,7 @@
 footer {
   background-color: var(--theme-color-bg-dark-backdrop);
   backdrop-filter: var(--theme-backdrop-filter-default);
+  box-shadow: 0px -8px 16px 0px rgb(0 0 0 / 50%);
   position: fixed;
   z-index: 6;
   bottom: 0;
