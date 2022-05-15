@@ -11,6 +11,7 @@ export default defineComponent({
 
     const dialog = ref(false);
     const dialogInput = ref<number | null>(null);
+    const dialogInputRef = ref<Vue | null>(null);
     const dialogInputBarrier = ref<number | null>(null);
     const dialogType = ref<'increment' | 'decrement' | null>(null);
 
@@ -43,6 +44,9 @@ export default defineComponent({
     const openDialog = (type: typeof dialogType['value']) => {
       dialog.value = true;
       dialogType.value = type;
+      setTimeout(() => {
+        (document.querySelector('[data-focus]') as any).focus();
+      });
     };
 
     const closeDialog = () => {
@@ -59,6 +63,7 @@ export default defineComponent({
       progress,
       dialog,
       dialogInput,
+      dialogInputRef,
       dialogInputBarrier,
       dialogType,
       closeDialog,
@@ -106,26 +111,24 @@ export default defineComponent({
       <v-card dark>
         <v-card-title dark></v-card-title>
 
-        <v-card-text v-if="dialogType === 'increment'">
-          Indica la cantidad de puntos de vida que has recibido por sanación o por barrera.
-        </v-card-text>
-
-        <v-card-text v-if="dialogType === 'decrement'">
-          Indica la cantidad de puntos de vida que has recibido como daño.
-        </v-card-text>
-
         <v-card-text>
+          <div v-if="dialogType === 'increment'">
+            Indica la cantidad de puntos de vida que has recibido por sanación o por barrera.
+          </div>
+          <div v-if="dialogType === 'decrement'">
+            Indica la cantidad de puntos de vida que has recibido como daño.
+          </div>
           <v-text-field
+            :ref="dialogInputRef"
+            data-focus
             placeholder="Puntos de vida"
             inputmode="numeric"
             v-model="dialogInput"
             type="number"
             hide-details="auto"
           ></v-text-field>
-        </v-card-text>
-
-        <v-card-text v-if="dialogType === 'increment'">
           <v-text-field
+            v-if="dialogType === 'increment'"
             placeholder="Puntos de barrera"
             v-model="dialogInputBarrier"
             inputmode="numeric"
