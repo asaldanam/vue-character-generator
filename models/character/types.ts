@@ -9,6 +9,7 @@ export interface CharacterData {
   };
   state: {
     currentHealth: number;
+    currentBarrier: number;
   };
   stats: Stats;
 }

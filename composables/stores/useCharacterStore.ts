@@ -50,10 +50,10 @@ function useCharacterStore() {
   }
 
   /** Actualiza la vida actual */
-  function updateCurrentHealth(currentHealth: CharacterData['state']['currentHealth']) {
+  function updateState(newState: Partial<CharacterData['state']>) {
     if (!state.data) return;
     const character = new Character(state.data);
-    character.updateState({ currentHealth });
+    character.updateState(newState);
     state.data = character.getData();
   }
 
@@ -88,7 +88,7 @@ function useCharacterStore() {
 
   return {
     state,
-    actions: { load, save, updateStat, setEditMode, updateInfo, updateCurrentHealth },
+    actions: { load, save, updateStat, setEditMode, updateInfo, updateState },
   };
 }
 

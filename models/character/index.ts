@@ -65,7 +65,7 @@ export default class Character {
   }
 
   /** Decrementa en 1 una estadística */
-  updateState(nextState: CharacterData['state']) {
+  updateState(nextState: Partial<CharacterData['state']>) {
     const prevState = this.character.state;
     this.character.state = { ...prevState, ...nextState };
   }
@@ -108,6 +108,7 @@ const CHARACTER_EMPTY: Omit<CharacterData, 'id'> = {
   },
   state: {
     currentHealth: 0,
+    currentBarrier: 0,
   },
   stats: CHARACTER_STATS,
 };

@@ -7,7 +7,7 @@ import { CALC_FNS } from '~/models/character/stats';
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const [character, { updateCurrentHealth, save }] = useCharacterSheet.injectors();
+    const [character, { updateState, save }] = useCharacterSheet.injectors();
 
     const dialog = ref(false);
     const dialogInput = ref<number | null>(null);
@@ -18,6 +18,7 @@ export default defineComponent({
     const current = computed(() => character.data?.state.currentHealth || 0);
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
     const progress = computed(() => Math.floor((current.value / max.value) * 100));
+    const progressBarrier = computed(() => {});
 
     const background = computed(
       () =>
@@ -26,18 +27,18 @@ export default defineComponent({
 
     const increment = () => {
       const cure = Number(dialogInput.value || 0);
-      const health = cure + current.value >= max.value ? max.value : current.value + cure;
-      console.log({ cure, current: current.value, health });
+      const currentHealth = cure + current.value >= max.value ? max.value : current.value + cure;
+      console.log({ cure, current: current.value, currentHealth });
       closeDialog();
-      updateCurrentHealth(health);
+      updateState({ currentHealth });
       save(router);
     };
 
     const decrement = () => {
       const damage = Number(dialogInput.value || 0);
-      const health = damage >= current.value ? 0 : current.value - damage;
+      const currentHealth = damage >= current.value ? 0 : current.value - damage;
       closeDialog();
-      updateCurrentHealth(health);
+      updateState({ currentHealth });
       save(router);
     };
 
@@ -94,7 +95,7 @@ export default defineComponent({
             class="bar-progress"
             :style="{ background, transform: `translateX(-${100 - progress}%)` }"
           ></div>
-          <div class="bar-text">{{ current }}/{{ max }}</div>
+          <div class="bar-text">{{ current }}</div>
         </div>
       </div>
 
