@@ -162,8 +162,8 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.CharacterHealthbar {
-}
+/* .CharacterHealthbar {
+} */
 
 .healthbar {
   display: flex;
