@@ -3,7 +3,7 @@
     <div class="CharacterHeader">
       <div :class="{ avatar: true, '--edit-mode': editMode }" @click="updateAvatar">
         <div class="avatar-img-container">
-          <img :src="avatar" alt="" />
+          <img v-if="avatar" :src="avatar" alt="" />
         </div>
       </div>
       <div class="text">
@@ -45,10 +45,9 @@ export default defineComponent({
 
     const updateAvatar = () => {
       if (!editMode.value) return;
-      const avatar = window.prompt('Introduce url a la imagen');
-      if (!avatar) return;
+      const newAvatar = window.prompt('Introduce url a la imagen', avatar.value || '');
 
-      updateInfo({ avatar });
+      updateInfo({ avatar: newAvatar || avatar.value });
     };
 
     return { name, title, avatar, editMode, updateInfo, updateAvatar, setEditMode };
@@ -92,7 +91,6 @@ export default defineComponent({
 
   &.--edit-mode {
     border-color: var(--theme-color-bg-light);
-
     background: var(--theme-color-bg-dark);
   }
 }
@@ -102,6 +100,7 @@ export default defineComponent({
   width: calc(100% - 4px);
   height: calc(100% - 4px);
   overflow: hidden;
+  background-color: var(--theme-color-bg-dark);
 
   img {
     height: 100%;
