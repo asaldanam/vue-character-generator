@@ -1,15 +1,18 @@
 <script lang="ts">
-import { computed, defineComponent, watch, useRouter } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref, useRouter } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
-import { useKeepPressing } from '~/composables/useKeepPressing';
 
 import { CALC_FNS } from '~/models/character/stats';
 
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const { cancelTouch, whilePress } = useKeepPressing();
     const [character, { updateCurrentHealth, save }] = useCharacterSheet.injectors();
+
+    const dialog = ref(false);
+    const dialogInput = ref<number | null>(null);
+    const dialogInputBarrier = ref<number | null>(null);
+    const dialogType = ref<'increment' | 'decrement' | null>(null);
 
     const current = computed(() => character.data?.state.currentHealth || 0);
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
@@ -21,19 +24,32 @@ export default defineComponent({
     );
 
     const increment = () => {
-      const cure = parseInt(window.prompt('Indica la cantidad de vida sanada') || '0');
-      if (isNaN(cure)) return;
+      const cure = Number(dialogInput.value || 0);
       const health = cure + current.value >= max.value ? max.value : current.value + cure;
+      console.log({ cure, current: current.value, health });
+      closeDialog();
       updateCurrentHealth(health);
       save(router);
     };
 
     const decrement = () => {
-      const damage = parseInt(window.prompt('Indica el daño recibido') || '0');
-      if (isNaN(damage)) return;
+      const damage = Number(dialogInput.value || 0);
       const health = damage >= current.value ? 0 : current.value - damage;
+      closeDialog();
       updateCurrentHealth(health);
       save(router);
+    };
+
+    const openDialog = (type: typeof dialogType['value']) => {
+      dialog.value = true;
+      dialogType.value = type;
+    };
+
+    const closeDialog = () => {
+      dialogInput.value = null;
+      dialogInputBarrier.value = null;
+      dialog.value = false;
+      dialogType.value = null;
     };
 
     return {
@@ -41,8 +57,12 @@ export default defineComponent({
       max,
       background,
       progress,
-      whilePress,
-      cancelTouch,
+      dialog,
+      dialogInput,
+      dialogInputBarrier,
+      dialogType,
+      closeDialog,
+      openDialog,
       increment,
       decrement,
     };
@@ -52,26 +72,93 @@ export default defineComponent({
 
 <template>
   <div class="CharacterHealthbar">
-    <v-btn color="primary" @click="decrement" :disabled="current <= 0"> - </v-btn>
+    <div class="healthbar">
+      <v-btn
+        class="bar-button"
+        color="primary"
+        @click="() => openDialog('decrement')"
+        :disabled="current <= 0"
+      >
+        -
+      </v-btn>
 
-    <div class="bar-container">
-      <div class="bar">
-        <div
-          class="bar-progress"
-          :style="{ background, transform: `translateX(-${100 - progress}%)` }"
-        ></div>
-        <div class="bar-text">{{ current }}/{{ max }}</div>
+      <div class="bar-container">
+        <div class="bar">
+          <div
+            class="bar-progress"
+            :style="{ background, transform: `translateX(-${100 - progress}%)` }"
+          ></div>
+          <div class="bar-text">{{ current }}/{{ max }}</div>
+        </div>
       </div>
+
+      <v-btn
+        class="bar-button"
+        color="primary"
+        @click="() => openDialog('increment')"
+        :disabled="current >= max"
+      >
+        +
+      </v-btn>
     </div>
 
-    <v-btn color="primary" @click="increment" :disabled="current >= max"> + </v-btn>
+    <v-dialog v-model="dialog" max-width="280px">
+      <v-card dark>
+        <v-card-title dark></v-card-title>
+
+        <v-card-text v-if="dialogType === 'increment'">
+          Indica la cantidad de puntos de vida que has recibido por sanación o por barrera.
+        </v-card-text>
+
+        <v-card-text v-if="dialogType === 'decrement'">
+          Indica la cantidad de puntos de vida que has recibido como daño.
+        </v-card-text>
+
+        <v-card-text>
+          <v-text-field
+            placeholder="Puntos de vida"
+            inputmode="numeric"
+            v-model="dialogInput"
+            type="number"
+            hide-details="auto"
+          ></v-text-field>
+        </v-card-text>
+
+        <v-card-text v-if="dialogType === 'increment'">
+          <v-text-field
+            placeholder="Puntos de barrera"
+            v-model="dialogInputBarrier"
+            inputmode="numeric"
+            type="number"
+            hide-details="auto"
+          ></v-text-field>
+        </v-card-text>
+
+        <!-- <v-divider></v-divider> -->
+
+        <v-card-actions>
+          <!-- <v-spacer></v-spacer> -->
+          <v-btn color="secondary" @click="closeDialog">Cancelar</v-btn>
+          <v-btn v-if="dialogType === 'decrement'" color="primary" @click="decrement"
+            >Aplicar</v-btn
+          >
+          <v-btn v-if="dialogType === 'increment'" color="primary" @click="increment"
+            >Aplicar</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .CharacterHealthbar {
+}
+
+.healthbar {
   display: flex;
 }
+
 .bar-container {
   flex: 1 1 100%;
   user-select: none;
@@ -84,7 +171,7 @@ export default defineComponent({
 
 .bar {
   position: relative;
-  background: var(var(--theme-color-bg-medium));
+  background: var(--theme-color-bg-darker);
 
   display: flex;
   align-items: center;
@@ -93,10 +180,11 @@ export default defineComponent({
   height: 100%;
   width: 100%;
 
-  border-radius: 999px;
+  border-radius: 8px;
   overflow: hidden;
   transform: translate3d(0, 0, 0);
-  box-shadow: inset 0px 0px 0px 1px var(--theme-color-bg-medium-light);
+  border: 1px solid var(--theme-color-bg-medium-light);
+  box-shadow: inset 4px 2px 10px 0px rgb(0 0 0 / 50%);
 }
 
 .bar-progress {
@@ -107,16 +195,36 @@ export default defineComponent({
   top: 0;
   background: linear-gradient(45deg, #267b06, #7acb1f);
   transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateX(-100%);
 }
 
 .bar-text {
   position: relative;
   /* mix-blend-mode: overlay; */
   font-weight: bolder;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
 }
 
-button {
+.bar-button {
   border-radius: 50%;
   width: 36px;
+}
+
+.v-card__text {
+  text-align: center;
+}
+
+::v-deep .v-dialog {
+  .v-card__actions {
+    justify-content: space-between;
+  }
+
+  .v-input {
+    font-size: 18px;
+  }
+
+  input {
+    text-align: center;
+  }
 }
 </style>

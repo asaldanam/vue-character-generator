@@ -4,7 +4,7 @@
   background-color: transparent;
 
   
-  .v-btn.theme--light {
+  .v-btn {
     
     &:hover {
       &::before {
@@ -33,6 +33,15 @@
 
   .v-btn:not(.v-btn--round).v-size--default {
     min-width: auto;
+  }
+
+  .theme--dark.v-card {
+    background-color: var(--theme-color-bg-darker-alpha);
+    backdrop-filter: var(--theme-backdrop-filter-default);
+  }
+
+  .v-dialog>.v-card>.v-card__actions {
+    padding: 24px 24px 20px;
   }
 }
 
