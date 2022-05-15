@@ -72,8 +72,8 @@ export default defineComponent({
   position: -ms-sticky;
 
   background: var(--theme-color-bg-dark) url('~assets/img/header-bg.webp') repeat-x 80px 0;
-  border-bottom: 1px solid var(--theme-color-bg-darker);
-  box-shadow: 0 7px 21px rgb(0 0 0 / 50%);
+  /* border-bottom: 1px solid var(--theme-color-bg-darker); */
+  box-shadow: 0 7px 21px rgb(0 0 0 / 35%);
 
   top: 0;
   z-index: 6;
