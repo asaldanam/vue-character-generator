@@ -17,11 +17,18 @@ export default defineComponent({
 
     const currentHealth = computed(() => character.data?.state.currentHealth || 0);
     const currentBarrier = computed(() => character.data?.state.currentBarrier || 0);
-
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
     const maxBarrier = computed(() => Math.floor(max.value / 2));
+
     const progress = computed(() => Math.floor((currentHealth.value / max.value) * 100));
-    const progressBarrier = computed(() => {});
+    const progressBarrier = computed(() => Math.ceil((currentBarrier.value / max.value) * 100));
+    const progressBarrierPosition = computed(() => {
+      const barrierOverMaxHealth = progress.value + progressBarrier.value - 100;
+      console.log({ barrierOverMaxHealth });
+      const start =
+        barrierOverMaxHealth > 0 ? progress.value - barrierOverMaxHealth : progress.value;
+      return start;
+    });
 
     const background = computed(
       () =>
@@ -45,14 +52,14 @@ export default defineComponent({
 
     const decrement = () => {
       const hit = Number(dialogInput.value || 0);
-      const absorbed =
-        hit >= currentBarrier.value ? currentBarrier.value : hit - currentBarrier.value;
+      const absorbed = currentBarrier.value > hit ? hit : currentBarrier.value;
       const damage = hit - absorbed;
 
       const barrier = damage ? 0 : currentBarrier.value - absorbed;
       const health = damage >= currentHealth.value ? 0 : currentHealth.value - damage;
 
       console.log({ hit, absorbed, damage, barrier, health });
+
       updateState({ currentHealth: health, currentBarrier: barrier });
       closeDialog();
       save(router);
@@ -80,6 +87,8 @@ export default defineComponent({
       max,
       background,
       progress,
+      progressBarrier,
+      progressBarrierPosition,
       dialog,
       dialogInput,
       dialogInputRef,
@@ -109,8 +118,14 @@ export default defineComponent({
       <div class="bar-container">
         <div class="bar">
           <div
-            class="bar-progress"
+            class="bar-progress-health"
             :style="{ background, transform: `translateX(-${100 - progress}%)` }"
+          ></div>
+          <div
+            class="bar-progress-barrier"
+            :style="{
+              transform: `translateX(${progressBarrierPosition}%) scaleX(${progressBarrier / 100})`,
+            }"
           ></div>
           <div class="bar-text">
             {{ currentHealth }} <span v-if="currentBarrier">(+{{ currentBarrier }})</span>
@@ -204,7 +219,7 @@ export default defineComponent({
   box-shadow: inset 4px 2px 10px 0px rgb(0 0 0 / 50%);
 }
 
-.bar-progress {
+.bar-progress-health {
   height: 100%;
   width: 100%;
   position: absolute;
@@ -213,6 +228,19 @@ export default defineComponent({
   background: linear-gradient(45deg, #267b06, #7acb1f);
   transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
   transform: translateX(-100%);
+}
+
+.bar-progress-barrier {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--theme-color-bg-light);
+  opacity: 0.5;
+  transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateX(0%) scaleX(0);
+  transform-origin: left;
 }
 
 .bar-text {
