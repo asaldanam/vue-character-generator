@@ -17,7 +17,7 @@ const slotsList = computed(() => Object.keys(slots));
     <v-navigation-drawer v-model="open" temporary right fixed dark>
       <v-list nav dense>
         <v-subheader>OPCIONES</v-subheader>
-        <v-list-item-group active-class="deep-purple--text text--accent-4" dark>
+        <v-list-item-group dark>
           <v-list-item v-for="(item, i) in slotsList" :key="i" @click="open = false" dark>
             <slot :name="item"></slot>
           </v-list-item>
@@ -31,7 +31,7 @@ const slotsList = computed(() => Object.keys(slots));
 ::v-deep {
   .theme--dark.v-navigation-drawer {
     background: transparent;
-    background-color: var(--theme-color-bg-darker-alpha);
+    background-color: var(--theme-color-bg-dark-backdrop);
     backdrop-filter: var(--theme-backdrop-filter-default);
 
     /* & > * {

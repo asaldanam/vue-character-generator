@@ -11,10 +11,10 @@
   width: 100%;
 }
 footer {
-  background-color: var(--theme-color-bg-darker-alpha);
+  background-color: var(--theme-color-bg-dark-backdrop);
   backdrop-filter: var(--theme-backdrop-filter-default);
   position: fixed;
-  z-index: 7;
+  z-index: 6;
   bottom: 0;
   left: 0;
   width: 100%;

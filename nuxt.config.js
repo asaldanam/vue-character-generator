@@ -51,6 +51,9 @@ export default {
   build: {},
 
   pwa: {
+    icon: {
+      fileName: 'favicon.png',
+    },
     manifest: {
       name: 'RP Character generator',
       mobileAppIOS: true,

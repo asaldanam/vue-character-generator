@@ -63,7 +63,7 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   padding: 12px var(--theme-layout-x-padding);
-  /* background: var(--theme-color-bg-dark); */
+  background: var(--theme-color-bg-dark);
 
   position: sticky;
   position: -webkit-sticky;
@@ -71,12 +71,12 @@ export default defineComponent({
   position: -o-sticky;
   position: -ms-sticky;
 
-  background: var(--theme-color-bg-dark) url('~assets/img/header-bg.webp') repeat-x 80px 0;
-  /* border-bottom: 1px solid var(--theme-color-bg-darker); */
-  box-shadow: 0 7px 21px rgb(0 0 0 / 35%);
+  /* background: var(--theme-color-bg-dark) url('~assets/img/header-bg.webp') repeat-x 80px 0; */
+  /* border-bottom: 1px solid var(--theme-color-bg-medium-light); */
+  /* box-shadow: 0 7px 21px rgb(0 0 0 / 25%); */
 
   top: 0;
-  z-index: 6;
+  z-index: 5;
 }
 
 .header-title {
