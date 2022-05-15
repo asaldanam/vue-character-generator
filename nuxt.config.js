@@ -54,6 +54,9 @@ export default {
     icon: {
       fileName: 'favicon.png',
     },
+    wokbox: {
+      enabled: true,
+    },
     manifest: {
       name: 'RP Character generator',
       mobileAppIOS: true,
