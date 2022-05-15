@@ -45,7 +45,8 @@ export default defineComponent({
       dialog.value = true;
       dialogType.value = type;
       setTimeout(() => {
-        (document.querySelector('[data-focus]') as any).focus();
+        const input = document.querySelector('[data-focus]') as any;
+        input.focus();
       });
     };
 
