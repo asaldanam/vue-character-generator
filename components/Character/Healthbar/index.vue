@@ -107,13 +107,13 @@ export default defineComponent({
       </v-btn>
     </div>
 
-    <v-dialog v-model="dialog" max-width="280px">
+    <v-dialog v-model="dialog" max-width="310px">
       <v-card dark>
         <v-card-title dark></v-card-title>
 
         <v-card-text>
           <div v-if="dialogType === 'increment'">
-            Indica la cantidad de puntos de vida que has recibido por sanación o por barrera.
+            Indica la cantidad de puntos de vida que has recibido por sanación o barrera.
           </div>
           <div v-if="dialogType === 'decrement'">
             Indica la cantidad de puntos de vida que has recibido como daño.
