@@ -13,7 +13,7 @@
 }
 
 header {
-  background: var(--theme-color-bg-darker) url('~assets/img/header-bg.webp') repeat-x 80px 0;
+  background: var(--theme-color-bg-darker);
   border-bottom: 1px solid var(--theme-color-bg-medium);
   /* height: var(--_height); */
   /* position: fixed;

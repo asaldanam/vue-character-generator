@@ -12,7 +12,7 @@
           :readonly="!editMode"
           placeholder="Nombre"
           type="text"
-          class="input-name"
+          :class="{ 'input-name': true, '--styled': !editMode }"
           @change="({ target: { value } }) => updateInfo({ name: value })"
         />
         <input
@@ -101,6 +101,23 @@ export default defineComponent({
 .input-name {
   font-size: 20px;
   font-weight: bold;
+
+  &.--styled {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: -webkit-linear-gradient(
+      top,
+      #efd100,
+      #e2a233 19%,
+      #f0c328 30%,
+      #fff1a3 43%,
+      #ffe13e 50%,
+      #fff 51%,
+      #fff
+    );
+    background-size: 1em 2.5em;
+    color: #f8b700;
+  }
 }
 
 .input-title {
@@ -114,7 +131,6 @@ input {
   width: 100%;
   display: block;
   padding: 0px 3px 0px;
-  /* border-bottom: 1px dashed transparent; */
 
   &:focus {
     outline: none;

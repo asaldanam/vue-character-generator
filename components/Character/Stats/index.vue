@@ -1,6 +1,6 @@
 <template>
   <div class="CharacterStats">
-    <header class="header u-text-lighted">
+    <header class="header">
       <div class="header-title u-text-alt">{{ title }}</div>
       <div class="header-count">{{ count }} Puntos</div>
     </header>
@@ -63,13 +63,17 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   padding: 12px var(--theme-layout-x-padding);
-  background: var(--theme-color-bg-dark);
+  /* background: var(--theme-color-bg-dark); */
 
   position: sticky;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -o-sticky;
   position: -ms-sticky;
+
+  background: var(--theme-color-bg-dark) url('~assets/img/header-bg.webp') repeat-x 80px 0;
+  border-bottom: 1px solid var(--theme-color-bg-darker);
+  box-shadow: 0 7px 21px rgb(0 0 0 / 50%);
 
   top: 0;
   z-index: 6;
