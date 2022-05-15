@@ -19,6 +19,7 @@ export default defineComponent({
     const currentBarrier = computed(() => character.data?.state.currentBarrier || 0);
 
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
+    const maxBarrier = computed(() => Math.floor(max.value / 2));
     const progress = computed(() => Math.floor((currentHealth.value / max.value) * 100));
     const progressBarrier = computed(() => {});
 
@@ -29,21 +30,31 @@ export default defineComponent({
 
     const increment = () => {
       const cure = Number(dialogInput.value || 0);
-      const health =
-        cure + currentHealth.value >= max.value ? max.value : currentHealth.value + cure;
-
       const shield = Number(dialogInputShield.value || 0);
 
+      const hasOverhealth = cure + currentHealth.value >= max.value;
+      const health = hasOverhealth ? max.value : currentHealth.value + cure;
+
+      const hasOvershielded = shield + currentBarrier.value >= maxBarrier.value;
+      const barrier = hasOvershielded ? maxBarrier.value : shield + currentBarrier.value;
+
       closeDialog();
-      updateState({ currentHealth: health });
+      updateState({ currentHealth: health, currentBarrier: barrier });
       save(router);
     };
 
     const decrement = () => {
-      const damage = Number(dialogInput.value || 0);
+      const hit = Number(dialogInput.value || 0);
+      const absorbed =
+        hit >= currentBarrier.value ? currentBarrier.value : hit - currentBarrier.value;
+      const damage = hit - absorbed;
+
+      const barrier = damage ? 0 : currentBarrier.value - absorbed;
       const health = damage >= currentHealth.value ? 0 : currentHealth.value - damage;
+
+      console.log({ hit, absorbed, damage, barrier, health });
+      updateState({ currentHealth: health, currentBarrier: barrier });
       closeDialog();
-      updateState({ currentHealth: health });
       save(router);
     };
 
@@ -65,6 +76,7 @@ export default defineComponent({
 
     return {
       currentHealth,
+      currentBarrier,
       max,
       background,
       progress,
@@ -100,18 +112,13 @@ export default defineComponent({
             class="bar-progress"
             :style="{ background, transform: `translateX(-${100 - progress}%)` }"
           ></div>
-          <div class="bar-text">{{ currentHealth }}</div>
+          <div class="bar-text">
+            {{ currentHealth }} <span v-if="currentBarrier">(+{{ currentBarrier }})</span>
+          </div>
         </div>
       </div>
 
-      <v-btn
-        class="bar-button"
-        color="primary"
-        @click="() => openDialog('increment')"
-        :disabled="currentHealth >= max"
-      >
-        +
-      </v-btn>
+      <v-btn class="bar-button" color="primary" @click="() => openDialog('increment')"> + </v-btn>
     </div>
 
     <v-dialog v-model="dialog" max-width="310px">
