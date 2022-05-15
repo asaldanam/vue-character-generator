@@ -54,9 +54,9 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.CharacterStats {
+/* .CharacterStats {
   padding-bottom: 16px;
-}
+} */
 
 .header {
   display: flex;
