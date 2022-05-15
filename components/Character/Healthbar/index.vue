@@ -12,11 +12,12 @@ export default defineComponent({
     const dialog = ref(false);
     const dialogInput = ref<number | null>(null);
     const dialogInputRef = ref<Vue | null>(null);
-    const dialogInputBarrier = ref<number | null>(null);
+    const dialogInputShield = ref<number | null>(null);
     const dialogType = ref<'increment' | 'decrement' | null>(null);
 
     const currentHealth = computed(() => character.data?.state.currentHealth || 0);
-    const currentBarrier = computed(() => character.data?.state.currentHealth || 0);
+    const currentBarrier = computed(() => character.data?.state.currentBarrier || 0);
+
     const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
     const progress = computed(() => Math.floor((currentHealth.value / max.value) * 100));
     const progressBarrier = computed(() => {});
@@ -31,7 +32,7 @@ export default defineComponent({
       const health =
         cure + currentHealth.value >= max.value ? max.value : currentHealth.value + cure;
 
-      const shield = Number(dialogInputBarrier.value || 0);
+      const shield = Number(dialogInputShield.value || 0);
 
       closeDialog();
       updateState({ currentHealth: health });
@@ -57,7 +58,7 @@ export default defineComponent({
 
     const closeDialog = () => {
       dialogInput.value = null;
-      dialogInputBarrier.value = null;
+      dialogInputShield.value = null;
       dialog.value = false;
       dialogType.value = null;
     };
@@ -70,7 +71,7 @@ export default defineComponent({
       dialog,
       dialogInput,
       dialogInputRef,
-      dialogInputBarrier,
+      dialogInputShield,
       dialogType,
       closeDialog,
       openDialog,
@@ -136,7 +137,7 @@ export default defineComponent({
           <v-text-field
             v-if="dialogType === 'increment'"
             placeholder="Puntos de barrera"
-            v-model="dialogInputBarrier"
+            v-model="dialogInputShield"
             inputmode="numeric"
             type="number"
             hide-details="auto"
