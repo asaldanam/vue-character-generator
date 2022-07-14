@@ -13,8 +13,8 @@
 }
 
 header {
-  background: var(--theme-color-bg-darker);
-  border-bottom: 1px solid var(--theme-color-bg-medium-light);
+  /* background: linear-gradient(0deg, transparent, black); */
+  /* border-bottom: 1px solid var(--theme-color-bg-medium-light); */
   /* height: var(--_height); */
   /* position: fixed;
   z-index: 99; */

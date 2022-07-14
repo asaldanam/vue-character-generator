@@ -1,8 +1,8 @@
 import { reactive } from '@vue/composition-api';
+import slugify from 'slugify';
 import { createStore } from '~/shared/libs/createStore';
 import Character from '~/models/character';
 import { CharacterData, Stat, StatValue } from '~/models/character/types';
-import slugify from 'slugify';
 
 function useCharacterStore() {
   const state = reactive({
@@ -12,7 +12,7 @@ function useCharacterStore() {
 
   /** Carga un nuevo personaje a partir de la data en base64 */
   function load(name: string) {
-    let character = new Character();
+    const character = new Character();
 
     try {
       if (!name) throw new Error('Character not provided');
@@ -23,6 +23,7 @@ function useCharacterStore() {
       if (!data.info.name) throw new Error(`Invalid character stored data for ${name}`);
       character.setData(data);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
       setEditMode(true);
     } finally {
@@ -75,12 +76,12 @@ function useCharacterStore() {
   }
 
   /** Obtiene la data del personaje como base 64 string */
-  function _getDataAsBase64() {
-    if (!state.data) return;
-    const dataAsString = JSON.stringify(state.data);
-    const character = btoa(dataAsString);
-    return character;
-  }
+//   function getDataAsBase64() {
+//     if (!state.data) return;
+//     const dataAsString = JSON.stringify(state.data);
+//     const character = btoa(dataAsString);
+//     return character;
+//   }
 
   function setEditMode(editMode: boolean) {
     state.editMode = editMode;

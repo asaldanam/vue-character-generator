@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts">
+import _orderBy from 'lodash.orderby';
 import { defineComponent, toRefs, computed } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
-import _orderBy from 'lodash.orderby';
 
 const txt = {
   attr: 'Atributos',

@@ -1,3 +1,4 @@
+import Equipment from './equipment';
 import { CHARACTER_STATS } from './stats';
 
 export interface CharacterData {
@@ -11,6 +12,7 @@ export interface CharacterData {
     currentHealth: number;
     currentBarrier: number;
   };
+  equipment: Equipment;
   stats: Stats;
 }
 

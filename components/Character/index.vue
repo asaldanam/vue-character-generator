@@ -1,6 +1,6 @@
 <template>
   <main>
-    <CharacterHeader />
+    <CharacterProfile />
     <CharacterStats :statsType="'attr'" />
     <CharacterStats :statsType="'skill'" />
     <UiFooter>

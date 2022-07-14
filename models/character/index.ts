@@ -1,6 +1,7 @@
-import uuid from '~/shared/utils/uuid';
+import Equipment from './equipment';
 import { CHARACTER_STATS } from './stats';
 import { CharacterData, Stat, Stats, StatValue } from './types';
+import uuid from '~/shared/utils/uuid';
 
 export default class Character {
   private character: CharacterData;
@@ -111,4 +112,5 @@ const CHARACTER_EMPTY: Omit<CharacterData, 'id'> = {
     currentBarrier: 0,
   },
   stats: CHARACTER_STATS,
+  equipment: new Equipment({})
 };

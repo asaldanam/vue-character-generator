@@ -24,7 +24,6 @@ export default defineComponent({
     const progressBarrier = computed(() => Math.ceil((currentBarrier.value / max.value) * 100));
     const progressBarrierPosition = computed(() => {
       const barrierOverMaxHealth = progress.value + progressBarrier.value - 100;
-      console.log({ barrierOverMaxHealth });
       const start =
         barrierOverMaxHealth > 0 ? progress.value - barrierOverMaxHealth : progress.value;
       return start;
@@ -57,8 +56,6 @@ export default defineComponent({
 
       const barrier = damage ? 0 : currentBarrier.value - absorbed;
       const health = damage >= currentHealth.value ? 0 : currentHealth.value - damage;
-
-      console.log({ hit, absorbed, damage, barrier, health });
 
       updateState({ currentHealth: health, currentBarrier: barrier });
       closeDialog();
@@ -109,8 +106,8 @@ export default defineComponent({
       <v-btn
         class="bar-button"
         color="primary"
-        @click="() => openDialog('decrement')"
         :disabled="currentHealth <= 0"
+        @click="() => openDialog('decrement')"
       >
         -
       </v-btn>
