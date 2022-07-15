@@ -1,4 +1,4 @@
-import { CHARACTER_STATS_CONFIG } from '../stats';
+import { CHARACTER_STATS_CONFIG } from '../config';
 import { CharacterData, Stat, StatConfig } from '../types';
 
 /** Obtiene la descripción y nombre de una estadística */

@@ -29,6 +29,7 @@ function useCharacterStore() {
     } finally {
       const data = character.getData();
       state.data = data;
+      console.log(state.data)
     }
   }
 

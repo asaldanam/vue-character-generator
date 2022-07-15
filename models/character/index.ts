@@ -1,5 +1,5 @@
 import Equipment from './equipment';
-import { CHARACTER_STATS } from './stats';
+import { CHARACTER_STATS } from './config';
 import { CharacterData, Stat, Stats, StatValue } from './types';
 import uuid from '~/shared/utils/uuid';
 
@@ -96,6 +96,7 @@ export default class Character {
     // Se comprueba que todas las reglas son válidas. Si no cumple alguna, se retorna error
     rules.forEach((rule) => {
       if (rule.shouldBeValid) return;
+      // eslint-disable-next-line no-throw-literal
       throw `La estadística [${stat}] no satisface la regla [${rule.name}]: ${rule.descripcion}`;
     });
   }

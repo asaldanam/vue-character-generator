@@ -1,9 +1,9 @@
 <template>
   <div class="Equipment">
-    <div class="Armor">
-      <div v-for="slot in slots" :key="slot" class="ArmorItem">
-        <img src="~assets/img/equipment/armor-item/quality/tooltip-frame-white.webp" alt="">
-        <img class="ArmorItemFallback" :src="require(`assets/img/equipment/armor-item/${slot}-0.webp`)" alt="">
+    <div class="Gear">
+      <div v-for="slot in slots" :key="slot" class="GearItem">
+        <img src="~assets/img/equipment/gear-item/quality/tooltip-frame-white.webp" alt="">
+        <img class="GearItemFallback" :src="require(`assets/img/equipment/gear-item/${slot}-0.webp`)" alt="">
       </div>
     </div>
   </div>
@@ -17,9 +17,9 @@ export default defineComponent({
   setup() {
     const [character] = useCharacterSheet.injectors();
     const slots = Object.keys(EQUIPMENT_SLOTS);
-    const armor = computed(() => character.data.equipment.armor);
+    const gear = computed(() => character.data.equipment.gear);
     return {
-      armor,
+      gear,
       slots
     }
   },
@@ -31,7 +31,7 @@ export default defineComponent({
   height: 100%;
 }
 
-.Armor {
+.Gear {
   --Equipment-icon-size: 40px;
   display: grid;
   grid-template-columns: 40px 40px;
@@ -41,7 +41,7 @@ export default defineComponent({
   margin: 0 auto;
 }
 
-.ArmorItem {
+.GearItem {
   position: relative;
   background-color: var(--theme-color-bg-darker);
   img {
@@ -50,7 +50,7 @@ export default defineComponent({
   }
 }
 
-.ArmorItemFallback {
+.GearItemFallback {
   position: absolute;
   left: 0;
   top: 0;

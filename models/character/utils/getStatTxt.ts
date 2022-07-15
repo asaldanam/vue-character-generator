@@ -1,6 +1,6 @@
-import { CHARACTER_STATS, CHARACTER_STATS_CONFIG } from '../stats';
-import { CharacterData, Stat, StatValue, StatConfig } from '../types';
 import { evaluate } from 'mathjs';
+import { CHARACTER_STATS, CHARACTER_STATS_CONFIG } from '../config';
+import { CharacterData, Stat, StatValue, StatConfig } from '../types';
 
 /** Obtiene la descripción y nombre de una estadística */
 export default function (params: {

@@ -1,5 +1,5 @@
 import Equipment from './equipment';
-import { CHARACTER_STATS } from './stats';
+import { CHARACTER_STATS } from './config';
 
 export interface CharacterData {
   id: string;

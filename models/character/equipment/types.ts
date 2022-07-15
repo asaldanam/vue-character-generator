@@ -1,11 +1,11 @@
-import ArmorItem from './armor-item';
+import GearItem from './gear-item';
 import { EQUIPMENT_SLOTS } from './config';
 
 export interface IEquipment {
-  armor?: {
-    [slot in keyof typeof EQUIPMENT_SLOTS]?: ArmorItem;
+  gear?: {
+    [slot in keyof typeof EQUIPMENT_SLOTS]?: GearItem;
   }
   bag?: Array<
-    {type: 'armor', item: ArmorItem }
+    {type: 'gear', item: GearItem }
   >
 }

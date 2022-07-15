@@ -1,12 +1,12 @@
-import { IArmorItem } from './types';
+import { IGearItem } from './types';
 
-export default class ArmorItem implements IArmorItem {
+export default class GearItem implements IGearItem {
   /** Represents item quality */
   quality: number;
   /** Represents item durability, 0 - 1 */
   durability: number;
 
-  constructor(initialProps: IArmorItem) {
+  constructor(initialProps: IGearItem) {
     Object.assign(this, initialProps);
     this.quality = initialProps.quality;
     this.durability = 1;

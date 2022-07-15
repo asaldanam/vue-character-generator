@@ -1,11 +1,11 @@
 import { IEquipment } from "./types";
 
 export default class Equipment implements IEquipment {
-  armor: IEquipment['armor'];
+  gear: IEquipment['gear'];
   bag: IEquipment['bag'];
 
-  constructor({ bag, armor }: Partial<IEquipment>) {
+  constructor({ bag, gear }: Partial<IEquipment>) {
     this.bag = bag || [];
-    this.armor = armor || {}
+    this.gear = gear || {}
   }
 }

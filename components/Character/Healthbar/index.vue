@@ -2,7 +2,7 @@
 import { computed, defineComponent, ref, useRouter } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 
-import { CALC_FNS } from '~/models/character/stats';
+import { CALC_FNS } from '~/models/character/config';
 
 export default defineComponent({
   setup() {
