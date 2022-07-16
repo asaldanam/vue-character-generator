@@ -1,7 +1,7 @@
 <template>
   <div class="Equipment">
     <div class="Gear">
-      <div v-for="slot in slots" :key="slot" class="GearItem">
+      <div v-for="slot in slots" :key="slot" class="GearItem" @click="equipItem(slot)">
         <img src="~assets/img/equipment/gear-item/quality/tooltip-frame-white.webp" alt="">
         <img v-if="getItem(slot)" class="GearItemImg" :src="require(`assets/img/equipment/gear-item/${slot}-0.webp`)" alt="">
         <img v-else class="GearItemImg --fallback" :src="require(`assets/img/equipment/gear-item/${slot}-0.webp`)" alt="">
@@ -15,6 +15,7 @@ import { computed, defineComponent } from '@vue/composition-api'
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { EQUIPMENT_SLOTS } from '~/models/character/equipment/config';
 import GearItem from '~/models/character/equipment/gear-item';
+import { EquipmentSlots } from '~/models/character/equipment/types';
 
 export default defineComponent({
   setup() {
@@ -27,19 +28,28 @@ export default defineComponent({
       return equipment.value.bag[equipment.value.gear[slot]];
     }
 
-    const prueba = () => {
-      const item1 = new GearItem({ stats: { attr_potency: 50, }})
-      const item2 = new GearItem({ stats: {}})
-      addItemsToBag([item1, item2]);
-      updateGear({ head: item1.id, chest: item2.id });
-      save();
+    const equipItem = (slot: EquipmentSlots) => {
+      if (equipment.value?.gear[slot]) {
+        updateGear({ [slot]: null });
+        return;
+      }
+
+      const item = new GearItem({ stats: { attr_potency: 50, }, slot})
+      addItemsToBag([item]);
+
+      try {
+        updateGear({ [slot]: item.id });
+        save();
+      } catch (e) {
+        window.alert(e);
+      }
     }
 
     return {
       equipment,
       slots,
       getItem,
-      prueba
+      equipItem
     }
   },
 })

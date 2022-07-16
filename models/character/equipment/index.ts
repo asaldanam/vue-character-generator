@@ -1,3 +1,4 @@
+import GearItem from "./gear-item";
 import { IEquipment, EquipmentSlots, EquipmentItem } from "./types";
 export default class Equipment implements IEquipment {
   gear: IEquipment['gear'];
@@ -9,10 +10,13 @@ export default class Equipment implements IEquipment {
   }
 
   getGearList() {
-    return Object.entries(this.gear).map(([slot, itemId]) => ({
-      slot: slot as EquipmentSlots,
-      data: itemId ? this.bag[itemId] : null
-    }))
+    return Object.entries(this.gear).map(([slot, itemId]) => {
+      const item = itemId ? this.bag[itemId] : {};
+      return {
+        slot: slot as EquipmentSlots,
+        data: new GearItem(item),
+      };
+    })
   }
 
   updateGear(gear: Partial<IEquipment['gear']>) {

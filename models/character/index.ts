@@ -74,11 +74,9 @@ export default class Character {
 
   /** Valida un conjunto de estadísticas */
   private validateStats(stats: Stats) {
-    const allValid = Object.entries(stats).every(([stat, value]) => {
-      const isValid = this.validateStat(stat as keyof Stats, value as number);
-      return isValid;
+    Object.entries(stats).forEach(([stat, value]) => {
+      this.validateStat(stat as keyof Stats, value as number);
     });
-    return allValid;
   }
 
   /** Valida una estadística */
@@ -120,8 +118,6 @@ export default class Character {
         attributes[attr] = attributes[attr] + value
       })
     })
-
-    console.log('updateStatsFromGear', attributes);
 
     this.updateStats(attributes);
   }
