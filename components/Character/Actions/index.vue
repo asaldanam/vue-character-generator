@@ -20,7 +20,10 @@ export default defineComponent({
       setEditMode(false);
     };
 
-    const handleSave = () => save(router);
+    const handleSave = () => {
+      save(router);
+      setEditMode(false);
+    }
 
     return { name, handleCancel, handleSave, setEditMode };
   },

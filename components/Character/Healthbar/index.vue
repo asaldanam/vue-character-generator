@@ -7,7 +7,7 @@ import { CALC_FNS } from '~/models/character/config';
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const [character, { updateState, save }] = useCharacterSheet.injectors();
+    const [character, { updateState, save, setEditMode }] = useCharacterSheet.injectors();
 
     const dialog = ref(false);
     const dialogInput = ref<number | null>(null);
@@ -47,6 +47,7 @@ export default defineComponent({
       closeDialog();
       updateState({ currentHealth: health, currentBarrier: barrier });
       save(router);
+      setEditMode(false);
     };
 
     const decrement = () => {
@@ -60,6 +61,7 @@ export default defineComponent({
       updateState({ currentHealth: health, currentBarrier: barrier });
       closeDialog();
       save(router);
+      setEditMode(false);
     };
 
     const openDialog = (type: typeof dialogType['value']) => {

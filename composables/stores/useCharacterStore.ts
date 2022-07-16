@@ -3,6 +3,7 @@ import slugify from 'slugify';
 import { createStore } from '~/shared/libs/createStore';
 import Character from '~/models/character';
 import { CharacterData, Stat, StatValue } from '~/models/character/types';
+import { EquipmentItem } from '~/models/character/equipment/types';
 
 function useCharacterStore() {
   const state = reactive({
@@ -29,7 +30,6 @@ function useCharacterStore() {
     } finally {
       const data = character.getData();
       state.data = data;
-      console.log(state.data)
     }
   }
 
@@ -59,8 +59,22 @@ function useCharacterStore() {
     state.data = character.getData();
   }
 
+  function addItemsToBag(items: EquipmentItem[]) {
+    if (!state.data) return;
+    const character = new Character(state.data);
+    character.addItemsToBag(items);
+    state.data = character.getData();
+  }
+
+  function updateGear(gear: Partial<CharacterData['equipment']['gear']>) {
+    if (!state.data) return;
+    const character = new Character(state.data);
+    character.updateGear(gear);
+    state.data = character.getData();
+  }
+
   /** Guarda el personaje */
-  function save(router: any) {
+  function save(router?: any) {
     if (!state?.data?.info) return;
     const name = slugify(state.data.info.name.toLocaleLowerCase());
     const characters = loadCharactersStorage();
@@ -72,8 +86,8 @@ function useCharacterStore() {
 
     localStorage.setItem('characters', JSON.stringify(updatedStorage));
 
+    if (!router) return;
     router.push({ params: { name } });
-    setEditMode(false);
   }
 
   /** Obtiene la data del personaje como base 64 string */
@@ -90,7 +104,16 @@ function useCharacterStore() {
 
   return {
     state,
-    actions: { load, save, updateStat, setEditMode, updateInfo, updateState },
+    actions: {
+      load,
+      save,
+      updateStat,
+      setEditMode,
+      updateInfo,
+      updateState,
+      updateGear,
+      addItemsToBag,
+    },
   };
 }
 

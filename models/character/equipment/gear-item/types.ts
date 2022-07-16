@@ -1,6 +1,10 @@
-import { Stats } from "~/models/character/types";
+import { Stats } from '../../types';
 
-export interface IGearItem extends Partial<Stats> {
-  quality: number;
+export interface IGearItem {
+  id: string;
   durability: number;
+  type: string;
+  stats: Partial<GearItemStats>;
 }
+
+export type GearItemStats = Stats;

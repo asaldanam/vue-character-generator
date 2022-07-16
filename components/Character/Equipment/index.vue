@@ -3,24 +3,43 @@
     <div class="Gear">
       <div v-for="slot in slots" :key="slot" class="GearItem">
         <img src="~assets/img/equipment/gear-item/quality/tooltip-frame-white.webp" alt="">
-        <img class="GearItemFallback" :src="require(`assets/img/equipment/gear-item/${slot}-0.webp`)" alt="">
+        <img v-if="getItem(slot)" class="GearItemImg" :src="require(`assets/img/equipment/gear-item/${slot}-0.webp`)" alt="">
+        <img v-else class="GearItemImg --fallback" :src="require(`assets/img/equipment/gear-item/${slot}-0.webp`)" alt="">
       </div>
     </div>
+    <!-- <button @click="prueba({})">prueba</button> -->
   </div>
 </template>
-<script>
+<script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api'
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { EQUIPMENT_SLOTS } from '~/models/character/equipment/config';
+import GearItem from '~/models/character/equipment/gear-item';
 
 export default defineComponent({
   setup() {
-    const [character] = useCharacterSheet.injectors();
+    const [character, {updateGear, addItemsToBag, save}] = useCharacterSheet.injectors();
     const slots = Object.keys(EQUIPMENT_SLOTS);
-    const gear = computed(() => character.data.equipment.gear);
+    const equipment = computed(() => character.data?.equipment);
+
+    const getItem = (slot: string) => {
+      if (!equipment.value) return null;
+      return equipment.value.bag[equipment.value.gear[slot]];
+    }
+
+    const prueba = () => {
+      const item1 = new GearItem({ stats: { attr_potency: 50, }})
+      const item2 = new GearItem({ stats: {}})
+      addItemsToBag([item1, item2]);
+      updateGear({ head: item1.id, chest: item2.id });
+      save();
+    }
+
     return {
-      gear,
-      slots
+      equipment,
+      slots,
+      getItem,
+      prueba
     }
   },
 })
@@ -50,12 +69,14 @@ export default defineComponent({
   }
 }
 
-.GearItemFallback {
+.GearItemImg {
   position: absolute;
   left: 0;
   top: 0;
-  opacity: 0.35;
-  filter: sepia(0.5) contrast(0.85);
+  &.--fallback {
+    opacity: 0.35;
+    filter: sepia(0.5) contrast(0.85);
+  }
 }
 
 </style>
