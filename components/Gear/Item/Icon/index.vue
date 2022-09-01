@@ -15,6 +15,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api'
+import { GEAR_ITEM_COLOR_BY_QUALITY } from '~/models/character/equipment/gear-item/config';
 
 export default defineComponent({
   props: {
@@ -35,7 +36,7 @@ export default defineComponent({
     const icon = computed(() => props.item?.icon || 0);
     const slot = computed(() => props.item?.slot || props.fallbackSlot);
     const background = computed(() => {
-      const colors = ['white', 'green', 'blue', 'yellow', 'orange'];
+      const colors = GEAR_ITEM_COLOR_BY_QUALITY;
       const color = props.item ? colors[props.item.quality] : colors[0];
       return color;
     })

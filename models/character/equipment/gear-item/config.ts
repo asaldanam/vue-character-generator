@@ -15,3 +15,74 @@ export const GEAR_ITEM_STATS_BY_QUALITY = {
   2: [24, 12],
   3: [24, 12, 6]
 }
+
+export const GEAR_ITEM_COLOR_BY_QUALITY = ['white', 'limegreen', 'dodgerblue', 'yellow', 'orange'];
+
+export const GEAR_ITEM_NAME_TABLE = {
+  attr_vitality: {
+    main: {
+      es: 'robusto',
+    },
+    sec: {
+      es: 'del luchador',
+    },
+    alt: {
+      es: 'vigoroso',
+    }
+  },
+  attr_potency: {
+    main: {
+      es: 'potente',
+    },
+    sec: {
+      es: 'del beligerante',
+    },
+    alt: {
+      es: 'poderoso',
+    }
+  },
+  attr_tenacity: {
+    main: {
+      es: 'recio',
+    },
+    sec: {
+      es: 'del defensor',
+    },
+    alt: {
+      es: 'resistente',
+    }
+  },
+  attr_precision: {
+    main: {
+      es: 'preciso',
+    },
+    sec: {
+      es: 'del asesino',
+    },
+    alt: {
+      es: 'certero',
+    }
+  },
+  attr_initiative: {
+    main: {
+      es: 'raudo',
+    },
+    sec: {
+      es: 'del asaltante',
+    },
+    alt: {
+      es: 'veloz',
+    }
+  },
+  attr_piety: {
+    main: {
+      es: 'piadoso',
+    },
+    sec: {
+      es: 'del sanador',
+    },
+    alt: {
+      es: 'compasivo',
+    }
+  },
+}

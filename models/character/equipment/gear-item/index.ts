@@ -52,4 +52,8 @@ export default class GearItem implements IGearItem {
       };
     }, {});
   }
+
+  get name() {
+    return 'hola'
+  }
 }

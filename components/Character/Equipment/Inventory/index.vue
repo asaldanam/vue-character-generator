@@ -3,8 +3,14 @@
     <div class="Container">
       <div v-for="(_, slot) in Array.from({length: 30})" :key="slot" class="Slot">
         <img class="SlotBackground" src="~assets/img/equipment/gear-item/quality/icon-bg-small-white.webp" alt="">
-        <!-- <div>{{ slot }}</div> -->
-        <GearItemIcon :item="inventory[slot]" size="small" />
+        <GearItemTooltipPanel v-if="inventory[slot]">
+          <template #trigger>
+            <GearItemIcon :item="inventory[slot]" size="small" />
+          </template>
+          <template #tooltip>
+            <GearItemCard :item="inventory[slot]" />
+          </template>
+        </GearItemTooltipPanel>
       </div>
     </div>
   </div>
@@ -28,6 +34,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .Inventory {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

@@ -1,8 +1,15 @@
 <template>
   <div class="Equipment">
     <div class="Gear">
-      <div v-for="slot in slots" :key="slot" class="GearItem" @click="equipItem(slot)">
-        <GearItemIcon :fallback-slot="slot" :item="getItem(slot)"/>
+      <div v-for="slot in slots" :key="slot" class="GearItem">
+        <GearItemTooltipPanel>
+          <template #trigger>
+            <GearItemIcon :fallback-slot="slot" :item="getItem(slot)" />
+          </template>
+          <template #tooltip>
+            <GearItemCard :item="getItem(slot)" />
+          </template>
+        </GearItemTooltipPanel>
       </div>
       <div class="CentralContainer">
         <CharacterEquipmentInventory v-if="inventory === 'open'" />
@@ -24,7 +31,7 @@ export default defineComponent({
     const slots = Object.keys(EQUIPMENT_SLOTS);
     const equipment = computed(() => character.data?.equipment);
 
-    const inventory = ref<'closed' | 'open'>('closed')
+    const inventory = ref<'closed' | 'open'>('open')
 
     const getItem = (slot: string) => {
       if (!equipment.value) return null;
@@ -35,7 +42,6 @@ export default defineComponent({
     const equipItem = (slot: EquipmentSlots) => {
       if (equipment.value?.gear[slot]) {
         updateGear({ [slot]: null });
-        inventory.value = 'closed'
         return;
       }
       const random = Math.floor(Math.random() * (3 - 1 + 1) + 1);
@@ -51,7 +57,6 @@ export default defineComponent({
       try {
         updateGear({ [slot]: item.id });
         save();
-        inventory.value = 'open'
       } catch (e) {
         window.alert(e);
       }
