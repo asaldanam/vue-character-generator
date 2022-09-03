@@ -1,14 +1,14 @@
 <template>
   <div class="CharacterStats">
     <header class="header">
-      <UiWrapper class="content">
+      <div class="content">
         <div class="header-title u-text-alt">{{ title }}</div>
         <div class="header-count">{{ count }} Puntos</div>
-      </UiWrapper>
+      </div>
     </header>
-    <UiWrapper class="stats-container">
+    <div class="stats-container">
       <CharacterStatsItem v-for="stat in statsList" :key="stat.id" :statId="stat.id" />
-    </UiWrapper>
+    </div>
   </div>
 </template>
 
@@ -66,8 +66,11 @@ export default defineComponent({
 
 .header {
   background: var(--theme-color-bg-dark);
-  padding-top: 16px;
-  padding-bottom: 16px;
+  /* color: var(--theme-color-accent); */
+
+  margin-left: -24px;
+  margin-right: -24px;
+  padding: 16px 24px;
 
   position: sticky;
   position: -webkit-sticky;
@@ -76,11 +79,18 @@ export default defineComponent({
   position: -ms-sticky;
 
   /* background: var(--theme-color-bg-dark) url('~assets/img/header-bg.webp') repeat-x 80px 0; */
-  /* border-bottom: 1px solid var(--theme-color-bg-medium-light); */
-  /* box-shadow: 0 7px 21px rgb(0 0 0 / 25%); */
 
   top: 0;
   z-index: 5;
+
+  @media (min-width: 720px) {
+    margin: 0;
+    padding-left: 0;
+    /* box-shadow: 0 7px 21px rgb(0 0 0 / 25%); */
+    padding-right: 0;
+    border-bottom: 1px solid var(--theme-color-bg-light);
+    background: var(--theme-color-bg-medium);
+  }
 }
 
 .content {
@@ -95,12 +105,12 @@ export default defineComponent({
 }
 
 .header-count {
-  font-size: 14px;
+  /* font-size: 14px; */
   text-align: center;
 }
 
 .stats-container {
-  @media (min-width: 600px) {
+  @media (min-width: 720px) {
     --gap: 24px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

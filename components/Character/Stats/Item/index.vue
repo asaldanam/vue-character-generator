@@ -3,12 +3,15 @@
   <div
     v-if="editMode || statValue !== 1"
     class="CharacterStatsItem"
-    :class="{ '--faded': statValue === 1 }"
+    :class="{
+      '--faded': statValue === 1,
+      [`--${type}`]: true,
+    }"
     @click="toggleDesc"
   >
     <div class="Container">
       <div class="Stat u-text-lighted">
-        <div class="Stat-value">{{ statValue }}</div>
+        <div v-if="editMode" class="Stat-value">{{ statValue }}</div>
         <div class="Stat-name">{{ text.name }}</div>
         <div class="Stat-calculated">{{ calculatedValue }}</div>
       </div>
@@ -45,9 +48,13 @@ export default defineComponent({
   setup(props) {
     const { statId } = toRefs(props);
     const [character, { updateStat }] = useCharacterSheet.injectors();
-     const { editMode } = useEditMode();
+    const { editMode } = useEditMode();
     const showDesc = ref(false);
     const statValue = computed(() => character.data?.stats[statId.value]);
+    const type = computed(() => {
+      if (statId.value.startsWith('attr_')) return 'attribute';
+      if (statId.value.startsWith('skill_')) return 'skill';
+    })
 
     const updateValue = (update: 'increment' | 'decrement') => {
       const value =
@@ -71,6 +78,7 @@ export default defineComponent({
       showDesc,
       editMode,
       statValue,
+      type,
       updateValue,
       toggleDesc,
       text: computed(() =>
@@ -98,22 +106,25 @@ export default defineComponent({
     content: '';
     display: block;
     height: 1px;
-    width: calc(100% - 24px);
+    width: 100%;
     position: absolute;
     background: transparentize(white, $amount: 0.95);
     bottom: 0;
     right: 0;
   }
 
-  @media (min-width: 600px) {
-    &:after {
-      display: none;
-    }
+  &.--skill {
+    @media (min-width: 600px) {
+      &:after {
+        display: none;
+      }
 
-    padding: 24px;
-    border: 1px solid var(--theme-color-bg-medium-light);
-    background: var(--theme-color-bg-darkblue-backdrop);
+      padding: 24px;
+      border: 1px solid var(--theme-color-bg-medium-light);
+      background: var(--theme-color-bg-darkblue-backdrop);
+    }
   }
+
 
   &:last-child {
     &:after {
@@ -154,7 +165,7 @@ export default defineComponent({
   color: var(--theme-color-text);
   font-size: 16px;
   width: 100%;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 
   & > *:not(:last-child) {
     margin-right: 8px;
@@ -184,6 +195,7 @@ export default defineComponent({
   &-calculated {
     position: relative;
     bottom: 2px;
+    font-weight: 900;
     flex: 0 0 auto;
     margin-left: auto;
     color: var(--theme-color-accent);
@@ -191,9 +203,9 @@ export default defineComponent({
 }
 
 @mixin open() {
-    opacity: 1;
-    height: auto;
-    padding-top: 8px;
+  opacity: 1;
+  height: auto;
+  padding-top: 12px;
 }
 
 .Description {

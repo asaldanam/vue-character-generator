@@ -41,7 +41,7 @@ export default defineComponent({
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   grid-gap: 16px;
 
-  @media (min-width: 600px) {
+  @media (min-width: 720px) {
     display: flex;
     justify-content: flex-end;
   }
