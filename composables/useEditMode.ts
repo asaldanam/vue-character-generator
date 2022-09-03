@@ -7,7 +7,7 @@ export function useEditMode() {
   const router = useRouter();
 
   const setEditMode = (value) => {
-    router.push({ query: { [KEY]: value ? 'true' : 'false' } })
+    router.push({ query: { [KEY]: value ? 'true' : undefined } })
   }
 
   return {

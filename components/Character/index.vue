@@ -20,6 +20,7 @@ import {
   useRoute,
   useRouter,
 } from '@nuxtjs/composition-api';
+import slugify from 'slugify';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { useEditMode } from '~/composables/useEditMode';
 
@@ -32,11 +33,10 @@ export default defineComponent({
     const { params } = useContext();
 
     onMounted(() => {
-      console.log(route.value.matched[0].path);
-      const name = params.value.name?.toLocaleLowerCase();
-      const character = load(name);
+      const paramName = params.value.name || '';
+      const character = load(slugify(paramName));
 
-      if (name && !character) {
+      if (paramName && !character) {
         router.push({ path: '/character' });
       }
     });

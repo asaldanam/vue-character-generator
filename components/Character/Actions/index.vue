@@ -19,14 +19,15 @@ export default defineComponent({
     const name = computed(() => character?.data?.info.name);
 
     const handleCancel = () => {
-      load(params.value.name);
+      const slug = slugify(params.value.name.toLowerCase())
+      load(slug);
       setEditMode(false);
     };
 
     const handleSave = () => {
+      if (!name.value) return;
       save();
-      const name = character.data?.info.name || '';
-      router.push({ params: { name: slugify(name) } });
+      router.push({ params: { name: slugify(name.value.toLowerCase()) } });
     };
 
     return { name, handleCancel, handleSave, setEditMode };

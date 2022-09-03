@@ -10,16 +10,16 @@ function useCharacterStore() {
   });
 
   /** Carga un nuevo personaje a partir de la data en base64 */
-  function load(name: string) {
+  function load(slug: string) {
     const character = new Character();
 
     try {
-      if (!name) throw new Error('Character not provided');
+      if (!slug) throw new Error('Character not provided');
       const characters = loadCharactersStorage();
-      const data = characters[name];
+      const data = characters[slug];
       if (!data) throw new Error('Character not found');
 
-      if (!data.info.name) throw new Error(`Invalid character stored data for ${name}`);
+      if (!data.info.name) throw new Error(`Invalid character stored data for ${slug}`);
       character.setData(data);
       return data;
     } catch (e) {
@@ -59,7 +59,7 @@ function useCharacterStore() {
   /** Guarda el personaje */
   function save() {
     if (!state?.data?.info) return;
-    const name = slugify(state.data.info.name.toLocaleLowerCase());
+    const name = slugify(state.data.info.name.toLowerCase());
     const characters = loadCharactersStorage();
 
     const updatedStorage = {
