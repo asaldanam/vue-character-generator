@@ -35,6 +35,10 @@
     min-width: auto;
   }
 
+  .v-card {
+    padding: 16px;
+  }
+
   .theme--dark.v-card {
     background-color: var(--theme-color-bg-darkblue);
     // backdrop-filter: var(--theme-backdrop-filter-default);
