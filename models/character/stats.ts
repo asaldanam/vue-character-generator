@@ -246,11 +246,23 @@ export const CHARACTER_STATS_CONFIG = {
       template: CALC_TEMPLATES.dc,
     },
   },
+  skill_powerEnhancement: {
+    txt: {
+      es: {
+        name: 'Mejora: daño adicional',
+        desc: 'Bendices las acciones ofensivas tuyas o de un aliado <strong>{{attr_piety / 8}} turnos</strong> para que inflinjan <strong>{{attr_piety * 0.66}} puntos</strong> de daño adicional si impactan en su objetivo.',
+      },
+    },
+    calculated: {
+      fn: CALC_FNS.skillDC,
+      template: CALC_TEMPLATES.dc,
+    },
+  },
   skill_purge: {
     txt: {
       es: {
         name: 'Purgar aliado',
-        desc: 'Si se realiza con éxito, eliminará <strong>{{ attr_piety / 8 }} efectos adversos</strong> del aliado objetivo o de sí mismo o <strong>{{ attr_tenacity / 8 }} mejoras</strong> de un enemigo.',
+        desc: 'Si se realiza con éxito, eliminará <strong>{{attr_piety / 8}} efectos adversos</strong> del aliado objetivo o de sí mismo o <strong>{{attr_tenacity / 8}} mejoras</strong> de un enemigo.',
       },
     },
     calculated: {
@@ -297,7 +309,7 @@ export const CHARACTER_STATS_CONFIG = {
   skill_provoke: {
     txt: {
       es: {
-        name: 'Provocar enemmigo',
+        name: 'Provocar enemigo',
         desc: 'Si tiene éxito, mantendrá la atención del enemigo sobre sí mismo durante los próximos <strong>{{ attr_tenacity / 8 }} turnos</strong>.',
       },
     },
