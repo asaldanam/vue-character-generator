@@ -1,9 +1,9 @@
+import { evaluate } from 'mathjs';
 import { CHARACTER_STATS, CHARACTER_STATS_CONFIG } from '../stats';
 import { CharacterData, Stat, StatValue, StatConfig } from '../types';
-import { evaluate } from 'mathjs';
 
 /** Obtiene la descripción y nombre de una estadística */
-export default function (params: {
+export default function getStatInfo(params: {
   statId?: string;
   character?: CharacterData | null;
   lang?: 'es';
@@ -13,13 +13,17 @@ export default function (params: {
 
   const statConfig = CHARACTER_STATS_CONFIG[statId] as StatConfig;
   const literals = statConfig.txt.es;
-  const name = literals.name;
   const rawDesc = literals.desc;
 
   if (!character) return {};
   const desc = replaceDescCalculatedValues(rawDesc, character);
 
-  return { name, desc };
+  return {
+    name: literals.name,
+    short: literals.short,
+    desc,
+    color: statConfig.color,
+  };
 }
 
 // Helpers
@@ -33,10 +37,16 @@ const replaceDescCalculatedValues = (rawDesc: string, character: CharacterData |
     try {
       const statKey = statKeys.find((key) => ref.includes(key));
       if (!statKey || !character) return ref;
+
+      const statShortTxt = CHARACTER_STATS_CONFIG[statKey].txt.es.short
+      const statColor = CHARACTER_STATS_CONFIG[statKey].color
       const statValue = character?.stats[statKey];
       const statValueCalculated = getCalculatedValue(statKey, statValue);
       const operation = ref.replace(statKey, statValueCalculated);
-      return [`{{${ref}}}`, Math.ceil(evaluate(operation))];
+      const result = Math.ceil(evaluate(operation));
+      const replacement = `<span class="attr" style="background: ${statColor}">${result} ${statShortTxt}</span>`;
+
+      return [`{{${ref}}}`, replacement];
     } catch (error) {
       return [ref, ref];
     }

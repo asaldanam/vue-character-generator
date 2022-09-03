@@ -29,6 +29,8 @@ export type StatConfig = {
     es: {
       name: string;
       desc: string;
+      short?: string;
     };
   };
+  color?: string;
 };

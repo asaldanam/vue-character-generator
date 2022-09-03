@@ -11,15 +11,18 @@
   >
     <div class="Container">
       <div class="Stat u-text-lighted">
-        <div v-if="editMode" class="Stat-value">{{ statValue }}</div>
-        <div class="Stat-name">{{ text.name }}</div>
+        <div class="Stat-name">
+          <span v-if="info.short" class="Stat-short" :style="{ background: info.color }">{{info.short}}</span>
+          <span>{{ info.name }}</span>
+        </div>
         <div class="Stat-calculated">{{ calculatedValue }}</div>
+        <div v-if="editMode" class="Stat-value">{{ statValue }}</div>
       </div>
 
       <div
         class="Description"
         :class="[{ '--open': showDesc || editMode }]"
-        v-html="text.desc"
+        v-html="info.desc"
       ></div>
     </div>
 
@@ -36,7 +39,7 @@ import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import { useEditMode } from '~/composables/useEditMode';
 import { Stat } from '~/models/character/types';
 import getStatCalculated from '~/models/character/utils/getStatCalculated';
-import getStatTxt from '~/models/character/utils/getStatTxt';
+import getStatInfo from '~/models/character/utils/getStatInfo';
 
 export default defineComponent({
   props: {
@@ -81,8 +84,8 @@ export default defineComponent({
       type,
       updateValue,
       toggleDesc,
-      text: computed(() =>
-        getStatTxt({ statId: statId.value, character: character.data, lang: 'es' }),
+      info: computed(() =>
+        getStatInfo({ statId: statId.value, character: character.data, lang: 'es' }),
       ),
       calculatedValue: computed(() =>
         getStatCalculated({ statId: statId.value, character: character.data }),
@@ -186,6 +189,18 @@ export default defineComponent({
     background: var(--theme-color-bg-medium-light);
   }
 
+  &-short {
+    text-transform: uppercase;
+    color: var(--theme-color-text-inverse);
+    padding: 4px 6px;
+    border-radius: 99px;
+    align-self: center;
+    font-size: 11px;
+    position: relative;
+    bottom: 2px;
+    margin-right: 2px;
+  }
+
   &-name {
     line-height: 1.2;
     font-weight: 900;
@@ -228,9 +243,23 @@ export default defineComponent({
 
 }
 
-::v-deep .Description strong {
-  white-space: nowrap;
-  color: var(--theme-color-accent);
+::v-deep .Description {
+  strong {
+    white-space: nowrap;
+    /* color: var(--theme-color-accent); */
+  }
+
+  .attr {
+    align-items: center;
+    text-transform: uppercase;
+    color: var(--theme-color-text-inverse);
+    border-radius: 19px;
+    padding: 0 6px;
+    display: inline-flex;
+    font-size: 11px;
+    position: relative;
+    bottom: 0.5px;
+  }
 }
 
 .Footer {

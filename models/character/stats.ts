@@ -73,6 +73,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Vitalidad',
+        short: 'Vit',
         desc: 'Determina la cantidad de puntos de salud del personaje y sus capacidades de autosanación y regeneración propias.',
       },
     },
@@ -80,11 +81,13 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       fn: CALC_FNS.healthBase,
       template: CALC_TEMPLATES.hp,
     },
+    color: 'lightgreen',
   },
   attr_potency: {
     txt: {
       es: {
         name: 'Potencia',
+        short: 'Pot',
         desc: 'Determina la cantidad de puntos de vida infligidos de los ataques y otros efectos dañinos.',
       },
     },
@@ -92,11 +95,13 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       fn: CALC_FNS.attrBase,
       template: CALC_TEMPLATES.points,
     },
+    color: 'lightcoral',
   },
   attr_tenacity: {
     txt: {
       es: {
         name: 'Tenacidad',
+        short: 'Ten',
         desc: 'Reduce el daño recibido aplicado por bloqueos y paradas y aumenta la sanación recibida por los efectos propios.',
       },
     },
@@ -104,11 +109,13 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       fn: CALC_FNS.attrBase,
       template: CALC_TEMPLATES.points,
     },
+    color: 'lightseagreen',
   },
   attr_piety: {
     txt: {
       es: {
         name: 'Piedad',
+        short: 'Pie',
         desc: 'Determina la potencia de los efectos de sanación.',
       },
     },
@@ -116,11 +123,13 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       fn: CALC_FNS.attrBase,
       template: CALC_TEMPLATES.points,
     },
+    color: 'lightskyblue',
   },
   attr_precision: {
     txt: {
       es: {
         name: 'Precisión',
+        short: 'Pre',
         desc: 'Determina la probabilidad y potencia de los efectos críticos de sanación y daño. Toda tirada con éxito que igual o superior a <strong>{{ 20 - (attr_precision / 6) }}</strong> será considerada crítico',
       },
     },
@@ -128,11 +137,13 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       fn: CALC_FNS.attrBase,
       template: CALC_TEMPLATES.points,
     },
+    color: 'lightsalmon'
   },
   attr_initiative: {
     txt: {
       es: {
         name: 'Iniciativa',
+        short: 'Ini',
         desc: 'Determina las probabilidades de atacar en primer lugar',
       },
     },
@@ -140,6 +151,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
       fn: CALC_FNS.attrBase,
       template: CALC_TEMPLATES.points,
     },
+    color: 'lightpink',
   },
   skill_melee2HAtk: {
     txt: {
@@ -265,7 +277,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     txt: {
       es: {
         name: 'Purgar aliado',
-        desc: 'Si se realiza con éxito, eliminará todas las degeneraciones y cambios de estado del aliado objetivo o de sí mismo.',
+        desc: 'Si se realiza con éxito, eliminará <strong>{{ attr_piety / 8 }} efectos adversos</strong> del aliado objetivo o de sí mismo o <strong>{{ attr_tenacity / 8 }} mejoras</strong> de un enemigo.',
       },
     },
     calculated: {
