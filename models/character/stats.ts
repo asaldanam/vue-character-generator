@@ -1,31 +1,4 @@
-import { StatConfig, StatsConfig } from './types';
-
-export const CHARACTER_STATS = {
-  attr_vitality: 1,
-  attr_potency: 1,
-  attr_tenacity: 1,
-  attr_piety: 1,
-  attr_precision: 1,
-  attr_initiative: 1,
-  skill_melee2HAtk: 1,
-  skill_melee1HAtk: 1,
-  skill_rangedAtk: 1,
-  skill_channeledAtk: 1,
-  skill_aoeAtk: 1,
-  skill_degenerationAtk: 1,
-  skill_directHeal: 1,
-  skill_aoeHeal: 1,
-  skill_regeneration: 1,
-  skill_barrier: 1,
-  skill_purge: 1,
-  skill_activeDefense: 1,
-  skill_counterAtk: 1,
-  skill_parasyte: 1,
-  skill_provoke: 1,
-  skill_interpose: 1,
-  skill_control: 1,
-  skill_hide: 1,
-};
+import { StatConfig } from './types';
 
 export const CALC_FNS: {
   [key: string]: StatConfig['calculated']['fn'];
@@ -68,7 +41,7 @@ const CALC_TEMPLATES = {
   hp: '{{value}} HP',
 };
 
-export const CHARACTER_STATS_CONFIG: StatsConfig = {
+export const CHARACTER_STATS_CONFIG = {
   attr_vitality: {
     txt: {
       es: {
@@ -370,3 +343,9 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
     },
   },
 };
+
+export const CHARACTER_STATS = Object
+  .keys(CHARACTER_STATS_CONFIG)
+  .reduce((stats, stat) => ({ ...stats, [stat]: 1 }), {}) as {
+    [Stat in keyof typeof CHARACTER_STATS_CONFIG]: number
+  }

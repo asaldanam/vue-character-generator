@@ -18,7 +18,7 @@ export type Stat = keyof Stats;
 export type StatValue = number;
 export type Stats = Partial<typeof CHARACTER_STATS>;
 export type StatsConfig = {
-  [stat in Stat]: StatConfig;
+  [stat: string]: StatConfig;
 };
 export type StatConfig = {
   calculated: {

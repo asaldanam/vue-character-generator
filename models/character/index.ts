@@ -49,7 +49,7 @@ export default class Character {
   setStatValue(stat: Stat, value: StatValue) {
     this.validateStat(stat, value);
 
-    (this.character.stats || {})[stat] = value;
+    this.character.stats[stat as string] = value;
   }
 
   /** Incrementa en 1 una estadística */
