@@ -31,7 +31,7 @@ const slotsList = computed(() => Object.keys(slots));
 ::v-deep {
   .theme--dark.v-navigation-drawer {
     background: transparent;
-    background-color: var(--theme-color-bg-dark-backdrop);
+    background-color: var(--theme-color-bg-darkblue-backdrop);
     backdrop-filter: var(--theme-backdrop-filter-default);
 
     /* & > * {

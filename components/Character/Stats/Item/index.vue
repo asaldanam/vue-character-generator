@@ -112,7 +112,7 @@ export default defineComponent({
 
     padding: 24px;
     border: 1px solid var(--theme-color-bg-medium-light);
-    background: var(--theme-color-bg-dark-backdrop);
+    background: var(--theme-color-bg-darkblue-backdrop);
   }
 
   &:last-child {
@@ -129,8 +129,8 @@ export default defineComponent({
   }
 
   &.--faded {
-    /* opacity: 0.85;
-    filter: grayscale(1); */
+    opacity: 0.65;
+    filter: grayscale(1);
   }
 }
 

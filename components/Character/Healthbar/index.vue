@@ -6,7 +6,6 @@ import { CALC_FNS } from '~/models/character/stats';
 
 export default defineComponent({
   setup() {
-    const router = useRouter();
     const [character, { updateState, save }] = useCharacterSheet.injectors();
 
     const dialog = ref(false);
@@ -24,7 +23,6 @@ export default defineComponent({
     const progressBarrier = computed(() => Math.ceil((currentBarrier.value / max.value) * 100));
     const progressBarrierPosition = computed(() => {
       const barrierOverMaxHealth = progress.value + progressBarrier.value - 100;
-      console.log({ barrierOverMaxHealth });
       const start =
         barrierOverMaxHealth > 0 ? progress.value - barrierOverMaxHealth : progress.value;
       return start;
@@ -184,8 +182,10 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-/* .CharacterHealthbar {
-} */
+.CharacterHealthbar {
+  max-width: 560px;
+  margin: 0 auto;
+}
 
 .healthbar {
   display: flex;

@@ -13,7 +13,7 @@
   width: 100%;
 }
 footer {
-  background-color: var(--theme-color-bg-dark-backdrop);
+  background-color: var(--theme-color-bg-darkblue-backdrop);
   backdrop-filter: var(--theme-backdrop-filter-default);
   box-shadow: 0px -8px 16px 0px rgb(0 0 0 / 50%);
   position: fixed;

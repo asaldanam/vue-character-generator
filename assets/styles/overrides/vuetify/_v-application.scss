@@ -3,24 +3,24 @@
   font-family: var(--theme-font-family-main);
   background-color: transparent;
 
-  
+
   .v-btn {
-    
+
     &:hover {
       &::before {
         opacity: 0;
       }
     }
-    
+
     &.v-btn--is-elevated {
       &.primary {
-        background: var(--theme-color-accent) !important; 
+        background: var(--theme-color-accent) !important;
         border-color: var(--theme-color-accent) !important;
         color: var(--theme-color-bg-dark) !important;
       }
-    
+
       &.secondary {
-        background: var(--theme-color-bg-medium-light) !important; 
+        background: var(--theme-color-bg-medium-light) !important;
         border-color: var(--theme-color-bg-medium-light) !important;
       }
       box-shadow: none;
@@ -36,8 +36,8 @@
   }
 
   .theme--dark.v-card {
-    background-color: var(--theme-color-bg-dark-backdrop);
-    backdrop-filter: var(--theme-backdrop-filter-default);
+    background-color: var(--theme-color-bg-darkblue);
+    // backdrop-filter: var(--theme-backdrop-filter-default);
   }
 
   .v-dialog>.v-card>.v-card__actions {
