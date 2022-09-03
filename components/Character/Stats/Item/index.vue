@@ -226,7 +226,7 @@ export default defineComponent({
 .Description {
   position: relative;
   font-size: 13px;
-  line-height: 140%;
+  line-height: 1.5;
   opacity: 0;
   height: 0px;
 
@@ -238,7 +238,6 @@ export default defineComponent({
   @media (min-width: 600px) {
     @include open();
     font-size: 15px;
-    line-height: 1.5;
   }
 
 }
