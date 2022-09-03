@@ -6,13 +6,16 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
+import slugify from 'slugify';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useEditMode } from '~/composables/useEditMode';
 
 export default defineComponent({
   setup() {
-    const router = useRouter();
     const { params } = useContext();
-    const [character, { load, save, setEditMode }] = useCharacterSheet.injectors();
+    const { setEditMode } = useEditMode();
+    const router = useRouter();
+    const [character, { load, save }] = useCharacterSheet.injectors();
     const name = computed(() => character?.data?.info.name);
 
     const handleCancel = () => {
@@ -20,7 +23,11 @@ export default defineComponent({
       setEditMode(false);
     };
 
-    const handleSave = () => save(router);
+    const handleSave = () => {
+      save();
+      const name = character.data?.info.name || '';
+      router.push({ params: { name: slugify(name) } });
+    };
 
     return { name, handleCancel, handleSave, setEditMode };
   },
@@ -33,5 +40,10 @@ export default defineComponent({
   grid-template-rows: 1fr;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   grid-gap: 16px;
+
+  @media (min-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 </style>

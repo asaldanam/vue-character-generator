@@ -1,18 +1,17 @@
 import { reactive } from '@vue/composition-api';
+import slugify from 'slugify';
 import { createStore } from '~/shared/libs/createStore';
 import Character from '~/models/character';
 import { CharacterData, Stat, StatValue } from '~/models/character/types';
-import slugify from 'slugify';
 
 function useCharacterStore() {
   const state = reactive({
     data: null as CharacterData | null,
-    editMode: false,
   });
 
   /** Carga un nuevo personaje a partir de la data en base64 */
   function load(name: string) {
-    let character = new Character();
+    const character = new Character();
 
     try {
       if (!name) throw new Error('Character not provided');
@@ -22,9 +21,9 @@ function useCharacterStore() {
 
       if (!data.info.name) throw new Error(`Invalid character stored data for ${name}`);
       character.setData(data);
+      return data;
     } catch (e) {
       console.error(e);
-      setEditMode(true);
     } finally {
       const data = character.getData();
       state.data = data;
@@ -58,7 +57,7 @@ function useCharacterStore() {
   }
 
   /** Guarda el personaje */
-  function save(router: any) {
+  function save() {
     if (!state?.data?.info) return;
     const name = slugify(state.data.info.name.toLocaleLowerCase());
     const characters = loadCharactersStorage();
@@ -69,9 +68,6 @@ function useCharacterStore() {
     };
 
     localStorage.setItem('characters', JSON.stringify(updatedStorage));
-
-    router.push({ params: { name } });
-    setEditMode(false);
   }
 
   /** Obtiene la data del personaje como base 64 string */
@@ -82,13 +78,9 @@ function useCharacterStore() {
     return character;
   }
 
-  function setEditMode(editMode: boolean) {
-    state.editMode = editMode;
-  }
-
   return {
     state,
-    actions: { load, save, updateStat, setEditMode, updateInfo, updateState },
+    actions: { load, save, updateStat, updateInfo, updateState },
   };
 }
 

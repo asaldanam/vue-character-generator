@@ -1,17 +1,22 @@
 <template>
   <div class="CharacterStats">
     <header class="header">
-      <div class="header-title u-text-alt">{{ title }}</div>
-      <div class="header-count">{{ count }} Puntos</div>
+      <UiWrapper class="content">
+        <div class="header-title u-text-alt">{{ title }}</div>
+        <div class="header-count">{{ count }} Puntos</div>
+      </UiWrapper>
     </header>
-    <CharacterStatsItem v-for="stat in statsList" :key="stat.id" :statId="stat.id" />
+    <UiWrapper class="stats-container">
+      <CharacterStatsItem v-for="stat in statsList" :key="stat.id" :statId="stat.id" />
+    </UiWrapper>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, toRefs, computed } from '@nuxtjs/composition-api';
-import useCharacterSheet from '~/composables/stores/useCharacterStore';
 import _orderBy from 'lodash.orderby';
+import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useEditMode } from '~/composables/useEditMode';
 
 const txt = {
   attr: 'Atributos',
@@ -28,6 +33,7 @@ export default defineComponent({
   setup(props) {
     const { statsType } = toRefs(props);
     const [character] = useCharacterSheet.injectors();
+     const { editMode } = useEditMode();
 
     const stats = computed(() => {
       const charStats = Object.entries(character.data?.stats || {});
@@ -39,7 +45,7 @@ export default defineComponent({
     const statsList = computed(() => {
       const statsAsObj = stats.value;
       const statsSorted = _orderBy(statsAsObj, ['value'], ['desc']) as typeof statsAsObj;
-      return character.editMode ? statsAsObj : statsSorted;
+      return editMode.value ? statsAsObj : statsSorted;
     });
 
     const count = computed(() => {
@@ -59,11 +65,9 @@ export default defineComponent({
 } */
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px var(--theme-layout-x-padding);
   background: var(--theme-color-bg-dark);
+  padding-top: 16px;
+  padding-bottom: 16px;
 
   position: sticky;
   position: -webkit-sticky;
@@ -79,6 +83,12 @@ export default defineComponent({
   z-index: 5;
 }
 
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .header-title {
   line-height: 24px;
   text-transform: uppercase;
@@ -87,5 +97,16 @@ export default defineComponent({
 .header-count {
   font-size: 14px;
   text-align: center;
+}
+
+.stats-container {
+  @media (min-width: 600px) {
+    --gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-gap: var(--gap);
+    padding-top: var(--gap);
+    padding-bottom: var(--gap);
+  }
 }
 </style>

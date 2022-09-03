@@ -12,28 +12,34 @@
 
 <script lang="ts">
 import {
-  computed,
   defineComponent,
   onMounted,
   useContext,
   useRoute,
+  useRouter,
 } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
-import Character from '~/pages/character/_name.vue';
+import { useEditMode } from '~/composables/useEditMode';
 
 export default defineComponent({
   setup() {
-    const router = useRoute();
-    const [character, { load }] = useCharacterSheet.injectors();
-    const editMode = computed(() => character?.editMode);
+    const { editMode } = useEditMode();
+    const router = useRouter();
+    const route = useRoute();
+    const [, { load }] = useCharacterSheet.injectors();
     const { params } = useContext();
 
     onMounted(() => {
-      load(params.value.name);
+      console.log(route.value.matched[0].path);
+      const name = params.value.name?.toLocaleLowerCase();
+      const character = load(name);
+
+      if (name && !character) {
+        router.push({ path: '/character' });
+      }
     });
 
     return { editMode };
   },
-  components: { Character },
 });
 </script>

@@ -144,7 +144,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
   skill_melee2HAtk: {
     txt: {
       es: {
-        name: 'Ataque melee dos manos',
+        name: 'Atq. melee dos manos',
         desc: 'Realiza <strong>{{attr_potency * 1}} puntos</strong> de daño. Si resulta crítico, aplicará <strong>{{attr_potency * 1.5}} puntos </strong> de daño crítico adicional',
       },
     },
@@ -156,7 +156,7 @@ export const CHARACTER_STATS_CONFIG: StatsConfig = {
   skill_melee1HAtk: {
     txt: {
       es: {
-        name: 'Ataque melee una mano',
+        name: 'Atq. melee una mano',
         desc: 'Realiza <strong>{{attr_potency * 0.5}} puntos</strong> de daño. Puede realizarse hasta dos veces en el mismo turno o una vez junto a otra habilidad no ofensiva',
       },
     },

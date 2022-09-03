@@ -3,6 +3,7 @@ export default {
   target: 'static',
 
   ssr: false,
+  mode: 'spa',
 
   typescript: {
     typeCheck: true,

@@ -47,7 +47,7 @@ export default defineComponent({
 
       closeDialog();
       updateState({ currentHealth: health, currentBarrier: barrier });
-      save(router);
+      save();
     };
 
     const decrement = () => {
@@ -62,7 +62,7 @@ export default defineComponent({
 
       updateState({ currentHealth: health, currentBarrier: barrier });
       closeDialog();
-      save(router);
+      save();
     };
 
     const openDialog = (type: typeof dialogType['value']) => {

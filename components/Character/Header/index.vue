@@ -13,7 +13,7 @@
           placeholder="Nombre"
           type="text"
           :class="{ 'input-name': true, '--styled': !editMode }"
-          @change="({ target: { value } }) => updateInfo({ name: value })"
+          @input="({ target: { value } }) => updateInfo({ name: value })"
         />
         <input
           :value="title"
@@ -34,14 +34,15 @@
 <script lang="ts">
 import { computed, defineComponent } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useEditMode } from '~/composables/useEditMode';
 
 export default defineComponent({
   setup() {
-    const [character, { updateInfo, setEditMode }] = useCharacterSheet.injectors();
+    const [character, { updateInfo }] = useCharacterSheet.injectors();
+    const { editMode, setEditMode } = useEditMode();
     const name = computed(() => character.data?.info.name);
     const title = computed(() => character.data?.info.title);
     const avatar = computed(() => character.data?.info.avatar);
-    const editMode = computed(() => character?.editMode);
 
     const updateAvatar = () => {
       if (!editMode.value) return;
@@ -149,6 +150,7 @@ input {
   width: 100%;
   display: block;
   padding: 0px 3px 0px;
+  max-width: 380px;
 
   &:focus {
     outline: none;

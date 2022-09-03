@@ -1,21 +1,20 @@
 <template>
   <ul>
     <li v-for="character in characters" :key="character">
-      <a :href="`/character/${character}`">{{ character }}</a>
+      <NuxtLink :to="`/character/${character}`">{{ character }}</NuxtLink>
     </li>
 
     <li>
-      <a href="/character">Nuevo personaje</a>
+      <NuxtLink to="/character">Nuevo personaje</NuxtLink>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, useRouter } from '@nuxtjs/composition-api';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   setup() {
-    const router = useRouter();
     const characters = computed(() => {
       const storageStr = localStorage.getItem('characters') || '{}';
       const storage = JSON.parse(storageStr);
