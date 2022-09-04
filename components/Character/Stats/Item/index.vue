@@ -15,8 +15,8 @@
           <span v-if="info.short" class="Stat-short" :style="{ background: info.color }">{{info.short}}</span>
           <span>{{ info.name }}</span>
         </div>
-        <div class="Stat-calculated">{{ calculatedValue }}</div>
-        <div v-if="editMode" class="Stat-value">{{ statValue }}</div>
+        <div v-if="type === 'skill'" class="Stat-calculated">{{ calculatedValue }}</div>
+        <div v-if="editMode || type === 'attribute'" class="Stat-value">{{ statValue }}</div>
       </div>
 
       <div
@@ -177,16 +177,16 @@ export default defineComponent({
   &-value {
     flex: 0 0 auto;
     font-weight: bolder;
-    color: var(--theme-color-primary);
+    background: var(--theme-color-primary);
+    color: var(--theme-color-bg-medium-light);
     font-size: 12px;
-    height: 20px;
-    width: 20px;
+    height: 19px;
+    width: 19px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     font-weight: bold;
-    background: var(--theme-color-bg-medium-light);
   }
 
   &-short {
@@ -205,6 +205,7 @@ export default defineComponent({
     line-height: 1.2;
     font-weight: 900;
     font-size: 18px;
+    margin-right: auto !important;
   }
 
   &-calculated {

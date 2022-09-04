@@ -47,7 +47,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Vitalidad',
         short: 'Vit',
-        desc: 'Determina la cantidad de puntos de salud del personaje y sus capacidades de autosanación y regeneración propias.',
+        desc: 'Determina en <strong>{{ attr_vitality * 1 }} de puntos de salud</strong> la vida del personaje y sus capacidades de autosanación y regeneración propias.',
       },
     },
     calculated: {

@@ -6,8 +6,23 @@
         <div class="header-count">{{ count }} Puntos</div>
       </div>
     </header>
+    <div v-if="editMode" class="stats-tutorial">
+      <div v-if="statsType === 'attr'">
+        <p>Representan las capacidades innatas del personaje.</p>
+        <p>Determinan parámetros como la salud o su capacidad para evitar el daño, también los efectos provocados por las habilidades como la cantidad daño o sanación que realizan cuando tienen éxito.</p>
+      </div>
+      <div v-if="statsType === 'skill'">
+        <p>Representan las competencias adquiridas del personaje.</p>
+        <p>Pueden realizarse como acciones dentro del turno, su éxito o fallo depende de superar la Dificultad de Clase (DC) de la habilidad, la cual será más sencilla de superar cuanta más maestría se tenga la habilidad.</p>
+        <p>Los efectos descritos en cada habilidad son modificados por el atributo correspondiente indicado en la descripción.</p>
+      </div>
+    </div>
     <div class="stats-container">
-      <CharacterStatsItem v-for="stat in statsList" :key="stat.id" :statId="stat.id" />
+      <CharacterStatsItem
+        v-for="stat in statsList"
+        :key="stat.id"
+        :stat-id="stat.id"
+      />
     </div>
   </div>
 </template>
@@ -33,7 +48,7 @@ export default defineComponent({
   setup(props) {
     const { statsType } = toRefs(props);
     const [character] = useCharacterSheet.injectors();
-     const { editMode } = useEditMode();
+    const { editMode } = useEditMode();
 
     const stats = computed(() => {
       const charStats = Object.entries(character.data?.stats || {});
@@ -55,7 +70,12 @@ export default defineComponent({
       return count - stats.value.length;
     });
 
-    return { statsList, title: computed(() => txt[statsType.value]), count };
+    return {
+      statsList,
+      title: computed(() => txt[statsType.value]),
+      count,
+      editMode,
+    };
   },
 });
 </script>
@@ -117,6 +137,15 @@ export default defineComponent({
     grid-gap: var(--gap);
     padding-top: var(--gap);
     padding-bottom: var(--gap);
+  }
+}
+
+.stats-tutorial {
+  padding: 16px 0;
+  font-size: 14px;
+  font-style: italic;
+  p {
+    margin: 0 0 6px;
   }
 }
 </style>
