@@ -47,7 +47,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Vitalidad',
         short: 'Vit',
-        desc: 'Determina en <strong>{{ attr_vitality * 1 }} de puntos de salud</strong> la vida del personaje y sus capacidades de autosanación y regeneración propias.',
+        desc: 'Determina en <strong>{{ attr_vitality * 1 }} de puntos de salud</strong> la vida del personaje. También determina los efectos de las habilidades que permite sanarse así mismo.',
       },
     },
     calculated: {
@@ -61,7 +61,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Potencia',
         short: 'Pot',
-        desc: 'Determina la cantidad de puntos de vida infligidos de los ataques y otros efectos dañinos.',
+        desc: 'Determina la cantidad de puntos de daño infligidos por las habilidades ofensivas.',
       },
     },
     calculated: {
@@ -75,7 +75,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Tenacidad',
         short: 'Ten',
-        desc: 'Reduce el daño recibido aplicado por bloqueos y paradas y aumenta la sanación recibida por los efectos propios.',
+        desc: 'Determina los efectos de las habilidades que permiten evitar daños y protegerse, también de aquellas que inhabilitan a los contrincantes. Además, permite al personaje bloquear o parar una habilidad ofensiva del adversario si no ha superado <strong>{{ 1 + (attr_tenacity / 2) }} en su tirada</strong> de dificultad.',
       },
     },
     calculated: {
@@ -89,7 +89,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Piedad',
         short: 'Pie',
-        desc: 'Determina la potencia de los efectos de sanación, mejoras, bendiciones y barreras.',
+        desc: 'Determina la potencia de las habilidades de sanación, barrera y bendiciones que se lanzan sobre los aliados.',
       },
     },
     calculated: {
@@ -103,7 +103,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Precisión',
         short: 'Pre',
-        desc: 'Determina la probabilidad y potencia de los efectos críticos de sanación y daño. Toda tirada con éxito que igual o superior a <strong>{{ 20 - (attr_precision / 6) }}</strong> será considerada crítico.',
+        desc: 'Determina la probabilidad y potencia de los efectos críticos. Toda tirada con éxito que sea igual o superior a <strong>{{ 20 - (attr_precision / 6) }}</strong> será considerada crítico. Las consencuencias de una tirada crítica se describen en cada habilidad.',
       },
     },
     calculated: {
@@ -117,7 +117,7 @@ export const CHARACTER_STATS_CONFIG = {
       es: {
         name: 'Iniciativa',
         short: 'Ini',
-        desc: 'Determina las probabilidades de atacar en primer lugar',
+        desc: 'Determina la eficacia de las habilidades que permiten esconderse y atacar en primer lugar. Además, permite al personaje esquivar una habilidad ofensiva del adversario si no ha superado <strong>{{ 1 + (attr_initiative / 2) }} en su tirada</strong> de dificultad.',
       },
     },
     calculated: {
