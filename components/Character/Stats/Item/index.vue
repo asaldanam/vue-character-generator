@@ -1,4 +1,4 @@
-<!-- Please remove this file from your project -->
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div
     v-if="editMode || statValue !== 1"
@@ -26,7 +26,7 @@
       ></div>
     </div>
 
-    <footer class="Footer" v-if="editMode">
+    <footer v-if="editMode" class="Footer">
       <v-btn color="secondary" @click="() => updateValue('decrement')"> - </v-btn>
       <v-btn color="secondary" @click="() => updateValue('increment')"> + </v-btn>
     </footer>

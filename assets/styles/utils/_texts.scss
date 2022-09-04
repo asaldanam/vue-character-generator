@@ -15,3 +15,20 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
+
+.u-gradient {
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: -webkit-linear-gradient(
+    top,
+    #efd100,
+    #e2a233 19%,
+    #f0c328 30%,
+    #fff1a3 43%,
+    #ffe13e 50%,
+    #fff 51%,
+    #fff
+  );
+  background-size: 100% 2.5em;
+  color: #f8b700;
+}

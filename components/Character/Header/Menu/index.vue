@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, useSlots, useAttrs, computed } from '@nuxtjs/composition-api';
+import { ref, useSlots, computed } from '@nuxtjs/composition-api';
 
 const slots = useSlots();
 
@@ -33,21 +33,6 @@ const slotsList = computed(() => Object.keys(slots));
     background: transparent;
     background-color: var(--theme-color-bg-darkblue-backdrop);
     backdrop-filter: var(--theme-backdrop-filter-default);
-
-    /* & > * {
-      position: relative;
-    }
-
-    &::before {
-      content: '';
-      display: block;
-      position: absolute;
-      background-color: var(--theme-color-bg-darker);
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    } */
   }
 
   .v-list-item {
