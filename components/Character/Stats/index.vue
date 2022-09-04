@@ -10,11 +10,12 @@
       <div v-if="statsType === 'attr'">
         <p>Representan las capacidades innatas del personaje.</p>
         <p>Determinan parámetros como la salud o su capacidad para evitar el daño, también los efectos provocados por las habilidades como la cantidad daño o sanación que realizan cuando tienen éxito.</p>
+        <p>Aumentar los efectos que produce un atributo será más costoso cuanto más puntos se inviertan en él.</p>
       </div>
       <div v-if="statsType === 'skill'">
         <p>Representan las competencias adquiridas del personaje.</p>
-        <p>Pueden realizarse como acciones dentro del turno, su éxito o fallo depende de superar la Dificultad de Clase (DC) de la habilidad, la cual será más sencilla de superar cuanta más maestría se tenga la habilidad.</p>
-        <p>Los efectos descritos en cada habilidad son modificados por el atributo correspondiente indicado en la descripción.</p>
+        <p>Pueden realizarse como acciones dentro del turno, su éxito o fallo depende de superar la Dificultad de Clase (DC) indicada en la habilidad, la cual será más sencilla de superar cuanta más maestría se tenga la habilidad. Cada habilidad dispone de una descripción que indica los efectos que produce y qué atributos están asociados a ellos.</p>
+        <p>Disminuir la dificultad de una habilidad será más costoso cuantos más puntos se hayan invertido en ella.</p>
       </div>
     </div>
     <div class="stats-container">
