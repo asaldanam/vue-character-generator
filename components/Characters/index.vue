@@ -45,11 +45,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .wrapper {
   max-width: 720px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-gap: 24px;
   padding-top: 24px;
   padding-bottom: 32px;
+  @media (min-width: 720px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: 24px;
+  }
 }
 
 .card {
