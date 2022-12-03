@@ -12,6 +12,10 @@
 @use './utils/texts';
 @use './utils/backgrounds';
 
+html, body {
+  background-color: var(--theme-color-bg-medium);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -21,7 +25,6 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: var(--theme-color-bg-medium);
 }
 
 strong {

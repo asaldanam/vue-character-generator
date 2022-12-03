@@ -20,6 +20,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
       { hid: 'description', name: 'description', content: 'A RP Character creator' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'theme-color', content: '#111217' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },

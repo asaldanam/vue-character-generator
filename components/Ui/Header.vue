@@ -25,6 +25,6 @@ header {
   width: 100%;
   padding-top: 16px;
   padding-bottom: 16px;
-  box-shadow: 0px 0px 4px 2px black;
+  box-shadow: 0px 3px 4px -2px black;
 }
 </style>

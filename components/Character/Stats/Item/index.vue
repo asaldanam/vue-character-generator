@@ -15,7 +15,10 @@
           <span v-if="info.short" class="Stat-short" :style="{ background: info.color }">{{info.short}}</span>
           <span>{{ info.name }}</span>
         </div>
-        <div v-if="type === 'skill'" class="Stat-calculated">{{ calculatedValue }}</div>
+        <div v-if="type === 'skill'" class="Stat-calculated">
+          {{ calculatedValue }}
+          <img v-if="!editMode" class="Stat-calculated-roll" src="   https://cdn-icons-png.flaticon.com/512/8732/8732045.png">
+        </div>
         <div v-if="editMode || type === 'attribute'" class="Stat-value">{{ statValue }}</div>
       </div>
 
@@ -164,7 +167,7 @@ export default defineComponent({
   position: relative;
   display: flex;
   height: 100%;
-  /* align-items: center; */
+  align-items: center;
   color: var(--theme-color-text);
   font-size: 16px;
   width: 100%;
@@ -209,12 +212,22 @@ export default defineComponent({
   }
 
   &-calculated {
-    position: relative;
-    bottom: 2px;
     font-weight: 900;
     flex: 0 0 auto;
     margin-left: auto;
     color: var(--theme-color-accent);
+
+    background: rgb(248 183 0 / 10%);
+    padding: 0px 6px;
+    border-radius: 3px;
+  }
+
+  &-calculated-roll {
+    width: 14px;
+    filter: contrast(0) brightness(1.3) hue-rotate(73deg) sepia(10);
+    position: relative;
+    margin-left: 3px;
+    top: 1px;
   }
 }
 

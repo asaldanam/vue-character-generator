@@ -89,9 +89,9 @@ export default defineComponent({
   background: var(--theme-color-bg-dark);
   /* color: var(--theme-color-accent); */
 
-  margin-left: -24px;
-  margin-right: -24px;
-  padding: 16px 24px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 16px;
 
   position: sticky;
   position: -webkit-sticky;

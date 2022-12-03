@@ -17,8 +17,8 @@
       to="/character"
     >
       <div class="empty-msg">
-        <v-icon class="u-gradient">mdi-plus-circle-outline</v-icon>
-        <span class="u-gradient">Nuevo personaje</span>
+        <v-icon>mdi-plus-circle-outline</v-icon>
+        <span>Nuevo personaje</span>
       </div>
     </NuxtLink>
   </UiWrapper>
@@ -47,10 +47,11 @@ export default defineComponent({
   max-width: 720px;
   padding-top: 24px;
   padding-bottom: 32px;
+  display: grid;
+  grid-gap: 24px;
+
   @media (min-width: 720px) {
-    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    grid-gap: 24px;
   }
 }
 
@@ -58,6 +59,7 @@ export default defineComponent({
   padding: 16px;
   transition: all .1s linear;
   min-height: 106px;
+  display: block;
 
   &.--character {
     border: 1px solid var(--theme-color-bg-medium-light);
@@ -82,6 +84,8 @@ export default defineComponent({
   align-items: center;
   & > *:not(:last-child) { margin-right: 8px; }
   transform: scale(1.15);
+  color: var(--theme-color-accent);
+
   span {
     font-size: 16px;
     font-weight: 700;
