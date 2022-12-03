@@ -178,7 +178,7 @@ export default defineComponent({
     flex: 0 0 auto;
     font-weight: bolder;
     background: var(--theme-color-primary);
-    color: var(--theme-color-bg-medium-light);
+    color: var(--theme-color-bg-black);
     font-size: 12px;
     height: 19px;
     width: 19px;

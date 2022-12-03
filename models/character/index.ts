@@ -1,6 +1,6 @@
-import uuid from '~/shared/utils/uuid';
 import { CHARACTER_STATS } from './stats';
 import { CharacterData, Stat, Stats, StatValue } from './types';
+import uuid from '~/shared/utils/uuid';
 
 export default class Character {
   private character: CharacterData;
@@ -95,7 +95,7 @@ export default class Character {
     // Se comprueba que todas las reglas son válidas. Si no cumple alguna, se retorna error
     rules.forEach((rule) => {
       if (rule.shouldBeValid) return;
-      throw `La estadística [${stat}] no satisface la regla [${rule.name}]: ${rule.descripcion}`;
+      throw new Error(`La estadística [${stat}] no satisface la regla [${rule.name}]: ${rule.descripcion}`);
     });
   }
 }
