@@ -1,6 +1,6 @@
 <template>
   <div v-if="state.isOpen" class="DiceRoller">
-    <div class="backdrop" @click="close" />
+    <div class="backdrop" />
     <div class="roll-container">
       <div class="dice">
         <div
@@ -17,22 +17,29 @@
           :description="state.successMsg"
           open
         />
+        <v-btn class="go-back-button" color="secondary" type="button" @click="close">Volver a la ficha</v-btn>
       </footer>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from '@nuxtjs/composition-api';
+import { computed, defineComponent, watch } from '@nuxtjs/composition-api';
 import useDiceRollerStore from '~/composables/stores/useDiceRollerStore';
+import useBodyLock from '~/composables/useBodyLock';
 
 export default defineComponent({
   setup() {
     const [state, { close }] = useDiceRollerStore.injectors();
+    const { lockBody, unlockBody } = useBodyLock();
 
-    onMounted(() => {
-      // throwDice({ success: 10 });
-    });
+    watch(
+      () => state.value.isOpen,
+      (isOpen) => {
+        unlockBody();
+        if (isOpen) { lockBody() }
+      }
+    )
 
     const color = computed(() => {
       if (state.value.hasSuccess === null) return 'transparent';
@@ -89,6 +96,7 @@ export default defineComponent({
     background: var(--theme-color-bg-dark);
     opacity: 0;
     animation: backdrop-fade-in 0.2s linear forwards;
+    pointer-events: none;
   }
 
 
@@ -120,11 +128,23 @@ export default defineComponent({
     animation: dice-shadow-fade-in 0.3s linear forwards 1s;
   }
 
+
+  @keyframes footer-fade-in {
+    0%  { opacity: 0; }
+    100%  { opacity: 1; }
+  }
+
   .footer {
     margin-top: auto;
     color: white;
     position: relative;
     padding-top: 96px;
+    animation: footer-fade-in 0.3s linear forwards 1s;
+    opacity: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .roll-text {
@@ -141,6 +161,13 @@ export default defineComponent({
 
   .description {
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
+    @media (min-width: 720px) {
+      font-size: 16px;
+    }
+  }
+
+  .go-back-button {
+    margin: 32px auto 0px;
   }
 </style>

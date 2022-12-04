@@ -15,14 +15,14 @@
           <span v-if="info.short" class="Stat-short" :style="{ background: info.color }">{{info.short}}</span>
           <span>{{ info.name }}</span>
         </div>
-        <button v-if="type === 'skill'" class="Stat-calculated" @click="rollDice">
+        <button v-if="type === 'skill'" class="Stat-calculated" @click.stop="rollDice">
           {{ calculatedValue.viewValue }}
-          <img v-if="!editMode" class="Stat-calculated-roll" src="https://cdn-icons-png.flaticon.com/512/8732/8732045.png">
+          <img v-if="!editMode" class="Stat-calculated-roll" :src="require('~/assets/img/dice.png')">
         </button>
         <div v-if="editMode || type === 'attribute'" class="Stat-value">{{ statValue }}</div>
       </div>
 
-      <UiDescription :description="info.desc" :open="showDesc || editMode" />
+      <UiDescription :description="info.desc" :open="showDesc || editMode"></UiDescription>
     </div>
 
     <footer v-if="editMode" class="Footer">
@@ -205,13 +205,17 @@ export default defineComponent({
   &-short {
     text-transform: uppercase;
     color: var(--theme-color-text-inverse);
-    padding: 4px 6px;
+    padding: 4px 6px 3px;
     border-radius: 99px;
     align-self: center;
     font-size: 11px;
     position: relative;
-    bottom: 2px;
-    margin-right: 2px;
+    /* bottom: 1px; */
+
+    margin-right: 8px;
+    width: 33px;
+    text-align: center;
+    line-height: 1;
   }
 
   &-name {
@@ -220,6 +224,7 @@ export default defineComponent({
     font-size: 18px;
     margin-right: auto !important;
     padding-right: 8px;
+    padding-bottom: 1px;
     min-height: 26px;
     display: flex;
     align-items: center;
@@ -232,18 +237,35 @@ export default defineComponent({
     color: var(--theme-color-accent);
     height: 26px;
 
-    background: rgb(248 183 0 / 10%);
+    background: rgb(248 183 0 / 20%);
     padding: 4px 6px;
     border-radius: 3px;
     line-height: 1;
+
+    transition: all .2s linear;
+
+    &:hover {
+      background: var(--theme-color-accent);
+      color: black;
+      .Stat-calculated-roll {
+        filter: none;
+      }
+    }
   }
 
   &-calculated-roll {
     width: 14px;
+    transition: all .2s linear;
     filter: contrast(0) brightness(1.3) hue-rotate(73deg) sepia(10);
     position: relative;
     margin-left: 3px;
     top: 1px;
+  }
+
+  &-description-actions {
+    padding: 24px 0px 8px;
+    display: flex;
+    justify-content: center;
   }
 }
 

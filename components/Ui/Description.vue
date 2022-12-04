@@ -2,8 +2,10 @@
   <div
     class="Description"
     :class="[{ '--open': open }]"
-    v-html="description"
-  ></div>
+  >
+    <div v-html="description" />
+    <slot />
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from '@nuxtjs/composition-api';
@@ -60,11 +62,12 @@ export default defineComponent({
     text-transform: uppercase;
     color: var(--theme-color-text-inverse);
     border-radius: 19px;
-    padding: 0 6px;
+    padding: 2px 6px 2px;
     display: inline-flex;
-    font-size: 11px;
+    font-size: 12px;
     position: relative;
-    bottom: 0.5px;
+    bottom: 1px;
+    line-height: 1;
   }
 }
 </style>
