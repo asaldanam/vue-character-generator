@@ -17,6 +17,7 @@
     "lodash.orderby": "^4.6.0",
     "mathjs": "^10.0.0",
     "nuxt": "^2.15.7",
+    "random": "^4.1.0",
     "slugify": "^1.6.5"
   },
   "devDependencies": {

@@ -22,11 +22,7 @@
         <div v-if="editMode || type === 'attribute'" class="Stat-value">{{ statValue }}</div>
       </div>
 
-      <div
-        class="Description"
-        :class="[{ '--open': showDesc || editMode }]"
-        v-html="info.desc"
-      ></div>
+      <UiDescription :description="info.desc" :open="showDesc || editMode" />
     </div>
 
     <footer v-if="editMode" class="Footer">
@@ -228,50 +224,6 @@ export default defineComponent({
     position: relative;
     margin-left: 3px;
     top: 1px;
-  }
-}
-
-@mixin open() {
-  opacity: 1;
-  height: auto;
-  padding-top: 12px;
-}
-
-.Description {
-  position: relative;
-  font-size: 13px;
-  line-height: 1.5;
-  opacity: 0;
-  height: 0px;
-
-  &.--open {
-    @include open();
-    transition: opacity 0.2s linear 0.1s;
-  }
-
-  @media (min-width: 600px) {
-    @include open();
-    font-size: 15px;
-  }
-
-}
-
-::v-deep .Description {
-  strong {
-    white-space: nowrap;
-    /* color: var(--theme-color-accent); */
-  }
-
-  .attr {
-    align-items: center;
-    text-transform: uppercase;
-    color: var(--theme-color-text-inverse);
-    border-radius: 19px;
-    padding: 0 6px;
-    display: inline-flex;
-    font-size: 11px;
-    position: relative;
-    bottom: 0.5px;
   }
 }
 
