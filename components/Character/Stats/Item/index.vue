@@ -15,7 +15,12 @@
           <span v-if="info.short" class="Stat-short" :style="{ background: info.color }">{{info.short}}</span>
           <span>{{ info.name }}</span>
         </div>
-        <button v-if="type === 'skill'" class="Stat-calculated" @click.stop="rollDice">
+        <button
+          v-if="type === 'skill'"
+          class="Stat-calculated"
+          :class="{'--not-rollable': editMode}"
+          @click.stop="rollDice"
+        >
           {{ calculatedValue.viewValue }}
           <img v-if="!editMode" class="Stat-calculated-roll" :src="require('~/assets/img/dice.png')">
         </button>
@@ -190,8 +195,7 @@ export default defineComponent({
   &-value {
     flex: 0 0 auto;
     font-weight: bolder;
-    background: var(--theme-color-primary);
-    color: var(--theme-color-bg-black);
+    color: var(--theme-color-primary);
     font-size: 12px;
     height: 19px;
     width: 19px;
@@ -200,6 +204,8 @@ export default defineComponent({
     justify-content: center;
     border-radius: 50%;
     font-weight: bold;
+    border: 1px solid var(--theme-color-primary);
+    margin-top: 3px;
   }
 
   &-short {
@@ -243,6 +249,13 @@ export default defineComponent({
     line-height: 1;
 
     transition: all .2s linear;
+
+    &.--not-rollable {
+      background: none;
+      pointer-events: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     &:hover {
       background: var(--theme-color-accent);

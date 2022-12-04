@@ -142,9 +142,12 @@ export default defineComponent({
 }
 
 .stats-tutorial {
-  padding: 16px 0;
+  padding: 16px;
   font-size: 14px;
   font-style: italic;
+  background: var(--theme-color-bg-medium-light);
+  margin-top: 24px;
+  border-radius: 8px;
   p {
     margin: 0 0 6px;
   }
