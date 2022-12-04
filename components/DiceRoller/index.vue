@@ -77,9 +77,7 @@ export default defineComponent({
     align-items: center;
     max-width: 420px;
     margin: 0 auto;
-    @media (min-width: 720px) {
-      height: auto;
-    }
+    height: auto;
   }
 
   @keyframes backdrop-fade-in {
