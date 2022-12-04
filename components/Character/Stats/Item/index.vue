@@ -15,10 +15,10 @@
           <span v-if="info.short" class="Stat-short" :style="{ background: info.color }">{{info.short}}</span>
           <span>{{ info.name }}</span>
         </div>
-        <div v-if="type === 'skill'" class="Stat-calculated">
-          {{ calculatedValue }}
-          <img v-if="!editMode" class="Stat-calculated-roll" src="   https://cdn-icons-png.flaticon.com/512/8732/8732045.png">
-        </div>
+        <button v-if="type === 'skill'" class="Stat-calculated" @click="rollDice">
+          {{ calculatedValue.viewValue }}
+          <img v-if="!editMode" class="Stat-calculated-roll" src="https://cdn-icons-png.flaticon.com/512/8732/8732045.png">
+        </button>
         <div v-if="editMode || type === 'attribute'" class="Stat-value">{{ statValue }}</div>
       </div>
 
@@ -35,6 +35,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs } from '@nuxtjs/composition-api';
 import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import useDiceRollerStore from '~/composables/stores/useDiceRollerStore';
 import { useEditMode } from '~/composables/useEditMode';
 import { Stat } from '~/models/character/types';
 import getStatCalculated from '~/models/character/utils/getStatCalculated';
@@ -53,6 +54,16 @@ export default defineComponent({
     const { editMode } = useEditMode();
     const showDesc = ref(false);
     const statValue = computed(() => character.data?.stats[statId.value]);
+    const [, diceRollerActions] = useDiceRollerStore.injectors();
+
+    const info = computed(() =>
+      getStatInfo({ statId: statId.value, character: character.data, lang: 'es' }),
+    );
+
+    const calculatedValue = computed(() =>
+      getStatCalculated({ statId: statId.value, character: character.data }),
+    );
+
     const type = computed(() => {
       if (statId.value.startsWith('attr_')) return 'attribute';
       if (statId.value.startsWith('skill_')) return 'skill';
@@ -75,20 +86,24 @@ export default defineComponent({
       showDesc.value = !showDesc.value;
     };
 
+    const rollDice = () => {
+      const { value } = calculatedValue.value;
+      const { desc } = info.value;
+      if (!value) return;
+      diceRollerActions.throwDice({ success: value, successMsg: desc })
+    }
+
     return {
       character,
       showDesc,
       editMode,
       statValue,
       type,
+      info,
+      calculatedValue,
       updateValue,
       toggleDesc,
-      info: computed(() =>
-        getStatInfo({ statId: statId.value, character: character.data, lang: 'es' }),
-      ),
-      calculatedValue: computed(() =>
-        getStatCalculated({ statId: statId.value, character: character.data }),
-      ),
+      rollDice,
     };
   },
 });
@@ -101,8 +116,7 @@ export default defineComponent({
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 14px;
-  padding-bottom: 16px;
+  padding: 18px 0px;
 
   &:after {
     content: '';
@@ -163,7 +177,7 @@ export default defineComponent({
   position: relative;
   display: flex;
   height: 100%;
-  align-items: center;
+  align-items: flex-start;
   color: var(--theme-color-text);
   font-size: 16px;
   width: 100%;
@@ -205,6 +219,10 @@ export default defineComponent({
     font-weight: 900;
     font-size: 18px;
     margin-right: auto !important;
+    padding-right: 8px;
+    min-height: 26px;
+    display: flex;
+    align-items: center;
   }
 
   &-calculated {
@@ -212,10 +230,12 @@ export default defineComponent({
     flex: 0 0 auto;
     margin-left: auto;
     color: var(--theme-color-accent);
+    height: 26px;
 
     background: rgb(248 183 0 / 10%);
-    padding: 0px 6px;
+    padding: 4px 6px;
     border-radius: 3px;
+    line-height: 1;
   }
 
   &-calculated-roll {
