@@ -5,7 +5,7 @@ import Character, { createCharacter } from "../domain/Character";
 import CharacterRepository from "../domain/CharacterRepository";
 
 const characterLocalstorageRepository: CharacterRepository = {
-  load(slug) {
+  async load(slug) {
     try {
       if (!slug) throw new Error('Character slug not provided');
 
@@ -22,7 +22,7 @@ const characterLocalstorageRepository: CharacterRepository = {
       return null;
     }
   },
-  save(character) {
+  async save(character) {
     try {
       if (!character.info?.name) throw new Error('Name needed for saving');
       const name = slugify(character.info.name.toLowerCase());

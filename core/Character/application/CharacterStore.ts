@@ -18,8 +18,8 @@ function createCharacterStore(
   repository: CharacterRepository,
 ) {
   /** Carga la información del personaje */
-  const load = (slug: string) => {
-    const loadedCharacter = repository.load(slug);
+  const load = async (slug: string) => {
+    const loadedCharacter = await repository.load(slug);
     if (!loadedCharacter) return;
 
     state.character = loadedCharacter;
@@ -28,8 +28,8 @@ function createCharacterStore(
   };
 
   /** Actualiza la información del personaje */
-  const save = () => {
-    repository.save(state.character);
+  const save = async () => {
+    await repository.save(state.character);
   }
 
   /** Inicializa el personaje */

@@ -1,6 +1,7 @@
 <template>
   <div class="buttons">
-    <v-btn @click="handleCancel" :disabled="!name">Cancelar</v-btn>
+    <v-btn v-if="!params.name" @click="handleGoback">Volver</v-btn>
+    <v-btn v-if="params.name" @click="handleCancel" :disabled="!name">Cancelar</v-btn>
     <v-btn @click="handleSave" color="primary" :disabled="!name">Guardar</v-btn>
   </div>
 </template>
@@ -19,9 +20,13 @@ export default defineComponent({
     const name = computed(() => state.character?.info.name);
 
     const handleCancel = () => {
-      const slug = slugify(params.value.name.toLowerCase())
+      const slug = slugify(params.value.name?.toLowerCase() || '')
       load(slug);
       setEditMode(false);
+    };
+
+    const handleGoback = () => {
+      router.push('/');
     };
 
     const handleSave = () => {
@@ -30,7 +35,7 @@ export default defineComponent({
       router.push({ params: { name: slugify(name.value.toLowerCase()) } });
     };
 
-    return { name, handleCancel, handleSave, setEditMode };
+    return { params, name, handleCancel, handleSave, setEditMode, handleGoback };
   },
 });
 </script>
