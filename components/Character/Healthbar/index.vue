@@ -1,12 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, useRouter } from '@nuxtjs/composition-api';
-import useCharacterSheet from '~/composables/stores/useCharacterStore';
-
-import { CALC_FNS } from '~/models/character/stats';
+import { computed, defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
+import { useCharacter } from '~/composables/stores/useCharacterStore';
+import { CHARACTER_STATS_CONFIG } from '~/core/Character/domain/Stats/statsConfig';
 
 export default defineComponent({
   setup() {
-    const [character, { updateState, save }] = useCharacterSheet.injectors();
+    const [state, { updateState, save }] = useCharacter();
     const loaded = ref(false);
 
     const dialog = ref(false);
@@ -15,9 +14,9 @@ export default defineComponent({
     const dialogInputShield = ref<number | null>(null);
     const dialogType = ref<'increment' | 'decrement' | null>(null);
 
-    const currentHealth = computed(() => character.data?.state.currentHealth || 0);
-    const currentBarrier = computed(() => character.data?.state.currentBarrier || 0);
-    const max = computed(() => CALC_FNS.healthBase(character.data?.stats.attr_vitality || 0));
+    const currentHealth = computed(() => state.character.state.currentHealth || 0);
+    const currentBarrier = computed(() => state.character.state.currentBarrier || 0);
+    const max = computed(() => CHARACTER_STATS_CONFIG.calcFns.healthBase(state.character.stats.attr_vitality || 0));
     const maxBarrier = computed(() => Math.floor(max.value / 2));
 
     const progress = computed(() => Math.floor((currentHealth.value / max.value) * 100));
@@ -116,8 +115,8 @@ export default defineComponent({
       <v-btn
         class="bar-button"
         color="primary"
-        @click="() => openDialog('decrement')"
         :disabled="currentHealth <= 0"
+        @click="() => openDialog('decrement')"
       >
         -
       </v-btn>
