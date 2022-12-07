@@ -22,12 +22,12 @@
 </template>
 <script>
 import { defineComponent } from '@vue/composition-api'
-import { CHARACTER_STATS_CONFIG } from '~/models/character/stats'
+import { CHARACTER_STATS_CONFIG } from '~/core/Character/domain/Stats/statsConfig'
 
 export default defineComponent({
   setup() {
     return {
-      stats: Object.entries(CHARACTER_STATS_CONFIG)
+      stats: Object.entries(CHARACTER_STATS_CONFIG.getStats())
     }
   },
 })

@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, toRefs, computed } from '@nuxtjs/composition-api';
 import _orderBy from 'lodash.orderby';
-import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useCharacter } from '~/composables/stores/useCharacterStore';
 import { useEditMode } from '~/composables/useEditMode';
 
 const txt = {
@@ -48,11 +48,11 @@ export default defineComponent({
   },
   setup(props) {
     const { statsType } = toRefs(props);
-    const [character] = useCharacterSheet.injectors();
+    const [state] = useCharacter();
     const { editMode } = useEditMode();
 
     const stats = computed(() => {
-      const charStats = Object.entries(character.data?.stats || {});
+      const charStats = Object.entries(state.character?.stats || {});
       const statsByType = charStats.filter(([stat]) => stat.startsWith(statsType.value));
       const statsAsObj = statsByType.map(([id, value]) => ({ id, value }));
       return statsAsObj || [];

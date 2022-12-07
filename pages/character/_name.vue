@@ -7,12 +7,12 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-import useCharaterSheet from '~/composables/stores/useCharacterStore';
+import { useCharacterProvider } from '~/composables/stores/useCharacterStore';
 import useDiceRollerStore from '~/composables/stores/useDiceRollerStore';
 
 export default defineComponent({
   setup() {
-    useCharaterSheet.providers();
+    useCharacterProvider();
     useDiceRollerStore.providers();
   },
 });

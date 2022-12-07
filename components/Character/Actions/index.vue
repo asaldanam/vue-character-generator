@@ -7,7 +7,7 @@
 <script lang="ts">
 import { computed, defineComponent, useContext, useRouter } from '@nuxtjs/composition-api';
 import slugify from 'slugify';
-import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useCharacter } from '~/composables/stores/useCharacterStore';
 import { useEditMode } from '~/composables/useEditMode';
 
 export default defineComponent({
@@ -15,8 +15,8 @@ export default defineComponent({
     const { params } = useContext();
     const { setEditMode } = useEditMode();
     const router = useRouter();
-    const [character, { load, save }] = useCharacterSheet.injectors();
-    const name = computed(() => character?.data?.info.name);
+    const [state, { load, save }] = useCharacter();
+    const name = computed(() => state.character?.info.name);
 
     const handleCancel = () => {
       const slug = slugify(params.value.name.toLowerCase())

@@ -39,12 +39,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs } from '@nuxtjs/composition-api';
-import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useCharacter } from '~/composables/stores/useCharacterStore';
 import useDiceRollerStore from '~/composables/stores/useDiceRollerStore';
 import { useEditMode } from '~/composables/useEditMode';
-import { Stat } from '~/models/character/types';
-import getStatCalculated from '~/models/character/utils/getStatCalculated';
-import getStatInfo from '~/models/character/utils/getStatInfo';
+import { Stat } from '~/core/Character/domain/Stats/Stats';
+import getStatCalculated from '~/core/Character/application/usecases/getStatCalculated';
+import getStatInfo from '~/core/Character/application/usecases/getStatInfo';
 
 export default defineComponent({
   props: {
@@ -55,19 +55,21 @@ export default defineComponent({
   },
   setup(props) {
     const { statId } = toRefs(props);
-    const [character, { updateStat }] = useCharacterSheet.injectors();
+    const [state, { setStatValue }] = useCharacter();
     const { editMode } = useEditMode();
     const showDesc = ref(false);
-    const statValue = computed(() => character.data?.stats[statId.value]);
+    const statValue = computed(() => state.character?.stats[statId.value]);
     const [, diceRollerActions] = useDiceRollerStore.injectors();
 
-    const info = computed(() =>
-      getStatInfo({ statId: statId.value, character: character.data, lang: 'es' }),
-    );
+    const info = computed(() => {
+      const statInfo = getStatInfo({ statId: statId.value, character: state.character, lang: 'es' });
+      return statInfo;
+    });
 
-    const calculatedValue = computed(() =>
-      getStatCalculated({ statId: statId.value, character: character.data }),
-    );
+    const calculatedValue = computed(() => {
+      const calculated = getStatCalculated({ statId: statId.value, character: state.character });
+      return calculated
+    });
 
     const type = computed(() => {
       if (statId.value.startsWith('attr_')) return 'attribute';
@@ -80,7 +82,7 @@ export default defineComponent({
         (update === 'decrement' && statValue.value - 1);
 
       try {
-        updateStat({ stat: statId.value as Stat, value });
+        setStatValue(statId.value as Stat, value);
       } catch (e) {
         window.alert(e);
       }
@@ -99,7 +101,7 @@ export default defineComponent({
     }
 
     return {
-      character,
+      state,
       showDesc,
       editMode,
       statValue,

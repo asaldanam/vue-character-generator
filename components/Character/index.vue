@@ -17,28 +17,30 @@ import {
   defineComponent,
   onMounted,
   useContext,
-  useRoute,
   useRouter,
 } from '@nuxtjs/composition-api';
 import slugify from 'slugify';
-import useCharacterSheet from '~/composables/stores/useCharacterStore';
+import { useCharacter } from '~/composables/stores/useCharacterStore';
 import { useEditMode } from '~/composables/useEditMode';
 
 export default defineComponent({
   setup() {
     const { editMode } = useEditMode();
     const router = useRouter();
-    const route = useRoute();
-    const [, { load }] = useCharacterSheet.injectors();
+    const [state, { load }] = useCharacter();
     const { params } = useContext();
 
-    onMounted(() => {
+    const loadCharacter = () => {
       const paramName = params.value.name || '';
       const character = load(slugify(paramName));
 
       if (paramName && !character) {
         router.push({ path: '/character' });
       }
+    }
+
+    onMounted(() => {
+      loadCharacter();
     });
 
     return { editMode };
