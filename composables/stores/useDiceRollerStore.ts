@@ -1,6 +1,5 @@
-import { ref } from "@nuxtjs/composition-api";
 import random from 'random';
-import { createStore } from "~/shared/libs/createStore";
+import createStore from "~/shared/libs/createStore";
 
 const diceRollAudio = new Audio('/audio/roll-dice.mp3')
 diceRollAudio.volume = 0.5;
@@ -11,20 +10,20 @@ failureAudio.volume = 0.2;
 const successAudio = new Audio('/audio/roll-success.wav')
 successAudio.volume = 0.5;
 
-export default createStore(() => {
-  const state = ref({
+export default createStore((
+  state = {
     isOpen: false,
     roll: 0,
     hasSuccess: null as boolean | null,
     successMsg: '',
     failureMsg: '',
-  });
-
+  }
+) => {
   return {
     state,
     actions: {
       throwDice(payload: { success: number; successMsg?: string; failureMsg?: string; }) {
-        state.value.isOpen = true;
+        state.isOpen = true;
 
         const randomUniformNumber = random.uniform(0, 1);
         const randomNumber = randomUniformNumber();
@@ -34,10 +33,10 @@ export default createStore(() => {
         const success = roll >= payload.success;
 
         setTimeout(() => {
-          state.value.roll = roll;
-          state.value.hasSuccess = success;
-          state.value.successMsg = payload.successMsg || '';
-          state.value.failureMsg = payload.failureMsg || '';
+          state.roll = roll;
+          state.hasSuccess = success;
+          state.successMsg = payload.successMsg || '';
+          state.failureMsg = payload.failureMsg || '';
         })
 
         setTimeout(() => diceRollAudio.play(), 200)
@@ -45,11 +44,11 @@ export default createStore(() => {
 
       },
       close() {
-        state.value.isOpen = false;
-        state.value.roll = 0;
-        state.value.hasSuccess = null;
-        state.value.successMsg = '';
-        state.value.failureMsg = '';
+        state.isOpen = false;
+        state.roll = 0;
+        state.hasSuccess = null;
+        state.successMsg = '';
+        state.failureMsg = '';
       }
     },
   }

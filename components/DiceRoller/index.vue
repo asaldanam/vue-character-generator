@@ -34,7 +34,7 @@ export default defineComponent({
     const { lockBody, unlockBody } = useBodyLock();
 
     watch(
-      () => state.value.isOpen,
+      () => state.isOpen,
       (isOpen) => {
         unlockBody();
         if (isOpen) { lockBody() }
@@ -42,8 +42,8 @@ export default defineComponent({
     )
 
     const color = computed(() => {
-      if (state.value.hasSuccess === null) return 'transparent';
-      return state.value.hasSuccess ? '#00772a' : '#FF0000';
+      if (state.hasSuccess === null) return 'transparent';
+      return state.hasSuccess ? '#00772a' : '#FF0000';
     })
 
     return {
