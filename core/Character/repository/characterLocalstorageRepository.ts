@@ -7,11 +7,11 @@ import CharacterRepository from "../domain/CharacterRepository";
 const characterLocalstorageRepository: CharacterRepository = {
   async load(slug) {
     try {
-      if (!slug) throw new Error('Character slug not provided');
+      if (!slug) return null;
 
       const characters = loadCharactersStorage();
-
       const data = characters[slug];
+
       if (!data) throw new Error('Character not found');
       if (!data.info.name) throw new Error(`Invalid character stored data for ${slug}`);
 

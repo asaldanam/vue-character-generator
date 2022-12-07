@@ -33,8 +33,8 @@ function createCharacterStore(
   }
 
   /** Inicializa el personaje */
-  const setData = (characterInput: Partial<Character>) => {
-    state.character = createCharacter(characterInput)
+  const init = (characterData?: Partial<Character>) => {
+    state.character = createCharacter(characterData)
   }
 
   /** Actualiza múltiples estadísticas */
@@ -85,7 +85,7 @@ function createCharacterStore(
     actions: {
       load,
       save,
-      setData,
+      init,
       setStats,
       setStatValue,
       upStatValue,

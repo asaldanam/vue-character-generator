@@ -27,12 +27,16 @@ export default defineComponent({
   setup() {
     const { editMode } = useEditMode();
     const router = useRouter();
-    const [, { load }] = useCharacter();
+    const [, { load, init }] = useCharacter();
     const { params } = useContext();
 
     const loadCharacter = async () => {
       const paramName = params.value.name || '';
       const character = await load(slugify(paramName));
+
+      if (!character) {
+        init();
+      }
 
       if (paramName && !character) {
         router.push({ path: '/character' });
