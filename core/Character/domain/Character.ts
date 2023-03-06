@@ -1,4 +1,5 @@
-import { Stats, createStats } from "./Stats/Stats";
+import { createGear, Gear } from "./Gear/Gear";
+import { createStats, Stats } from "./Stats/Stats";
 import uuid from "~/shared/utils/uuid";
 
 export default interface Character {
@@ -13,6 +14,7 @@ export default interface Character {
     currentBarrier: number;
   };
   stats: Stats;
+  gear: Gear;
 };
 
 export function createCharacter(character?: Partial<Character>): Character {
@@ -28,5 +30,6 @@ export function createCharacter(character?: Partial<Character>): Character {
       currentBarrier: character?.state?.currentBarrier || 0,
     },
     stats: createStats(character?.stats),
+    gear: createGear(character?.gear),
   }
 }

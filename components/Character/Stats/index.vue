@@ -1,11 +1,8 @@
 <template>
   <div class="CharacterStats">
-    <header class="header">
-      <div class="content">
-        <div class="header-title u-text-alt">{{ title }}</div>
-        <div class="header-count">{{ count }} Puntos</div>
-      </div>
-    </header>
+    <UiBlockHeader :title="title">
+      <div class="header-count">{{ count }} Puntos</div>
+    </UiBlockHeader>
     <div v-if="editMode" class="stats-tutorial">
       <div v-if="statsType === 'attr'">
         <p>Representan las capacidades innatas del personaje.</p>
@@ -85,48 +82,7 @@ export default defineComponent({
   padding-bottom: 16px;
 } */
 
-.header {
-  background: var(--theme-color-bg-dark);
-  /* color: var(--theme-color-accent); */
-
-  margin-left: -16px;
-  margin-right: -16px;
-  padding: 16px;
-
-  position: sticky;
-  position: -webkit-sticky;
-  position: -moz-sticky;
-  position: -o-sticky;
-  position: -ms-sticky;
-
-  /* background: var(--theme-color-bg-dark) url('~assets/img/header-bg.webp') repeat-x 80px 0; */
-
-  top: 0;
-  z-index: 5;
-
-  @media (min-width: 720px) {
-    margin: 0;
-    padding-left: 0;
-    /* box-shadow: 0 7px 21px rgb(0 0 0 / 25%); */
-    padding-right: 0;
-    border-bottom: 1px solid var(--theme-color-bg-light);
-    background: var(--theme-color-bg-medium);
-  }
-}
-
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-title {
-  line-height: 24px;
-  text-transform: uppercase;
-}
-
 .header-count {
-  /* font-size: 14px; */
   text-align: center;
 }
 

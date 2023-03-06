@@ -1,5 +1,6 @@
 import Character, { createCharacter } from "../domain/Character";
 import CharacterRepository from "../domain/CharacterRepository";
+import Item from "../domain/Gear/Item/Item";
 import { Stat, Stats, StatValue } from "../domain/Stats/Stats";
 import characterLocalstorageRepository from "../repository/characterLocalstorageRepository";
 import validateStat from "./usecases/validateStat";
@@ -80,6 +81,10 @@ function createCharacterStore(
     state.character.info = { ...prevInfo, ...nextInfo };
   }
 
+  const addItemToGearList = (item: Item) => {
+    state.character.gear[item.id] = item;
+  }
+
   return {
     state,
     actions: {
@@ -92,6 +97,7 @@ function createCharacterStore(
       downStatValue,
       updateState,
       updateInfo,
+      addItemToGearList,
     }
   }
 }

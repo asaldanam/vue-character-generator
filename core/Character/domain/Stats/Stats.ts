@@ -1,12 +1,12 @@
 import { CHARACTER_STATS_CONFIG } from "./statsConfig";
 
+export type Stat = keyof ReturnType<typeof CHARACTER_STATS_CONFIG.getStats>;
+
 export type StatValue = number;
 
 export type Stats = {
-  [stat in keyof ReturnType<typeof CHARACTER_STATS_CONFIG.getStats>]: StatValue;
+  [stat in Stat]: StatValue;
 }
-
-export type Stat = keyof Stats;
 
 export function createStats(stats?: Partial<Stats>): Stats {
   const defaultStatInitialValue = 1;

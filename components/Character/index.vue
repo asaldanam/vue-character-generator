@@ -4,6 +4,7 @@
     <UiWrapper class="stats">
       <CharacterStats class="attributes" :statsType="'attr'" />
       <CharacterStats class="skills" :statsType="'skill'" />
+      <CharacterGear class="gear" />
     </UiWrapper>
     <UiFooter>
       <CharacterActions v-if="editMode" />
@@ -64,6 +65,12 @@ export default defineComponent({
 .skills {
   @media (min-width: 720px) {
     grid-column: span 2;
+  }
+}
+
+.gear {
+  @media (min-width: 720px) {
+    grid-column: 2 / span 2;
   }
 }
 </style>
