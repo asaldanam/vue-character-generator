@@ -1,20 +1,15 @@
 import Character, { createCharacter } from "../domain/Character";
 import CharacterRepository from "../domain/CharacterRepository";
 import { Stat, Stats, StatValue } from "../domain/Stats/Stats";
-import characterLocalstorageRepository from "../repository/characterLocalstorageRepository";
 import validateStat from "./usecases/validateStat";
 import validateStats from "./usecases/validateStats";
 
-const initialState = {
-  character: createCharacter(),
-}
+export type CharacterStoreState = {
+  character: Character;
+};
 
-export default function CharacterStore(state: typeof initialState) {
-  return createCharacterStore(state, characterLocalstorageRepository)
-}
-
-function createCharacterStore(
-  state = initialState,
+export function CharacterStore(
+  state: CharacterStoreState = { character: createCharacter() },
   repository: CharacterRepository,
 ) {
   /** Carga la información del personaje */

@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable require-await */
 import slugify from "slugify";
-import Character, { createCharacter } from "../domain/Character";
-import CharacterRepository from "../domain/CharacterRepository";
+import Character, { createCharacter } from "../../domain/Character";
+import CharacterRepository from "../../domain/CharacterRepository";
 
 const characterLocalstorageRepository: CharacterRepository = {
   async load(slug) {
@@ -26,6 +26,7 @@ const characterLocalstorageRepository: CharacterRepository = {
     try {
       if (!character.info?.name) throw new Error('Name needed for saving');
       const name = slugify(character.info.name.toLowerCase());
+
       updateCharactersStorage(name, character);
     } catch (e) {
       console.error(e);

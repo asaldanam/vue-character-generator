@@ -1,7 +1,7 @@
-import CharacterStore from "~/core/Character/application/CharacterStore";
+import CharacterStoreBuilder from "~/core/Character/infraestructure/CharacterStoreBuilder";
 import createStore from "~/shared/libs/createStore";
 
-const characterStore = createStore(CharacterStore);
+const characterStore = createStore(CharacterStoreBuilder);
 
 export function useCharacter() {
   return characterStore.injectors();
